@@ -1,4 +1,5 @@
-﻿using VeraPdf.NET.Validation.Abstractions;
+﻿using System.Collections.Concurrent;
+using VeraPdf.NET.Validation.Abstractions;
 
 namespace VeraPdf.NET.Validation.Execution;
 
@@ -8,7 +9,7 @@ internal sealed class RuleDispatchTable
     /// Maps concrete runtime type → applicable rules.
     /// Eliminates repeated IsAssignableFrom checks.
     /// </summary>
-    private readonly Dictionary<Type, List<IRule>> _dispatch = new();
+    private readonly ConcurrentDictionary<Type, IReadOnlyList<IRule>> _dispatch = new();
 
     private readonly IReadOnlyList<IRule> _rules;
 
@@ -23,16 +24,8 @@ internal sealed class RuleDispatchTable
     /// </summary>
     public IReadOnlyList<IRule> GetRules(Type runtimeType)
     {
-        if (_dispatch.TryGetValue(runtimeType, out var cached))
-            return cached;
-
-        // Resolve once
-        var matched = _rules
-            .Where(r => r.TargetType.IsAssignableFrom(runtimeType))
-            .ToList();
-
-        _dispatch[runtimeType] = matched;
-
-        return matched;
+        return _dispatch.GetOrAdd(
+            runtimeType,
+            type => _rules.Where(r => r.TargetType.IsAssignableFrom(type)).ToList());
     }
 }

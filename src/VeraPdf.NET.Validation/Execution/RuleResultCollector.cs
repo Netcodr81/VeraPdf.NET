@@ -11,7 +11,7 @@ namespace VeraPdf.NET.Validation.Execution;
 internal sealed class RuleResultCollector
 {
     private readonly ThreadLocal<List<RuleResult>> _local =
-        new(() => new List<RuleResult>());
+        new(() => new List<RuleResult>(), trackAllValues: true);
 
     /// <summary>
     /// Adds a result to the current thread's buffer.

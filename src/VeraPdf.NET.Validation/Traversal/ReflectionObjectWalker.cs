@@ -1,4 +1,5 @@
-﻿using VeraPdf.NET.Validation.Abstractions;
+﻿using System.Collections;
+using VeraPdf.NET.Validation.Abstractions;
 
 namespace VeraPdf.NET.Validation.Traversal;
 
@@ -23,20 +24,55 @@ public sealed class ReflectionObjectWalker : IObjectWalker
 
             yield return current;
 
+            if (IsLeaf(current.GetType()))
+                continue;
+
             foreach (var prop in current.GetType().GetProperties())
             {
-                var value = prop.GetValue(current);
+                if (!prop.CanRead || prop.GetIndexParameters().Length > 0)
+                    continue;
 
-                if (value is IEnumerable<object> list)
+                object? value;
+                try
                 {
-                    foreach (var item in list)
-                        stack.Push(item);
+                    value = prop.GetValue(current);
                 }
-                else if (value != null)
+                catch
                 {
-                    stack.Push(value);
+                    continue;
                 }
+
+                if (value == null)
+                    continue;
+
+                if (value is string)
+                    continue;
+
+                if (value is IEnumerable enumerable)
+                {
+                    foreach (var item in enumerable)
+                    {
+                        if (item != null)
+                            stack.Push(item);
+                    }
+
+                    continue;
+                }
+
+                stack.Push(value);
             }
         }
+    }
+
+    private static bool IsLeaf(Type type)
+    {
+        return type.IsPrimitive
+            || type.IsEnum
+            || type == typeof(string)
+            || type == typeof(decimal)
+            || type == typeof(DateTime)
+            || type == typeof(DateTimeOffset)
+            || type == typeof(TimeSpan)
+            || type == typeof(Guid);
     }
 }

@@ -24,6 +24,9 @@ internal static class ExpressionBuilder
     private static readonly MethodInfo ToBoolMethod =
         typeof(TypeCoercion).GetMethod(nameof(TypeCoercion.ToBool))!;
 
+    private static readonly MethodInfo ObjectEqualsMethod =
+        typeof(object).GetMethod(nameof(object.Equals), new[] { typeof(object), typeof(object) })!;
+
     // ------------------------------------------------------------
     // Entry Point
     // ------------------------------------------------------------
@@ -80,13 +83,14 @@ internal static class ExpressionBuilder
         // Coerce only once
         var coerceCall = Expression.Call(CoerceMethod, left, right);
 
-        var leftVal = Expression.Property(coerceCall, "Item1");
-        var rightVal = Expression.Property(coerceCall, "Item2");
+        var leftVal = Expression.Field(coerceCall, "Item1");
+        var rightVal = Expression.Field(coerceCall, "Item2");
+        var valueEquals = Expression.Call(ObjectEqualsMethod, leftVal, rightVal);
 
         return node.Operator switch
         {
-            "==" => Expression.Equal(leftVal, rightVal),
-            "!=" => Expression.NotEqual(leftVal, rightVal),
+            "==" => valueEquals,
+            "!=" => Expression.Not(valueEquals),
 
             "<" => SafeCompare(leftVal, rightVal, ExpressionType.LessThan),
             ">" => SafeCompare(leftVal, rightVal, ExpressionType.GreaterThan),

@@ -15,12 +15,6 @@ public static class ValidatorFactory
     {
         options ??= new ValidationOptions();
 
-        // Future: apply options (precompile, logging, etc.)
-        if (options.PrecompileAccessors)
-        {
-            // Hook for warming PropertyAccessorCache
-        }
-
-        return new Validator(rules, walker);
+        return new Validator(rules, walker, options);
     }
 }
