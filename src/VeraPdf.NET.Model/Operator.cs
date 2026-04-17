@@ -266,7 +266,7 @@ public class OpFFill : OpPathPaint
 /// <summary>
 /// Obsolete path fill operator.
 /// </summary>
-public class Op_F_fill_obsolete : OpPathPaint
+public class OpFFillObsolete : OpPathPaint
 {
     /// <summary>
     /// Fill color space.
@@ -277,7 +277,7 @@ public class Op_F_fill_obsolete : OpPathPaint
 /// <summary>
 /// Path fill (even-odd rule) operator.
 /// </summary>
-public class Op_FStar : OpPathPaint
+public class OpFStar : OpPathPaint
 {
     /// <summary>
     /// Fill color space.
@@ -288,7 +288,7 @@ public class Op_FStar : OpPathPaint
 /// <summary>
 /// Path fill and stroke operator.
 /// </summary>
-public class Op_B_fill_stroke : OpPathPaint
+public class OpBFillStroke : OpPathPaint
 {
     /// <summary>
     /// Fill color space.
@@ -304,7 +304,7 @@ public class Op_B_fill_stroke : OpPathPaint
 /// <summary>
 /// Path fill (even-odd rule) and stroke operator.
 /// </summary>
-public class Op_BStar_eofill_stroke : OpPathPaint
+public class OpFStarEofillStroke : OpPathPaint
 {
     /// <summary>
     /// Fill color space.
@@ -320,7 +320,7 @@ public class Op_BStar_eofill_stroke : OpPathPaint
 /// <summary>
 /// Path close, fill and stroke operator.
 /// </summary>
-public class Op_b_closepath_fill_stroke : OpPathPaint
+public class OpBClosepathFillStroke : OpPathPaint
 {
     /// <summary>
     /// Fill color space.
@@ -336,7 +336,7 @@ public class Op_b_closepath_fill_stroke : OpPathPaint
 /// <summary>
 /// Path close, fill (even-odd rule) and stroke operator.
 /// </summary>
-public class Op_bstar_closepath_eofill_stroke : OpPathPaint
+public class OpFStarClosepathEofillStroke : OpPathPaint
 {
     /// <summary>
     /// Fill color space.
@@ -352,7 +352,7 @@ public class Op_bstar_closepath_eofill_stroke : OpPathPaint
 /// <summary>
 /// Path painting no-op operator.
 /// </summary>
-public class Op_n : OpPathPaint
+public class OpN : OpPathPaint
 {
 }
 
@@ -366,14 +366,14 @@ public class OpClip : Operator
 /// <summary>
 /// Clip (non-zero rule) operator.
 /// </summary>
-public class Op_W_clip : OpClip
+public class OpWClip : OpClip
 {
 }
 
 /// <summary>
 /// Clip (even-odd rule) operator.
 /// </summary>
-public class Op_WStar : OpClip
+public class OpWStar : OpClip
 {
 }
 
@@ -387,14 +387,14 @@ public class OpTextObject : Operator
 /// <summary>
 /// End text object operator.
 /// </summary>
-public class Op_ET : OpTextObject
+public class OpET : OpTextObject
 {
 }
 
 /// <summary>
 /// Begin text object operator.
 /// </summary>
-public class Op_BT : OpTextObject
+public class OpBT : OpTextObject
 {
 }
 
@@ -408,7 +408,7 @@ public class OpTextState : Operator
 /// <summary>
 /// Horizontal text scaling operator.
 /// </summary>
-public class Op_Tz : OpTextState
+public class OpTz : OpTextState
 {
     /// <summary>
     /// Horizontal text scaling.
@@ -419,7 +419,7 @@ public class Op_Tz : OpTextState
 /// <summary>
 /// Text rendering mode operator.
 /// </summary>
-public class Op_Tr : OpTextState
+public class OpTr : OpTextState
 {
     /// <summary>
     /// Rendering mode.
@@ -430,7 +430,7 @@ public class Op_Tr : OpTextState
 /// <summary>
 /// Character spacing operator.
 /// </summary>
-public class Op_Tc : OpTextState
+public class OpTc : OpTextState
 {
     /// <summary>
     /// Character spacing.
@@ -441,7 +441,7 @@ public class Op_Tc : OpTextState
 /// <summary>
 /// Text font operator.
 /// </summary>
-public class Op_Tf : OpTextState
+public class OpTf : OpTextState
 {
     /// <summary>
     /// Font size.
@@ -457,7 +457,7 @@ public class Op_Tf : OpTextState
 /// <summary>
 /// Text leading operator.
 /// </summary>
-public class Op_Tl : OpTextState
+public class OpTl : OpTextState
 {
     /// <summary>
     /// Text leading.
@@ -468,7 +468,7 @@ public class Op_Tl : OpTextState
 /// <summary>
 /// Text rise operator.
 /// </summary>
-public class Op_Ts : OpTextState
+public class OpTs : OpTextState
 {
     /// <summary>
     /// Text rise.
@@ -479,7 +479,7 @@ public class Op_Ts : OpTextState
 /// <summary>
 /// Word spacing operator.
 /// </summary>
-public class Op_Tw : OpTextState
+public class OpTw : OpTextState
 {
     /// <summary>
     /// Word spacing.
@@ -497,7 +497,7 @@ public class OpTextPosition : Operator
 /// <summary>
 /// Text position offset operator.
 /// </summary>
-public class Op_Td : OpTextPosition
+public class OpTd : OpTextPosition
 {
     /// <summary>
     /// Horizontal offset.
@@ -513,7 +513,7 @@ public class Op_Td : OpTextPosition
 /// <summary>
 /// Text position and leading operator.
 /// </summary>
-public class Op_TD_Big : OpTextPosition
+public class OpTDBig : OpTextPosition
 {
     /// <summary>
     /// Horizontal offset.
@@ -529,7 +529,7 @@ public class Op_TD_Big : OpTextPosition
 /// <summary>
 /// Text matrix operator.
 /// </summary>
-public class Op_Tm : OpTextPosition
+public class OpTm : OpTextPosition
 {
     /// <summary>
     /// Elements of text matrix.
@@ -540,7 +540,7 @@ public class Op_Tm : OpTextPosition
 /// <summary>
 /// Move to next text line operator.
 /// </summary>
-public class Op_T_Star : OpTextPosition
+public class OpTStar : OpTextPosition
 {
 }
 
@@ -573,7 +573,7 @@ public class OpTextShow : Operator
 /// <summary>
 /// Text show operator.
 /// </summary>
-public class Op_Tj : OpTextShow
+public class OpTj : OpTextShow
 {
     /// <summary>
     /// String to show before font encoding mapping.
@@ -584,7 +584,7 @@ public class Op_Tj : OpTextShow
 /// <summary>
 /// Text show operator with individual glyph positioning.
 /// </summary>
-public class Op_TJ_Big : OpTextShow
+public class OpTJBig : OpTextShow
 {
     /// <summary>
     /// Array containing strings and glyph widths.
@@ -595,7 +595,7 @@ public class Op_TJ_Big : OpTextShow
 /// <summary>
 /// EOL and text show operator.
 /// </summary>
-public class Op_Quote : OpTextShow
+public class OpQuote : OpTextShow
 {
     /// <summary>
     /// String to show before font encoding mapping.
@@ -606,7 +606,7 @@ public class Op_Quote : OpTextShow
 /// <summary>
 /// EOL and text show operator with char and word spacing.
 /// </summary>
-public class Op_DoubleQuote : OpTextShow
+public class OpDoubleQuote : OpTextShow
 {
     /// <summary>
     /// String to show before font encoding mapping.
@@ -650,7 +650,7 @@ public class Op_d0 : OpType3Font
 /// <summary>
 /// Type3 d1 operator.
 /// </summary>
-public class Op_d1 : OpType3Font
+public class OpD1 : OpType3Font
 {
     /// <summary>
     /// Width and bounding-box information for the glyph.
@@ -672,14 +672,14 @@ public class OpSetColor : Operator
 /// <summary>
 /// Stroke color values operator.
 /// </summary>
-public class Op_SC_stroke : OpSetColor
+public class OpSCStroke : OpSetColor
 {
 }
 
 /// <summary>
 /// Fill color values operator.
 /// </summary>
-public class Op_sc_fill : OpSetColor
+public class OpSCFill : OpSetColor
 {
 }
 
@@ -702,56 +702,56 @@ public class OpColor : OpSetColor
 /// <summary>
 /// Stroke color with optional pattern operator.
 /// </summary>
-public class Op_SCN_stroke : OpColor
+public class OpSCNStroke : OpColor
 {
 }
 
 /// <summary>
 /// Fill color with optional pattern operator.
 /// </summary>
-public class Op_scn_fill : OpColor
+public class OpSCNFill : OpColor
 {
 }
 
 /// <summary>
 /// Stroke gray color operator.
 /// </summary>
-public class Op_G_stroke : OpColor
+public class OpGStroke : OpColor
 {
 }
 
 /// <summary>
 /// Fill gray color operator.
 /// </summary>
-public class Op_g_fill : OpColor
+public class OpGFill : OpColor
 {
 }
 
 /// <summary>
 /// Stroke RGB color operator.
 /// </summary>
-public class Op_RG_stroke : OpColor
+public class OpRGStroke : OpColor
 {
 }
 
 /// <summary>
 /// Fill RGB color operator.
 /// </summary>
-public class Op_rg_fill : OpColor
+public class OpRGFill : OpColor
 {
 }
 
 /// <summary>
 /// Stroke CMYK color operator.
 /// </summary>
-public class Op_K_stroke : OpColor
+public class OpKStroke : OpColor
 {
 }
 
 /// <summary>
 /// Fill CMYK color operator.
 /// </summary>
-public class Op_k_fill : OpColor
+public class OpKFill : OpColor
 {
 }
 
@@ -765,7 +765,7 @@ public class OpShading : Operator
 /// <summary>
 /// Smooth shading operator.
 /// </summary>
-public class Op_sh : OpShading
+public class OpSh : OpShading
 {
     /// <summary>
     /// Corresponding shading resource.
@@ -783,14 +783,14 @@ public class OpInlineImage : Operator
 /// <summary>
 /// Begin inline image operator.
 /// </summary>
-public class Op_BI : OpInlineImage
+public class OpBI : OpInlineImage
 {
 }
 
 /// <summary>
 /// End inline image dictionary operator.
 /// </summary>
-public class Op_ID : OpInlineImage
+public class OpID : OpInlineImage
 {
     /// <summary>
     /// Dictionary containing image parameters.
@@ -801,7 +801,7 @@ public class Op_ID : OpInlineImage
 /// <summary>
 /// End inline image data operator.
 /// </summary>
-public class Op_EI : OpInlineImage
+public class OpEI : OpInlineImage
 {
     /// <summary>
     /// Inline image object.
@@ -819,7 +819,7 @@ public class OpXObject : Operator
 /// <summary>
 /// XObject Do operator.
 /// </summary>
-public class Op_Do : OpXObject
+public class OpDo : OpXObject
 {
     /// <summary>
     /// Corresponding XObject resource.
@@ -846,7 +846,7 @@ public class OpMarkedContent : Operator
 /// <summary>
 /// Define marked content point operator.
 /// </summary>
-public class Op_MP : OpMarkedContent
+public class OpMP : OpMarkedContent
 {
     /// <summary>
     /// Tag name.
@@ -857,7 +857,7 @@ public class Op_MP : OpMarkedContent
 /// <summary>
 /// Define marked content point with properties operator.
 /// </summary>
-public class Op_DP : OpMarkedContent
+public class OpDP : OpMarkedContent
 {
     /// <summary>
     /// Tag name.
@@ -873,7 +873,7 @@ public class Op_DP : OpMarkedContent
 /// <summary>
 /// Start marked content region operator.
 /// </summary>
-public class Op_BMC : OpMarkedContent
+public class OpBMC : OpMarkedContent
 {
     /// <summary>
     /// Tag name.
@@ -884,7 +884,7 @@ public class Op_BMC : OpMarkedContent
 /// <summary>
 /// Start marked content region with properties operator.
 /// </summary>
-public class Op_BDC : OpMarkedContent
+public class OpBDC : OpMarkedContent
 {
     /// <summary>
     /// Tag name.
@@ -905,7 +905,7 @@ public class Op_BDC : OpMarkedContent
 /// <summary>
 /// End marked content region operator.
 /// </summary>
-public class Op_EMC : OpMarkedContent
+public class OpEMC : OpMarkedContent
 {
 }
 
@@ -919,21 +919,21 @@ public class OpCompatibility : Operator
 /// <summary>
 /// Begin compatibility region operator.
 /// </summary>
-public class Op_BX : OpCompatibility
+public class OpBX : OpCompatibility
 {
 }
 
 /// <summary>
 /// End compatibility region operator.
 /// </summary>
-public class Op_EX : OpCompatibility
+public class OpEX : OpCompatibility
 {
 }
 
 /// <summary>
 /// Undefined operator.
 /// </summary>
-public class Op_Undefined : OpCompatibility
+public class OpUndefined : OpCompatibility
 {
     /// <summary>
     /// Operator name.
