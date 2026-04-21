@@ -1,8 +1,1 @@
-<Solution>
-  <Project Path="src/VeraPdf.NET.Library/VeraPdf.NET.Library.csproj" Id="d999be0c-954b-4f2b-a957-ef6414e0d149" />
-  <Project Path="src/VeraPdf.NET.Model/VeraPdf.NET.Model.csproj" Id="a6dcc59f-75e2-48a5-a9b6-e7f31f92b7df" />
-  <Project Path="src/VeraPdf.NET.Parser/VeraPdf.NET.Parser.csproj" Id="e6dd81d4-b68e-46e3-b91b-61df19088a18" />
-  <Project Path="src/VeraPdf.NET.Validation/VeraPdf.NET.Validation.csproj" Id="18deebf0-06aa-455a-9226-4703a7d10590" />
-  <Project Path="src/VeraPdf.NET.ValidationProfiles/VeraPdf.NET.ValidationProfiles.csproj" Id="3d492602-c6d6-4156-86d0-e0cdb7e7ecfd" />
-  <Project Path="tests/VeraPdf.NET.Validation.Tests/VeraPdf.NET.Validation.Tests.csproj" Id="c6a9f401-c041-4369-8451-037d363bed1e" />
-</Solution>
+<Solution />
