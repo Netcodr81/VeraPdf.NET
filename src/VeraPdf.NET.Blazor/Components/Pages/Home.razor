@@ -1,0 +1,251 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using VeraPdf.NET.Validation
+@using VeraPdf.NET.Validation.Models
+@inject IVeraPdfValidationService ValidationService
+
+<PageTitle>VeraPDF Validator</PageTitle>
+
+<div class="validator-shell">
+    <section class="hero-section">
+        <div>
+            <h1>PDF Accessibility & Conformance Validator</h1>
+            <p>Upload a single PDF and validate it against PDF-A, PDF-UA, and WCAG 2.2 policies.</p>
+        </div>
+    </section>
+
+    <section class="panel upload-panel">
+        <h2>Validation Request</h2>
+
+        <div class="field-group">
+            <label class="field-label">Select PDF</label>
+            <InputFile OnChange="OnFileSelected" accept=".pdf,application/pdf" />
+            @if (!string.IsNullOrWhiteSpace(_selectedFileName))
+            {
+                <div class="hint">Selected file: @_selectedFileName</div>
+            }
+        </div>
+
+        <div class="field-group">
+            <label class="field-label">Policies</label>
+            <div class="policy-grid">
+                <label><input type="checkbox" @bind="_usePdfA" /> PDF-A</label>
+                <label><input type="checkbox" @bind="_usePdfUa" /> PDF-UA</label>
+                <label><input type="checkbox" @bind="_useWcag22" /> WCAG 2.2</label>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(_formError))
+        {
+            <div class="alert alert-danger">@_formError</div>
+        }
+
+        <button class="btn btn-primary validate-btn" @onclick="ValidateAsync" disabled="@(_isProcessing || _selectedFile is null)">
+            @(_isProcessing ? "Validating..." : "Validate PDF")
+        </button>
+    </section>
+
+    @if (_isProcessing)
+    {
+        <section class="panel processing-panel">
+            <div class="spinner-border text-primary" role="status"></div>
+            <span>Processing PDF. This may take a moment...</span>
+        </section>
+    }
+
+    @if (_report is not null)
+    {
+        <section class="panel report-panel">
+            <div class="report-header">
+                <h2>Validation Report</h2>
+                <span class="report-status @(_report.Passed ? "status-pass" : "status-fail")">
+                    @(_report.Passed ? "Passed" : "Issues Found")
+                </span>
+            </div>
+
+            <div class="summary-grid">
+                <div><strong>File</strong><span>@_report.FileName</span></div>
+                <div><strong>Checked Standards</strong><span>@_report.Summary.TotalStandardsChecked</span></div>
+                <div><strong>Passed Standards</strong><span>@_report.Summary.PassedStandards</span></div>
+                <div><strong>Failed Standards</strong><span>@_report.Summary.FailedStandards</span></div>
+            </div>
+
+            @if (_report.Errors.Count > 0)
+            {
+                <div class="top-errors">
+                    <h3>Request-Level Errors</h3>
+                    @foreach (var error in _report.Errors)
+                    {
+                        <div class="error-item">
+                            <strong>@error.Code</strong>
+                            <p>@error.Message</p>
+                            @if (!string.IsNullOrWhiteSpace(error.Target))
+                            {
+                                <span>Target: @error.Target</span>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+
+            @if (_report.Reports.Count > 0)
+            {
+                @foreach (var policyReport in _report.Reports)
+                {
+                    var findings = BuildFindings(policyReport);
+
+                    <section class="policy-section">
+                        <div class="policy-header">
+                            <h3>@policyReport.Standard</h3>
+                            <span class="report-status @(policyReport.Passed ? "status-pass" : "status-fail")">
+                                @(policyReport.Passed ? "Compliant" : "Non-compliant")
+                            </span>
+                        </div>
+
+                        <div class="policy-meta">
+                            <span>Exit: @policyReport.ExitCode (@policyReport.ExitCodeDescription)</span>
+                            <span>Error Code: @policyReport.ErrorCode (@policyReport.ErrorCodeDescription)</span>
+                        </div>
+
+                        @if (policyReport.TimedOut)
+                        {
+                            <div class="alert alert-warning">Validation timed out for this policy.</div>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(policyReport.ErrorMessage))
+                        {
+                            <div class="alert alert-secondary">@policyReport.ErrorMessage</div>
+                        }
+
+                        @if (findings.Count == 0)
+                        {
+                            <div class="alert alert-success">No rule violations were reported for this policy.</div>
+                        }
+                        else
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Rule</th>
+                                            <th>Message</th>
+                                            <th>Location</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var finding in findings)
+                                        {
+                                            <tr>
+                                                <td>@finding.RuleLabel</td>
+                                                <td>@finding.Message</td>
+                                                <td>@finding.Location</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </section>
+                }
+            }
+        </section>
+    }
+</div>
+
+@code {
+    private const long MaxUploadSizeBytes = 25 * 1024 * 1024;
+
+    private IBrowserFile? _selectedFile;
+    private string? _selectedFileName;
+    private string? _formError;
+    private bool _isProcessing;
+    private bool _usePdfA = true;
+    private bool _usePdfUa = true;
+    private bool _useWcag22 = true;
+    private VeraPdfValidationReport? _report;
+
+    private void OnFileSelected(InputFileChangeEventArgs args)
+    {
+        _formError = null;
+        _report = null;
+
+        if (args.FileCount != 1)
+        {
+            _selectedFile = null;
+            _selectedFileName = null;
+            _formError = "Please select exactly one PDF file.";
+            return;
+        }
+
+        _selectedFile = args.File;
+        _selectedFileName = _selectedFile.Name;
+    }
+
+    private async Task ValidateAsync()
+    {
+        if (_selectedFile is null)
+        {
+            _formError = "Please select a PDF file.";
+            return;
+        }
+
+        var inputValidation = ValidationRequestHelpers.ValidatePdfInput(_selectedFile.Size, _selectedFile.ContentType, MaxUploadSizeBytes);
+        if (!inputValidation.IsValid)
+        {
+            _formError = inputValidation.Error?.Message ?? "Invalid PDF upload.";
+            return;
+        }
+
+        _isProcessing = true;
+        _formError = null;
+        _report = null;
+
+        try
+        {
+            var standards = ValidationRequestHelpers.ResolveStandards(_usePdfA, _usePdfUa, _useWcag22);
+            await using var stream = _selectedFile.OpenReadStream(MaxUploadSizeBytes);
+            _report = await ValidationService.ValidateAsync(stream, _selectedFile.Name, standards);
+        }
+        catch (Exception ex)
+        {
+            _formError = $"Validation failed: {ex.Message}";
+        }
+        finally
+        {
+            _isProcessing = false;
+        }
+    }
+
+    private static List<FindingRow> BuildFindings(StandardValidationReport policyReport)
+    {
+        var rows = new List<FindingRow>();
+        var ruleSummaries = policyReport.ParsedReport?.Jobs
+            .SelectMany(j => j.ValidationResult)
+            .SelectMany(v => v.Details?.RuleSummaries ?? [])
+            .Where(r => string.Equals(r.Status, "failed", StringComparison.OrdinalIgnoreCase)
+                     || string.Equals(r.RuleStatus, "FAILED", StringComparison.OrdinalIgnoreCase));
+
+        if (ruleSummaries is null)
+        {
+            return rows;
+        }
+
+        foreach (var rule in ruleSummaries)
+        {
+            var checks = rule.Checks?.Count > 0 ? rule.Checks : [null];
+            foreach (var check in checks)
+            {
+                var clause = string.IsNullOrWhiteSpace(rule.Clause) ? "n/a" : rule.Clause;
+                var spec = string.IsNullOrWhiteSpace(rule.Specification) ? "Rule" : rule.Specification;
+                var ruleLabel = $"{spec} {clause}#{rule.TestNumber}";
+                var message = check?.ErrorMessage ?? rule.Description ?? "Rule failed.";
+                var location = string.IsNullOrWhiteSpace(check?.Context) ? "Not reported" : check.Context;
+                rows.Add(new FindingRow(ruleLabel, message, location));
+            }
+        }
+
+        return rows;
+    }
+
+    private sealed record FindingRow(string RuleLabel, string Message, string Location);
+}
