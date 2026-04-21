@@ -58,5 +58,5 @@ public sealed class VeraPdfRuntimeOptions
     /// <summary>
     /// Gets or sets the default policy file path for WCAG 2.2 validation.
     /// </summary>
-    public string? Wcag22PolicyFilePath { get; set; } = Path.Combine(AppContext.BaseDirectory, "Policies", "WCAG-2-2.xml");
+    public string? Wcag22PolicyFilePath { get; set; } = Path.Combine(AppContext.BaseDirectory, "Policies", "WCAG-2-2-Complete.xml");
 }
