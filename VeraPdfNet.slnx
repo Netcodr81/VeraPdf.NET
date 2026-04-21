@@ -1,1 +1,13 @@
-<Solution />
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/VeraPdf.NET.Blazor/VeraPdf.NET.Blazor.csproj" />
+    <Project Path="src/VeraPdf.NET.Parser/VeraPdf.NET.Parser.csproj" />
+    <Project Path="src/VeraPdf.NET.SampleApi/VeraPdf.NET.SampleApi.csproj" />
+     <Project Path="src/VeraPdf.NET.Validation/VeraPdf.NET.Validation.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VeraPdf.NET.SampleApi.Tests/VeraPdf.NET.SampleApi.Tests.csproj" />
+    <Project Path="tests/VeraPdf.NET.Validation.Tests/VeraPdf.NET.Validation.Tests.csproj" />
+  </Folder>
+ 
+</Solution>

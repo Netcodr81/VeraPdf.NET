@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>VeraPdf.NET.Validation</PackageId>
+    <Authors>VeraPdf.NET</Authors>
+    <Description>.NET wrapper for veraPDF validation with portable runtime provisioning.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Netcodr81/VeraPdf.NET</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VeraPdf.NET.Parser\VeraPdf.NET.Parser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
+    <Content Include="veraPDF.zip" Condition="Exists('veraPDF.zip')" Pack="true" PackagePath="contentFiles/any/any/" PackageCopyToOutput="true" CopyToOutputDirectory="PreserveNewest" TargetPath="veraPDF.zip" />
+    <Content Include="Java.zip" Condition="Exists('Java.zip')" Pack="true" PackagePath="contentFiles/any/any/" PackageCopyToOutput="true" CopyToOutputDirectory="PreserveNewest" TargetPath="Java.zip" />
+    <Content Include="Policies\*.xml" Condition="Exists('Policies')" Pack="true" PackagePath="contentFiles/any/any/Policies/" PackageCopyToOutput="true" CopyToOutputDirectory="PreserveNewest" TargetPath="Policies\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

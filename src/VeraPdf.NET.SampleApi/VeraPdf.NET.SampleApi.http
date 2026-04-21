@@ -1,0 +1,6 @@
+@VeraPdf.NET.SampleApi_HostAddress = http://localhost:5209
+
+GET {{VeraPdf.NET.SampleApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
