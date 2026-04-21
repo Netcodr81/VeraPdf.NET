@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -12,14 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\VeraPdf.NET.Validation\Java.zip" Link="Java.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>Java.zip</TargetPath>
-    </None>
-    <None Include="..\VeraPdf.NET.Validation\veraPDF.zip" Link="veraPDF.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>veraPDF.zip</TargetPath>
-    </None>
     <None Include="..\VeraPdf.NET.Validation\Policies\*.xml" Link="Policies\%(Filename)%(Extension)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>Policies\%(Filename)%(Extension)</TargetPath>

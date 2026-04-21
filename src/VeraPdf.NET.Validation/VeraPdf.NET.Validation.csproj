@@ -34,9 +34,9 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="/" />
-    <None Include="veraPDF.zip" Pack="true" PackagePath="contentFiles/any/any/" />
-    <None Include="Java.zip" Pack="true" PackagePath="contentFiles/any/any/" />
-    <None Include="Policies\*.xml" Pack="true" PackagePath="contentFiles/any/any/Policies/" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="veraPDF.zip" Condition="Exists('veraPDF.zip')" Pack="true" PackagePath="contentFiles/any/any/" PackageCopyToOutput="true" CopyToOutputDirectory="PreserveNewest" TargetPath="veraPDF.zip" />
+    <Content Include="Java.zip" Condition="Exists('Java.zip')" Pack="true" PackagePath="contentFiles/any/any/" PackageCopyToOutput="true" CopyToOutputDirectory="PreserveNewest" TargetPath="Java.zip" />
+    <Content Include="Policies\*.xml" Condition="Exists('Policies')" Pack="true" PackagePath="contentFiles/any/any/Policies/" PackageCopyToOutput="true" CopyToOutputDirectory="PreserveNewest" TargetPath="Policies\%(Filename)%(Extension)" />
   </ItemGroup>
 
 </Project>

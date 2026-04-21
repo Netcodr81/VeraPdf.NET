@@ -15,15 +15,4 @@
     <ProjectReference Include="..\VeraPdf.NET.Validation\VeraPdf.NET.Validation.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\VeraPdf.NET.Validation\Java.zip" Link="Java.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>Java.zip</TargetPath>
-    </None>
-    <None Include="..\VeraPdf.NET.Validation\veraPDF.zip" Link="veraPDF.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>veraPDF.zip</TargetPath>
-    </None>
-  </ItemGroup>
-
 </Project>

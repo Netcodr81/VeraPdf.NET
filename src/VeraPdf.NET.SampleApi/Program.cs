@@ -36,12 +36,12 @@ app.MapHealthChecks("/health");
 
 app.MapPost("/api/validation", async (
     [FromForm] IFormFile pdf,
-    [FromForm] bool usePdfAValidation,
-    [FromForm] bool usePdfUAValidation,
-    [FromForm] bool useWcag22Validation,
     IVeraPdfValidationService validationService,
     ILoggerFactory loggerFactory,
-    CancellationToken cancellationToken) =>
+    [FromForm] bool usePdfAValidation = false,
+    [FromForm] bool usePdfUAValidation = false,
+    [FromForm] bool useWcag22Validation = false,
+    CancellationToken cancellationToken = default) =>
 {
     var logger = loggerFactory.CreateLogger("ValidationEndpoint");
 
