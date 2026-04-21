@@ -6,17 +6,17 @@ namespace VeraPdf.NET.Validation.Models;
 public sealed class ValidationProfileOverrides
 {
     /// <summary>
-    /// Gets the PDF/A command arguments override.
+    /// Gets or sets the PDF/A command arguments override.
     /// </summary>
-    public string? PdfAArguments { get; init; }
+    public string? PdfAArguments { get; set; }
 
     /// <summary>
-    /// Gets the PDF/UA command arguments override.
+    /// Gets or sets the PDF/UA command arguments override.
     /// </summary>
-    public string? PdfUaArguments { get; init; }
+    public string? PdfUaArguments { get; set; }
 
     /// <summary>
-    /// Gets the WCAG 2.2 command arguments override.
+    /// Gets or sets the WCAG 2.2 command arguments override.
     /// </summary>
-    public string? Wcag22Arguments { get; init; }
+    public string? Wcag22Arguments { get; set; }
 }

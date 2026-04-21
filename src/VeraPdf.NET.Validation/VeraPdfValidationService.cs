@@ -15,6 +15,7 @@ internal sealed class VeraPdfValidationService(
     IVeraPdfRuntimeProvisioner runtimeProvisioner,
     IProcessRunner processRunner,
     IOptions<VeraPdfRuntimeOptions> options,
+    IOptions<ValidationExecutionOptions> defaultExecutionOptions,
     ILogger<VeraPdfValidationService> logger) : IVeraPdfValidationService
 {
     private static readonly Meter Meter = new("VeraPdf.NET.Validation", "1.0.0");
@@ -32,6 +33,7 @@ internal sealed class VeraPdfValidationService(
     private readonly VeraPdfRuntimeOptions _options = options.Value;
     private readonly ILogger<VeraPdfValidationService> _logger = logger;
     private readonly SemaphoreSlim _validationThrottle = new(Math.Max(1, options.Value.MaxConcurrentValidations), Math.Max(1, options.Value.MaxConcurrentValidations));
+    private readonly ValidationExecutionOptions _defaultExecutionOptions = defaultExecutionOptions.Value;
 
     public async Task<VeraPdfValidationReport> ValidateAsync(
         Stream pdfStream,
@@ -43,6 +45,7 @@ internal sealed class VeraPdfValidationService(
         var stopwatch = Stopwatch.StartNew();
         ValidationRequests.Add(1);
         var throttleEntered = false;
+        var effectiveExecutionOptions = MergeExecutionOptions(_defaultExecutionOptions, executionOptions);
 
         try
         {
@@ -172,7 +175,7 @@ internal sealed class VeraPdfValidationService(
 
                 foreach (var standard in ExpandStandards(standards))
                 {
-                    var arguments = BuildArguments(standard, tempFilePath, executionOptions);
+                    var arguments = BuildArguments(standard, tempFilePath, effectiveExecutionOptions);
                     var environment = BuildEnvironment(runtime.JavaHomePath);
                     var result = await _processRunner.RunAsync(
                         runtime.VeraPdfExecutablePath,
@@ -271,6 +274,53 @@ internal sealed class VeraPdfValidationService(
             ValidationDurationMs.Record(stopwatch.Elapsed.TotalMilliseconds);
         }
     }
+
+    private static ValidationExecutionOptions? MergeExecutionOptions(
+        ValidationExecutionOptions defaults,
+        ValidationExecutionOptions? perRequest)
+    {
+        var policyPath = FirstNonEmpty(perRequest?.Wcag22PolicyFilePathOverride, defaults.Wcag22PolicyFilePathOverride);
+        var profileOverrides = MergeProfileOverrides(defaults.ProfileOverrides, perRequest?.ProfileOverrides);
+
+        if (profileOverrides is null && string.IsNullOrWhiteSpace(policyPath))
+        {
+            return null;
+        }
+
+        return new ValidationExecutionOptions
+        {
+            Wcag22PolicyFilePathOverride = policyPath,
+            ProfileOverrides = profileOverrides
+        };
+    }
+
+    private static ValidationProfileOverrides? MergeProfileOverrides(
+        ValidationProfileOverrides? defaults,
+        ValidationProfileOverrides? perRequest)
+    {
+        var pdfAArguments = FirstNonEmpty(perRequest?.PdfAArguments, defaults?.PdfAArguments);
+        var pdfUaArguments = FirstNonEmpty(perRequest?.PdfUaArguments, defaults?.PdfUaArguments);
+        var wcag22Arguments = FirstNonEmpty(perRequest?.Wcag22Arguments, defaults?.Wcag22Arguments);
+
+        if (string.IsNullOrWhiteSpace(pdfAArguments)
+            && string.IsNullOrWhiteSpace(pdfUaArguments)
+            && string.IsNullOrWhiteSpace(wcag22Arguments))
+        {
+            return null;
+        }
+
+        return new ValidationProfileOverrides
+        {
+            PdfAArguments = pdfAArguments,
+            PdfUaArguments = pdfUaArguments,
+            Wcag22Arguments = wcag22Arguments
+        };
+    }
+
+    private static string? FirstNonEmpty(string? preferred, string? fallback)
+        => !string.IsNullOrWhiteSpace(preferred)
+            ? preferred
+            : string.IsNullOrWhiteSpace(fallback) ? null : fallback;
 
     private static ValidationErrorCode ResolveErrorCode(ProcessExecutionResult result)
     {
@@ -425,12 +475,30 @@ internal sealed class VeraPdfValidationService(
             throw new FileNotFoundException("Configured WCAG policy file was not found.", policyFilePath);
         }
 
-        if (standardArgs.Contains("--policyfile", StringComparison.OrdinalIgnoreCase))
+        var extension = Path.GetExtension(policyFilePath);
+        if (extension.Equals(".xml", StringComparison.OrdinalIgnoreCase))
         {
-            return standardArgs;
+            if (standardArgs.Contains("--profile", StringComparison.OrdinalIgnoreCase))
+            {
+                return standardArgs;
+            }
+
+            return $"{standardArgs} --profile \"{policyFilePath}\"";
         }
 
-        return $"{standardArgs} --policyfile \"{policyFilePath}\"";
+        if (extension.Equals(".sch", StringComparison.OrdinalIgnoreCase)
+            || extension.Equals(".xsl", StringComparison.OrdinalIgnoreCase)
+            || extension.Equals(".xslt", StringComparison.OrdinalIgnoreCase))
+        {
+            if (standardArgs.Contains("--policyfile", StringComparison.OrdinalIgnoreCase))
+            {
+                return standardArgs;
+            }
+
+            return $"{standardArgs} --policyfile \"{policyFilePath}\"";
+        }
+
+        throw new InvalidDataException("WCAG policy/profile file extension must be .xml, .sch, .xsl, or .xslt.");
     }
 
     private static IReadOnlyDictionary<string, string> BuildEnvironment(string javaHomePath)

@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Scalar.AspNetCore;
-using VeraPdf.NET.SampleApi.Jobs;
+
 using VeraPdf.NET.Validation;
 using VeraPdf.NET.Validation.Models;
 
@@ -16,21 +15,13 @@ builder.Services.Configure<FormOptions>(options =>
     options.MultipartBodyLengthLimit = MaxPdfSizeBytes;
 });
 
-builder.Services.Configure<ValidationJobStoreOptions>(builder.Configuration.GetSection("ValidationJobs"));
-
 builder.Services.AddOpenApi();
-builder.Services.AddVeraPdfValidation(builder.Configuration);
-builder.Services.AddVeraPdfValidationHealthChecks();
-builder.Services.AddSingleton<IValidationJobStore>(sp =>
+builder.Services.AddVeraPDFNet(options =>
 {
-    var options = sp.GetRequiredService<IOptions<ValidationJobStoreOptions>>().Value;
-    return options.Provider.Equals("File", StringComparison.OrdinalIgnoreCase)
-        ? new FileValidationJobStore(options.FileStorePath)
-        : new InMemoryValidationJobStore();
+    builder.Configuration.GetSection("VeraPdfRuntime").Bind(options.Runtime);
+    builder.Configuration.GetSection("VeraPdfExecution").Bind(options.Execution);
 });
-builder.Services.AddSingleton<IValidationJobQueue, ValidationJobQueue>();
-builder.Services.AddHostedService<ValidationJobProcessor>();
-
+builder.Services.AddVeraPdfValidationHealthChecks();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -45,26 +36,32 @@ app.MapHealthChecks("/health");
 
 app.MapPost("/api/validation", async (
     [FromForm] IFormFile pdf,
-    [FromForm] bool pdfA,
-    [FromForm] bool pdfUa,
-    [FromForm] bool wcag22,
-    [FromForm] string? pdfAArgs,
-    [FromForm] string? pdfUaArgs,
-    [FromForm] string? wcag22Args,
-    [FromForm] string? wcag22PolicyPath,
+    [FromForm] bool usePdfAValidation,
+    [FromForm] bool usePdfUAValidation,
+    [FromForm] bool useWcag22Validation,
     IVeraPdfValidationService validationService,
     ILoggerFactory loggerFactory,
     CancellationToken cancellationToken) =>
 {
     var logger = loggerFactory.CreateLogger("ValidationEndpoint");
 
-    if (!TryValidatePdf(pdf, out var validationError))
+    var inputValidation = ValidationRequestHelpers.ValidatePdfInput(pdf?.Length, pdf?.ContentType, MaxPdfSizeBytes);
+    if (!inputValidation.IsValid)
     {
-        return validationError!;
+        var error = inputValidation.Error!;
+        return CreateProblem(
+            inputValidation.StatusCode ?? StatusCodes.Status400BadRequest,
+            error.Code.ToString().ToUpperInvariant(),
+            error.Message,
+            error.Target);
     }
 
-    var standards = ResolveStandards(pdfA, pdfUa, wcag22);
-    var executionOptions = BuildExecutionOptions(pdfAArgs, pdfUaArgs, wcag22Args, wcag22PolicyPath);
+    var standards = ValidationRequestHelpers.ResolveStandards(usePdfAValidation, usePdfUAValidation, useWcag22Validation);
+    var executionOptions = (
+        PdfAArgs: (string?)null,
+        PdfUaArgs: (string?)null,
+        Wcag22Args: (string?)null,
+        Wcag22PolicyPath: (string?)null).ToValidationExecutionOptions();
 
     try
     {
@@ -103,81 +100,6 @@ app.MapPost("/api/validation", async (
 .DisableAntiforgery();
 
 app.Run();
-
-static ValidationExecutionOptions? BuildExecutionOptions(
-    string? pdfAArgs,
-    string? pdfUaArgs,
-    string? wcag22Args,
-    string? wcag22PolicyPath)
-{
-    var hasProfileOverrides = !string.IsNullOrWhiteSpace(pdfAArgs)
-                              || !string.IsNullOrWhiteSpace(pdfUaArgs)
-                              || !string.IsNullOrWhiteSpace(wcag22Args);
-
-    var hasPolicyOverride = !string.IsNullOrWhiteSpace(wcag22PolicyPath);
-    if (!hasProfileOverrides && !hasPolicyOverride)
-    {
-        return null;
-    }
-
-    return new ValidationExecutionOptions
-    {
-        Wcag22PolicyFilePathOverride = hasPolicyOverride ? wcag22PolicyPath : null,
-        ProfileOverrides = hasProfileOverrides
-            ? new ValidationProfileOverrides
-            {
-                PdfAArguments = pdfAArgs,
-                PdfUaArguments = pdfUaArgs,
-                Wcag22Arguments = wcag22Args
-            }
-            : null
-    };
-}
-
-static ValidationStandard ResolveStandards(bool pdfA, bool pdfUa, bool wcag22)
-{
-    var standards = ValidationStandard.None;
-    if (pdfA) standards |= ValidationStandard.PdfA;
-    if (pdfUa) standards |= ValidationStandard.PdfUa;
-    if (wcag22) standards |= ValidationStandard.Wcag22;
-
-    return standards == ValidationStandard.None ? ValidationStandard.All : standards;
-}
-
-static bool TryValidatePdf(IFormFile? pdf, out IResult? result)
-{
-    if (pdf is null || pdf.Length == 0)
-    {
-        result = CreateProblem(StatusCodes.Status400BadRequest, "INVALID_INPUT", "A PDF file is required.", "pdf");
-        return false;
-    }
-
-    if (pdf.Length > MaxPdfSizeBytes)
-    {
-        result = CreateProblem(StatusCodes.Status413PayloadTooLarge, "INVALID_INPUT", $"PDF exceeds max upload size of {MaxPdfSizeBytes} bytes.", "pdf");
-        return false;
-    }
-
-    if (!IsSupportedContentType(pdf.ContentType))
-    {
-        result = CreateProblem(StatusCodes.Status415UnsupportedMediaType, "INVALID_INPUT", "Only PDF content types are supported.", "pdf.contentType");
-        return false;
-    }
-
-    result = null;
-    return true;
-}
-
-static bool IsSupportedContentType(string? contentType)
-{
-    if (string.IsNullOrWhiteSpace(contentType))
-    {
-        return false;
-    }
-
-    return contentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase)
-           || contentType.Equals("application/octet-stream", StringComparison.OrdinalIgnoreCase);
-}
 
 static IResult CreateProblem(int status, string code, string detail, string? target)
 {

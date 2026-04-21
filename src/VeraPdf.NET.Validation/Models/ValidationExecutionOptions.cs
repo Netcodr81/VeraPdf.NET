@@ -6,12 +6,12 @@ namespace VeraPdf.NET.Validation.Models;
 public sealed class ValidationExecutionOptions
 {
     /// <summary>
-    /// Gets the per-standard argument overrides used when invoking veraPDF.
+    /// Gets or sets the per-standard argument overrides used when invoking veraPDF.
     /// </summary>
-    public ValidationProfileOverrides? ProfileOverrides { get; init; }
+    public ValidationProfileOverrides? ProfileOverrides { get; set; }
 
     /// <summary>
-    /// Gets the WCAG 2.2 policy file path override for this execution.
+    /// Gets or sets the WCAG 2.2 policy file path override for this execution.
     /// </summary>
-    public string? Wcag22PolicyFilePathOverride { get; init; }
+    public string? Wcag22PolicyFilePathOverride { get; set; }
 }

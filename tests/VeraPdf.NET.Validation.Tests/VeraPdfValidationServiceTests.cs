@@ -185,10 +185,11 @@ public class VeraPdfValidationServiceTests
         FakeProcessRunner? processRunner = null)
     {
         var options = Options.Create(runtimeOptions ?? new VeraPdfRuntimeOptions());
+        var defaultExecutionOptions = Options.Create(new ValidationExecutionOptions());
         runtimeProvisioner ??= new FakeRuntimeProvisioner();
         processRunner ??= new FakeProcessRunner();
 
-        return new VeraPdfValidationService(new PdfParser(), runtimeProvisioner, processRunner, options, NullLogger<VeraPdfValidationService>.Instance);
+        return new VeraPdfValidationService(new PdfParser(), runtimeProvisioner, processRunner, options, defaultExecutionOptions, NullLogger<VeraPdfValidationService>.Instance);
     }
 
     private sealed class FakeRuntimeProvisioner : IVeraPdfRuntimeProvisioner

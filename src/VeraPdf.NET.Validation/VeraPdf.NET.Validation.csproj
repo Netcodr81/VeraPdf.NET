@@ -36,6 +36,7 @@
     <None Include="README.md" Pack="true" PackagePath="/" />
     <None Include="veraPDF.zip" Pack="true" PackagePath="contentFiles/any/any/" />
     <None Include="Java.zip" Pack="true" PackagePath="contentFiles/any/any/" />
+    <None Include="Policies\*.xml" Pack="true" PackagePath="contentFiles/any/any/Policies/" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

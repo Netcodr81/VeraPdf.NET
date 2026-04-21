@@ -72,8 +72,9 @@ public class VeraPdfValidationIntegrationTests
 
         var runtimeProvisioner = new VeraPdfRuntimeProvisioner(options);
         var processRunner = new DefaultProcessRunner();
+        var defaultExecutionOptions = Microsoft.Extensions.Options.Options.Create(new ValidationExecutionOptions());
 
-        var service = new VeraPdfValidationService(new Parser.PdfParser(), runtimeProvisioner, processRunner, options, NullLogger<VeraPdfValidationService>.Instance);
+        var service = new VeraPdfValidationService(new Parser.PdfParser(), runtimeProvisioner, processRunner, options, defaultExecutionOptions, NullLogger<VeraPdfValidationService>.Instance);
         return (service, runtimeRootPath);
     }
 
