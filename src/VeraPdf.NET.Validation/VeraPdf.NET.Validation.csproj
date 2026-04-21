@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VeraPdf.NET.ValidationProfiles\VeraPdf.NET.ValidationProfiles.csproj" />
+  </ItemGroup>
+
 </Project>

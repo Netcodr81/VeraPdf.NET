@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VeraPdf.NET.Model.Contracts.Semantic;
 
 namespace VeraPdf.NET.Model;
 
@@ -60,7 +61,7 @@ public class SEP : PDStructElem
 /// <summary>
 /// &lt;L&gt; structure element.
 /// </summary>
-public class SEL : PDStructElem
+public class SEL : PDStructElem, ISEL
 {
     /// <summary>
     /// Value of the ListNumbering attribute.
@@ -97,7 +98,7 @@ public class SELBody : PDStructElem
 /// <summary>
 /// &lt;Table&gt; structure element.
 /// </summary>
-public class SETable : PDStructElem
+public class SETable : PDStructElem, ISETable
 {
     /// <summary>
     /// True if table structure is determinable via Headers/IDs or Scope.
@@ -140,7 +141,7 @@ public class SETR : PDStructElem
 /// <summary>
 /// &lt;TH&gt; or &lt;TD&gt; structure element.
 /// </summary>
-public class SETableCell : PDStructElem
+public class SETableCell : PDStructElem, ISETableCell
 {
     /// <summary>
     /// /ColSpan value.
@@ -226,7 +227,7 @@ public class SETOC : PDStructElem
 /// <summary>
 /// &lt;TOCI&gt; structure element.
 /// </summary>
-public class SETOCI : PDStructElem
+public class SETOCI : PDStructElem, ISETOCI
 {
     /// <summary>
     /// True if this TOCI or descendants contain Ref entry.
@@ -302,7 +303,7 @@ public class SECode : PDStructElem
 /// <summary>
 /// &lt;Hn&gt; structure element.
 /// </summary>
-public class SEHn : PDStructElem
+public class SEHn : PDStructElem, ISEHn
 {
     /// <summary>
     /// False if heading nesting level is incorrect.
@@ -343,7 +344,7 @@ public class SEMathMLStructElem : PDStructElem
 /// <summary>
 /// Content item such as text, image, lineart, shading, or form.
 /// </summary>
-public class SEContentItem : PDFObject
+public class SEContentItem : PDFObject, ISEContentItem
 {
     /// <summary>
     /// Tags associated with parent marked content sequences.
@@ -389,23 +390,33 @@ public class SEContentItem : PDFObject
     /// True if item is inside Artifact structure element.
     /// </summary>
     public bool IsArtifact { get; set; }
+
+    /// <summary>
+    /// Number of parent tags.
+    /// </summary>
+    public int ParentsTagsCount => ParentsTags.Count;
 }
 
 /// <summary>
 /// Grouped content sequence.
 /// </summary>
-public class SEGroupedContent : SEContentItem
+public class SEGroupedContent : SEContentItem, ISEGroupedContent
 {
     /// <summary>
     /// Content items within this sequence.
     /// </summary>
     public IReadOnlyList<SEContentItem> ContentItem { get; set; } = [];
+
+    /// <summary>
+    /// Number of nested content items.
+    /// </summary>
+    public int ContentItemCount => ContentItem.Count;
 }
 
 /// <summary>
 /// Simple content item.
 /// </summary>
-public class SESimpleContentItem : SEContentItem
+public class SESimpleContentItem : SEContentItem, ISESimpleContentItem
 {
     /// <summary>
     /// Item type ('text', 'image', 'lineart', 'shading').

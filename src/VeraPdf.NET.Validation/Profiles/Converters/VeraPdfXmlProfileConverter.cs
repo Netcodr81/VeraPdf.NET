@@ -10,39 +10,61 @@ public static class VeraPdfXmlProfileConverter
     public static ValidationProfile Convert(string xml)
     {
         var doc = XDocument.Parse(xml);
+        var root = doc.Root ?? throw new InvalidOperationException("Invalid profile XML: missing root element.");
+        var ns = root.Name.Namespace;
 
-        var rules = doc.Descendants("rule")
+        var rules = root
+            .Descendants(ns + "rule")
             .Select(r => new RuleDefinition
             {
-                Id = r.Attribute("id")?.Value ?? throw new Exception("Missing rule id"),
-
-                // Map veraPDF object → your interface naming convention
-                TargetTypeName = MapType(r.Attribute("object")?.Value),
-
-                Test = r.Element("test")?.Value?.Trim()
-                       ?? throw new Exception("Missing test expression")
+                Id = ResolveRuleId(r, ns),
+                TargetTypeName = r.Attribute("object")?.Value ?? throw new InvalidOperationException("Missing rule target object."),
+                Test = r.Element(ns + "test")?.Value?.Trim() ?? throw new InvalidOperationException("Missing test expression.")
             })
             .ToList();
 
+        var name = root
+            .Element(ns + "details")?
+            .Element(ns + "name")?
+            .Value?
+            .Trim();
+
         return new ValidationProfile
         {
-            Name = doc.Root?.Attribute("name")?.Value ?? "veraPDF",
+            Name = string.IsNullOrWhiteSpace(name)
+                ? root.Attribute("flavour")?.Value ?? "veraPDF"
+                : name,
             Rules = rules
         };
     }
 
-    /// <summary>
-    /// Maps veraPDF type names to your .NET model interfaces.
-    /// Example: PDPage → IPDPage
-    /// </summary>
-    private static string MapType(string? veraType)
+    private static string ResolveRuleId(XElement ruleElement, XNamespace ns)
     {
-        return veraType switch
+        var idElement = ruleElement.Element(ns + "id");
+
+        if (idElement == null)
         {
-            "PDPage" => "IPDPage",
-            "PDDocument" => "IPDDocument",
-            "PDAnnot" => "IPDAnnot",
-            _ => $"I{veraType}"
-        };
+            return ruleElement.Attribute("id")?.Value
+                ?? throw new InvalidOperationException("Missing rule id.");
+        }
+
+        var specification = idElement.Attribute("specification")?.Value;
+        var clause = idElement.Attribute("clause")?.Value;
+        var testNumber = idElement.Attribute("testNumber")?.Value;
+
+        if (!string.IsNullOrWhiteSpace(specification) &&
+            !string.IsNullOrWhiteSpace(clause) &&
+            !string.IsNullOrWhiteSpace(testNumber))
+        {
+            return $"{specification}:{clause}:{testNumber}";
+        }
+
+        var fallback = string.Join(
+            ":",
+            new[] { specification, clause, testNumber }.Where(v => !string.IsNullOrWhiteSpace(v)));
+
+        return string.IsNullOrWhiteSpace(fallback)
+            ? throw new InvalidOperationException("Missing rule id attributes.")
+            : fallback;
     }
 }

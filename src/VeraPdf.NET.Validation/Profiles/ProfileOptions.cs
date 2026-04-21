@@ -19,4 +19,20 @@ public sealed class ProfileOptions
     /// Cache compiled rules
     /// </summary>
     public bool CacheCompiledRules { get; init; } = true;
+
+    /// <summary>
+    /// Load profiles from the embedded compiled JSON artifact.
+    /// </summary>
+    public bool UseCompiledProfileArtifact { get; init; } = true;
+
+    /// <summary>
+    /// Optional profile id from the compiled catalog.
+    /// If null, the first available profile is used.
+    /// </summary>
+    public string? SelectedProfileId { get; init; }
+
+    /// <summary>
+    /// Skip rules that target model types not yet ported.
+    /// </summary>
+    public bool IgnoreRulesWithUnknownTargetType { get; init; } = true;
 }

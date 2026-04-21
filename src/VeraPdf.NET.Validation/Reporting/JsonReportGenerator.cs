@@ -16,4 +16,26 @@ public sealed class JsonReportGenerator
             WriteIndented = true
         });
     }
+
+    /// <summary>
+    /// Serializes normalized output contract JSON for deterministic diffing.
+    /// </summary>
+    public string GenerateNormalized(ValidationResult result)
+    {
+        var normalized = ValidationResultNormalizer.Normalize(result);
+
+        return GenerateNormalized(normalized);
+    }
+
+    /// <summary>
+    /// Serializes normalized output contract JSON for deterministic diffing.
+    /// </summary>
+    public string GenerateNormalized(NormalizedValidationOutput output)
+    {
+        return JsonSerializer.Serialize(output, new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+    }
 }

@@ -6,22 +6,17 @@ public static class TypeMapper
     /// Explicit overrides for known mismatches between veraPDF and .NET model.
     /// Only include cases that cannot be resolved by convention.
     /// </summary>
-    private static readonly Dictionary<string, string> ExplicitMap = new()
+    private static readonly Dictionary<string, string> ExplicitMap = new(StringComparer.OrdinalIgnoreCase)
     {
-        // Common mismatches / aliases
-        ["PDAnnotation"] = "IPDAnnot",
-        ["PDAnnot"] = "IPDAnnot",
-
-        // Sometimes used interchangeably in profiles
-        ["COSObjectKey"] = "ICosObject",
-
-        // Add more here ONLY when convention fails
+        ["PDAnnotation"] = "PDAnnot",
+        ["PDAnnot"] = "PDAnnot",
+        ["COSObjectKey"] = "CosObject"
     };
 
     /// <summary>
     /// Cache resolved types for performance.
     /// </summary>
-    private static readonly Dictionary<string, Type> Cache = new();
+    private static readonly Dictionary<string, Type> Cache = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// Entry point: maps veraPDF type name → CLR Type from your Model project.
@@ -31,25 +26,19 @@ public static class TypeMapper
         if (string.IsNullOrWhiteSpace(veraType))
             throw new ArgumentException("Type name cannot be null or empty.");
 
-        // Normalize (strip namespace if present)
         veraType = Normalize(veraType);
 
-        // Check cache first
         if (Cache.TryGetValue(veraType, out var cached))
             return cached;
 
-        // Step 1: explicit mapping (edge cases)
         if (ExplicitMap.TryGetValue(veraType, out var mappedName))
         {
-            var type = ResolveClrType(mappedName);
-            Cache[veraType] = type;
-            return type;
+            var mapped = ResolveClrType(mappedName);
+            Cache[veraType] = mapped;
+            return mapped;
         }
 
-        // Step 2: convention mapping
-        var candidateNames = GetCandidateNames(veraType);
-
-        foreach (var name in candidateNames)
+        foreach (var name in GetCandidateNames(veraType))
         {
             var type = TryResolveClrType(name);
             if (type != null)
@@ -62,48 +51,32 @@ public static class TypeMapper
         throw new InvalidOperationException($"Unable to map veraPDF type '{veraType}' to a CLR type.");
     }
 
-    // ------------------------------------------------------------
-    // HELPERS
-    // ------------------------------------------------------------
-
-    /// <summary>
-    /// Removes namespace if present (veraPDF sometimes uses FQNs)
-    /// </summary>
     private static string Normalize(string typeName)
     {
-        return typeName.Contains('.')
+        var shortName = typeName.Contains('.')
             ? typeName.Split('.').Last()
             : typeName;
+
+        return shortName.Trim();
     }
 
-    /// <summary>
-    /// Generates possible interface names based on veraPDF naming conventions.
-    /// </summary>
     private static IEnumerable<string> GetCandidateNames(string veraType)
     {
-        // Already an interface
-        if (veraType.StartsWith("I"))
-            yield return veraType;
+        yield return veraType;
 
-        // PD → IPD
-        if (veraType.StartsWith("PD"))
+        if (veraType.StartsWith("I", StringComparison.Ordinal) && veraType.Length > 1)
+            yield return veraType[1..];
+
+        if (!veraType.StartsWith("I", StringComparison.Ordinal))
             yield return "I" + veraType;
 
-        // COS → ICos (note casing!)
-        if (veraType.StartsWith("COS"))
-            yield return "I" + veraType.Substring(0, 1) + veraType.Substring(1).ToLower();
+        if (veraType.StartsWith("COS", StringComparison.Ordinal))
+            yield return "Cos" + veraType[3..];
 
-        // XMP → IXMP
-        if (veraType.StartsWith("XMP"))
-            yield return "I" + veraType;
-
-        // Generic fallback
-        yield return "I" + veraType;
+        if (veraType.StartsWith("PD", StringComparison.Ordinal))
+            yield return "PD" + veraType[2..];
     }
 
-    /// <summary>
-    /// Attempts to resolve type from loaded assemblies.
-    /// </summary>
     private static Type ResolveClrType(string name)
     {
         var type = TryResolveClrType(name);
@@ -114,31 +87,21 @@ public static class TypeMapper
         return type;
     }
 
-    /// <summary>
-    /// Searches all loaded assemblies for a matching type name.
-    /// Restricts to your Model assembly for performance.
-    /// </summary>
     private static Type? TryResolveClrType(string name)
     {
-        // Prefer your model assembly first
         var modelAssembly = AppDomain.CurrentDomain.GetAssemblies()
-            .FirstOrDefault(a => a.GetName().Name?.StartsWith("VeraPdf.NET.Model") == true);
+            .FirstOrDefault(a => a.GetName().Name?.StartsWith("VeraPdf.NET.Model", StringComparison.Ordinal) == true);
 
         if (modelAssembly != null)
         {
-            var type = modelAssembly.GetTypes()
-                .FirstOrDefault(t => t.Name == name);
-
+            var type = modelAssembly.GetTypes().FirstOrDefault(t => t.Name.Equals(name, StringComparison.Ordinal));
             if (type != null)
                 return type;
         }
 
-        // Fallback: scan all assemblies
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
-            var type = assembly.GetTypes()
-                .FirstOrDefault(t => t.Name == name);
-
+            var type = assembly.GetTypes().FirstOrDefault(t => t.Name.Equals(name, StringComparison.Ordinal));
             if (type != null)
                 return type;
         }

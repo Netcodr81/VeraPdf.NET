@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\VeraPdf.NET.Validation\VeraPdf.NET.Validation.csproj" />
+    <ProjectReference Include="..\..\src\VeraPdf.NET.Parser\VeraPdf.NET.Parser.csproj" />
   </ItemGroup>
 
   <ItemGroup>

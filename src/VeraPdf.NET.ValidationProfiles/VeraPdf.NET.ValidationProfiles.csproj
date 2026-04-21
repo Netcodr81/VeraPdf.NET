@@ -4,6 +4,16 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <CompiledProfilesJson>$(IntermediateOutputPath)verapdf-profiles.compiled.json</CompiledProfilesJson>
+    <ValidationProfilesRoot>$(MSBuildProjectDirectory)\..\..\validation profiles</ValidationProfilesRoot>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="$(CompiledProfilesJson)" LogicalName="VeraPdf.NET.ValidationProfiles.verapdf-profiles.compiled.json" />
+  </ItemGroup>
+
+  <Target Name="GenerateCompiledValidationProfiles" BeforeTargets="CoreCompile">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;$root='$(ValidationProfilesRoot)'; $out='$(CompiledProfilesJson)'; $base=(Resolve-Path -Path $root).Path; if(-not $base.EndsWith('\')){ $base = $base + '\' }; $baseUri=[System.Uri]$base; $files=Get-ChildItem -Path $root -Recurse -Filter *.xml -File | Sort-Object FullName; $profiles=foreach($f in $files){ $rel=[System.Uri]::UnescapeDataString($baseUri.MakeRelativeUri([System.Uri]$f.FullName).ToString()); [PSCustomObject]@{ id=($rel -replace '\.xml$',''); sourcePath=$rel; xml=[System.IO.File]::ReadAllText($f.FullName,[System.Text.Encoding]::UTF8) } }; $manifest=[PSCustomObject]@{ version=1; generatedUtc=(Get-Date).ToUniversalTime().ToString('o'); profiles=$profiles }; $json=$manifest | ConvertTo-Json -Depth 8 -Compress; $dir=Split-Path -Parent $out; if(-not [string]::IsNullOrWhiteSpace($dir)){ New-Item -ItemType Directory -Path $dir -Force | Out-Null }; [System.IO.File]::WriteAllText($out,$json,[System.Text.UTF8Encoding]::new($false))&quot;" />
+  </Target>
 
 </Project>

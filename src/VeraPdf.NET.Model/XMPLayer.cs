@@ -1,4 +1,6 @@
-﻿namespace VeraPdf.NET.Model;
+﻿using VeraPdf.NET.Model.Contracts.Xmp;
+
+namespace VeraPdf.NET.Model;
 
 /// <summary>
 /// Parent type for all XMP objects.
@@ -10,7 +12,7 @@ public class XMPObject : PDFObject
 /// <summary>
 /// XMP package.
 /// </summary>
-public class XMPPackage : XMPObject
+public class XMPPackage : XMPObject, IXMPPackage
 {
     /// <summary>
     /// Collection of all XMP properties.
@@ -41,12 +43,22 @@ public class XMPPackage : XMPObject
     /// Value of the encoding attribute in package header.
     /// </summary>
     public string? Encoding { get; set; }
+
+    /// <summary>
+    /// Number of XMP properties in the package.
+    /// </summary>
+    public int PropertiesCount => Properties.Count;
+
+    /// <summary>
+    /// Number of extension schema containers in the package.
+    /// </summary>
+    public int ExtensionSchemasContainersCount => ExtensionSchemasContainers.Count;
 }
 
 /// <summary>
 /// Main XMP package.
 /// </summary>
-public class MainXMPPackage : XMPPackage
+public class MainXMPPackage : XMPPackage, IMainXMPPackage
 {
     /// <summary>
     /// PDF/A identification object.
@@ -77,12 +89,17 @@ public class MainXMPPackage : XMPPackage
     /// Set of declarations.
     /// </summary>
     public ISet<string> Declarations { get; set; } = new HashSet<string>();
+
+    /// <summary>
+    /// Number of declarations.
+    /// </summary>
+    public int DeclarationsCount => Declarations.Count;
 }
 
 /// <summary>
 /// XMP property.
 /// </summary>
-public class XMPProperty : XMPObject
+public class XMPProperty : XMPObject, IXMPProperty
 {
     /// <summary>
     /// True if property is predefined for PDF/A-1.
@@ -161,7 +178,7 @@ public class XMPMMHistoryResourceEvent : XMPObject
 /// <summary>
 /// PDF/A identification object.
 /// </summary>
-public class PDFAIdentification : XMPObject
+public class PDFAIdentification : XMPObject, IPDFAIdentification
 {
     /// <summary>
     /// Part value.
@@ -207,7 +224,7 @@ public class PDFAIdentification : XMPObject
 /// <summary>
 /// PDF/UA identification object.
 /// </summary>
-public class PDFUAIdentification : XMPObject
+public class PDFUAIdentification : XMPObject, IPDFUAIdentification
 {
     /// <summary>
     /// Part value.
@@ -259,7 +276,7 @@ public class ExtensionSchemaObject : XMPObject
 /// <summary>
 /// Container of extension schemas defined in XMP package.
 /// </summary>
-public class ExtensionSchemasContainer : XMPObject
+public class ExtensionSchemasContainer : XMPObject, IExtensionSchemasContainer
 {
     /// <summary>
     /// Extension schema definitions.
@@ -275,12 +292,17 @@ public class ExtensionSchemasContainer : XMPObject
     /// True if extension schema container type is Bag.
     /// </summary>
     public bool IsValidBag { get; set; }
+
+    /// <summary>
+    /// Number of extension schema definitions.
+    /// </summary>
+    public int ExtensionSchemaDefinitionsCount => ExtensionSchemaDefinitions.Count;
 }
 
 /// <summary>
 /// Extension schema definition.
 /// </summary>
-public class ExtensionSchemaDefinition : ExtensionSchemaObject
+public class ExtensionSchemaDefinition : ExtensionSchemaObject, IExtensionSchemaDefinition
 {
     /// <summary>
     /// XMP properties defined in this extension schema.
@@ -341,12 +363,22 @@ public class ExtensionSchemaDefinition : ExtensionSchemaObject
     /// Namespace prefix for value type list property.
     /// </summary>
     public string? ValueTypePrefix { get; set; }
+
+    /// <summary>
+    /// Number of extension schema properties.
+    /// </summary>
+    public int ExtensionSchemaPropertiesCount => ExtensionSchemaProperties.Count;
+
+    /// <summary>
+    /// Number of extension schema value types.
+    /// </summary>
+    public int ExtensionSchemaValueTypesCount => ExtensionSchemaValueTypes.Count;
 }
 
 /// <summary>
 /// Extension schema property definition.
 /// </summary>
-public class ExtensionSchemaProperty : ExtensionSchemaObject
+public class ExtensionSchemaProperty : ExtensionSchemaObject, IExtensionSchemaProperty
 {
     /// <summary>
     /// Category field value.

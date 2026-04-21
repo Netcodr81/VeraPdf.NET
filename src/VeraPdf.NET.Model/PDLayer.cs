@@ -1,4 +1,6 @@
-﻿namespace VeraPdf.NET.Model;
+﻿using VeraPdf.NET.Model.Pd.Contracts;
+
+namespace VeraPdf.NET.Model;
 
 /// <summary>
 /// Base class for all PD layer objects.
@@ -326,7 +328,7 @@ public class PDResource : PDObject
 /// <summary>
 /// Color space object.
 /// </summary>
-public class PDColorSpace : PDResource
+public class PDColorSpace : PDResource, IPDColorSpace
 {
     /// <summary>
     /// Number of components.
@@ -353,28 +355,28 @@ public class PDAdditionalActions : PDObject
 /// <summary>
 /// DeviceGray color space.
 /// </summary>
-public class PDDeviceGray : PDColorSpace
+public class PDDeviceGray : PDColorSpace, IPDDeviceGray
 {
 }
 
 /// <summary>
 /// DeviceRGB color space.
 /// </summary>
-public class PDDeviceRGB : PDColorSpace
+public class PDDeviceRGB : PDColorSpace, IPDDeviceRGB
 {
 }
 
 /// <summary>
 /// DeviceCMYK color space.
 /// </summary>
-public class PDDeviceCMYK : PDColorSpace
+public class PDDeviceCMYK : PDColorSpace, IPDDeviceCMYK
 {
 }
 
 /// <summary>
 /// ICCBased color space.
 /// </summary>
-public class PDICCBased : PDColorSpace
+public class PDICCBased : PDColorSpace, IPDICCBased
 {
     /// <summary>
     /// Embedded ICC profile.
@@ -405,7 +407,7 @@ public class PDICCBased : PDColorSpace
 /// <summary>
 /// ICCBased CMYK color space.
 /// </summary>
-public class PDICCBasedCMYK : PDICCBased
+public class PDICCBasedCMYK : PDICCBased, IPDICCBasedCMYK
 {
     /// <summary>
     /// OPM value.
@@ -421,28 +423,28 @@ public class PDICCBasedCMYK : PDICCBased
 /// <summary>
 /// Lab color space.
 /// </summary>
-public class PDLab : PDColorSpace
+public class PDLab : PDColorSpace, IPDLab
 {
 }
 
 /// <summary>
 /// CalGray color space.
 /// </summary>
-public class PDCalGray : PDColorSpace
+public class PDCalGray : PDColorSpace, IPDCalGray
 {
 }
 
 /// <summary>
 /// CalRGB color space.
 /// </summary>
-public class PDCalRGB : PDColorSpace
+public class PDCalRGB : PDColorSpace, IPDCalRGB
 {
 }
 
 /// <summary>
 /// Separation color space.
 /// </summary>
-public class PDSeparation : PDColorSpace
+public class PDSeparation : PDColorSpace, IPDSeparation
 {
     /// <summary>
     /// Tint transform function.
@@ -473,7 +475,7 @@ public class PDSeparation : PDColorSpace
 /// <summary>
 /// DeviceN color space.
 /// </summary>
-public class PDDeviceN : PDColorSpace
+public class PDDeviceN : PDColorSpace, IPDDeviceN
 {
     /// <summary>
     /// Tint transform function.
@@ -509,7 +511,7 @@ public class PDDeviceN : PDColorSpace
 /// <summary>
 /// Indexed color space.
 /// </summary>
-public class PDIndexed : PDColorSpace
+public class PDIndexed : PDColorSpace, IPDIndexed
 {
     /// <summary>
     /// Base color space.
@@ -549,7 +551,7 @@ public class PDShadingPattern : PDPattern
 /// <summary>
 /// PDF font dictionary.
 /// </summary>
-public class PDFont : PDResource
+public class PDFont : PDResource, IPDFont
 {
     /// <summary>
     /// Font type value.
@@ -605,7 +607,7 @@ public class PDFont : PDResource
 /// <summary>
 /// Simple font dictionary.
 /// </summary>
-public class PDSimpleFont : PDFont
+public class PDSimpleFont : PDFont, IPDSimpleFont
 {
     /// <summary>
     /// True if the font is one of 14 standard fonts.
@@ -641,7 +643,7 @@ public class PDSimpleFont : PDFont
 /// <summary>
 /// TrueType font dictionary.
 /// </summary>
-public class PDTrueTypeFont : PDSimpleFont
+public class PDTrueTypeFont : PDSimpleFont, IPDTrueTypeFont
 {
     /// <summary>
     /// True if differences are unicode compliant.
@@ -652,7 +654,7 @@ public class PDTrueTypeFont : PDSimpleFont
 /// <summary>
 /// Type1 font dictionary.
 /// </summary>
-public class PDType1Font : PDSimpleFont
+public class PDType1Font : PDSimpleFont, IPDType1Font
 {
     /// <summary>
     /// CharSet value.
@@ -668,18 +670,28 @@ public class PDType1Font : PDSimpleFont
 /// <summary>
 /// Type3 font dictionary.
 /// </summary>
-public class PDType3Font : PDSimpleFont
+public class PDType3Font : PDSimpleFont, IPDType3Font
 {
     /// <summary>
     /// Character strings.
     /// </summary>
     public IReadOnlyList<PDContentStream> CharStrings { get; set; } = [];
+
+    /// <summary>
+    /// True if CharStrings array is present.
+    /// </summary>
+    public bool ContainsCharStrings { get; set; }
+
+    /// <summary>
+    /// CharStrings array size.
+    /// </summary>
+    public int CharStringsCount => CharStrings.Count;
 }
 
 /// <summary>
 /// CID font dictionary.
 /// </summary>
-public class PDCIDFont : PDFont
+public class PDCIDFont : PDFont, IPDCIDFont
 {
     /// <summary>
     /// CIDToGIDMap value.
@@ -700,7 +712,7 @@ public class PDCIDFont : PDFont
 /// <summary>
 /// Type0 font dictionary.
 /// </summary>
-public class PDType0Font : PDFont
+public class PDType0Font : PDFont, IPDType0Font
 {
     /// <summary>
     /// Ordering key from CIDSystemInfo.
@@ -1087,7 +1099,7 @@ public class PDShading : PDResource
 /// <summary>
 /// Annotation object.
 /// </summary>
-public class PDAnnot : PDObject
+public class PDAnnot : PDObject, IPDAnnot
 {
     /// <summary>
     /// Annotation subtype.
@@ -1404,7 +1416,7 @@ public class PD3DStream : PDObject
 /// <summary>
 /// Interactive form dictionary.
 /// </summary>
-public class PDAcroForm : PDObject
+public class PDAcroForm : PDObject, IPDAcroForm
 {
     /// <summary>
     /// NeedAppearances flag.
@@ -1425,12 +1437,17 @@ public class PDAcroForm : PDObject
     /// XFA dynamicRender value.
     /// </summary>
     public string? DynamicRender { get; set; }
+
+    /// <summary>
+    /// Number of root form fields.
+    /// </summary>
+    public int FormFieldsCount => FormFields.Count;
 }
 
 /// <summary>
 /// Interactive form field.
 /// </summary>
-public class PDFormField : PDObject
+public class PDFormField : PDObject, IPDFormField
 {
     /// <summary>
     /// Field type.
@@ -1471,6 +1488,11 @@ public class PDFormField : PDObject
     /// Child fields.
     /// </summary>
     public IReadOnlyList<PDFormField> Kids { get; set; } = [];
+
+    /// <summary>
+    /// Number of child fields.
+    /// </summary>
+    public int KidsCount => Kids.Count;
 }
 
 /// <summary>
@@ -1529,7 +1551,7 @@ public class PDSignature : PDObject
 /// <summary>
 /// PDF action object.
 /// </summary>
-public class PDAction : PDObject
+public class PDAction : PDObject, IPDAction
 {
     /// <summary>
     /// Action subtype.
@@ -1617,7 +1639,7 @@ public class PDGoToRemoteAction : PDAction
 /// <summary>
 /// XMP metadata stream.
 /// </summary>
-public class PDMetadata : PDObject
+public class PDMetadata : PDObject, IPDMetadata
 {
     /// <summary>
     /// XMP package.
@@ -1643,7 +1665,7 @@ public class PDMetadata : PDObject
 /// <summary>
 /// Output intent dictionary.
 /// </summary>
-public class PDOutputIntent : PDObject
+public class PDOutputIntent : PDObject, IPDOutputIntent
 {
     /// <summary>
     /// Indirect reference to destination output profile.
@@ -1768,7 +1790,7 @@ public class PDStructTreeNode : PDObject
 /// <summary>
 /// Structure tree root dictionary.
 /// </summary>
-public class PDStructTreeRoot : PDStructTreeNode
+public class PDStructTreeRoot : PDStructTreeNode, IPDStructTreeRoot
 {
     /// <summary>
     /// Role map names.
@@ -1779,12 +1801,17 @@ public class PDStructTreeRoot : PDStructTreeNode
     /// Namespace URI of first child standard type.
     /// </summary>
     public string? FirstChildStandardTypeNamespaceURL { get; set; }
+
+    /// <summary>
+    /// Number of role map names.
+    /// </summary>
+    public int RoleMapNamesCount => RoleMapNames.Count;
 }
 
 /// <summary>
 /// Structure element dictionary.
 /// </summary>
-public class PDStructElem : PDStructTreeNode
+public class PDStructElem : PDStructTreeNode, IPDStructElem
 {
     /// <summary>
     /// Parent standard type.

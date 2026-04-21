@@ -45,21 +45,27 @@ public sealed class Validator : IValidator
     private ValidationResult ValidateSequential(object root)
     {
         var results = new List<RuleResult>();
+        long objectOrder = 0;
 
         foreach (var obj in _walker.Traverse(root))
         {
             var ctx = new CompiledValidationContext(obj);
             var rules = _dispatch.GetRules(obj.GetType());
+            var ruleOrder = 0;
 
             foreach (var rule in rules)
             {
                 var passed = rule.Evaluate(ctx);
 
-                results.Add(new RuleResult(rule.Id, passed, obj));
+                results.Add(new RuleResult(rule.Id, passed, obj, objectOrder, ruleOrder));
 
                 if (_options.StopOnFirstFailure && !passed)
                     return new ValidationResult(results);
+
+                ruleOrder++;
             }
+
+            objectOrder++;
         }
 
         return new ValidationResult(results);
@@ -83,20 +89,22 @@ public sealed class Validator : IValidator
                 _options.MaxDegreeOfParallelism ?? Environment.ProcessorCount
         };
 
-        Parallel.ForEach(partitioner, parallelOptions, obj =>
+        Parallel.ForEach(partitioner, parallelOptions, (obj, _, objectOrder) =>
         {
             var ctx = new CompiledValidationContext(obj);
             var rules = _dispatch.GetRules(obj.GetType());
+            var ruleOrder = 0;
 
             foreach (var rule in rules)
             {
                 var passed = rule.Evaluate(ctx);
 
-                collector.Add(new RuleResult(rule.Id, passed, obj));
+                collector.Add(new RuleResult(rule.Id, passed, obj, objectOrder, ruleOrder));
 
                 // NOTE:
                 // StopOnFirstFailure is NOT safe in parallel mode
                 // unless you introduce cancellation tokens
+                ruleOrder++;
             }
         });
 

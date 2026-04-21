@@ -1,4 +1,6 @@
-﻿namespace VeraPdf.NET.Model;
+﻿using VeraPdf.NET.Model.Contracts.External;
+
+namespace VeraPdf.NET.Model;
 
 /// <summary>
 /// Parent type for all external objects embedded into the PDF document.
@@ -41,7 +43,7 @@ public class ICCProfile : External
 /// <summary>
 /// Embedded ICC profile used for ICCBased color spaces.
 /// </summary>
-public class ICCInputProfile : ICCProfile
+public class ICCInputProfile : ICCProfile, IICCInputProfile
 {
 }
 
@@ -59,7 +61,7 @@ public class ICCOutputProfile : ICCProfile
 /// <summary>
 /// Embedded font program.
 /// </summary>
-public class FontProgram : External
+public class FontProgram : External, IFontProgram
 {
 }
 

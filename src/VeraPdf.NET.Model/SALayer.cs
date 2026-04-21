@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VeraPdf.NET.Model.Contracts.StructureAnalysis;
 
 namespace VeraPdf.NET.Model;
 
 /// <summary>
 /// Base structure-analysis object.
 /// </summary>
-public class SAObject : PDFObject
+public class SAObject : PDFObject, ISAObject
 {
     /// <summary>
     /// Group identifier in format id:&lt;number&gt;.
@@ -23,12 +24,22 @@ public class SAObject : PDFObject
     /// List of error arguments.
     /// </summary>
     public IReadOnlyList<IReadOnlyList<string>> ErrorArguments { get; set; } = [];
+
+    /// <summary>
+    /// Number of error codes.
+    /// </summary>
+    public int ErrorCodesCount => ErrorCodes.Count;
+
+    /// <summary>
+    /// Number of error argument groups.
+    /// </summary>
+    public int ErrorArgumentsCount => ErrorArguments.Count;
 }
 
 /// <summary>
 /// High-level PDF document for structure analysis.
 /// </summary>
-public class SAPDFDocument : PDFObject
+public class SAPDFDocument : PDFObject, ISAPDFDocument
 {
     /// <summary>
     /// Document pages.
@@ -49,23 +60,48 @@ public class SAPDFDocument : PDFObject
     /// Structure tree root.
     /// </summary>
     public SAStructTreeRoot? StructTreeRoot { get; set; }
+
+    /// <summary>
+    /// Number of pages.
+    /// </summary>
+    public int PagesCount => Pages.Count;
+
+    /// <summary>
+    /// Number of repeated-character groups.
+    /// </summary>
+    public int RepeatedCharactersCount => RepeatedCharacters.Count;
+
+    /// <summary>
+    /// Number of lists.
+    /// </summary>
+    public int ListsCount => Lists.Count;
+
+    /// <summary>
+    /// True if structure tree root exists.
+    /// </summary>
+    public bool ContainsStructTreeRoot => StructTreeRoot != null;
 }
 
 /// <summary>
 /// Structure tree root.
 /// </summary>
-public class SAStructTreeRoot : PDFObject
+public class SAStructTreeRoot : PDFObject, ISAStructTreeRoot
 {
     /// <summary>
     /// Immediate children in structure hierarchy.
     /// </summary>
     public IReadOnlyList<SAStructElem> Children { get; set; } = [];
+
+    /// <summary>
+    /// Number of immediate children.
+    /// </summary>
+    public int ChildrenCount => Children.Count;
 }
 
 /// <summary>
 /// Structure element.
 /// </summary>
-public class SAStructElem : SAObject
+public class SAStructElem : SAObject, ISAStructElem
 {
     /// <summary>
     /// Immediate children of the structure element.
@@ -146,6 +182,11 @@ public class SAStructElem : SAObject
     /// Last page number containing this structure element.
     /// </summary>
     public int LastPage { get; set; }
+
+    /// <summary>
+    /// Number of immediate children.
+    /// </summary>
+    public int ChildrenCount => Children.Count;
 }
 
 /// <summary>
@@ -158,7 +199,7 @@ public class SAChunk : PDFObject
 /// <summary>
 /// Page in structure analysis.
 /// </summary>
-public class SAPage : PDFObject
+public class SAPage : PDFObject, ISAPage
 {
     /// <summary>
     /// Page annotations.
@@ -169,12 +210,22 @@ public class SAPage : PDFObject
     /// Table borders on this page.
     /// </summary>
     public IReadOnlyList<SATableBorder> TableBorders { get; set; } = [];
+
+    /// <summary>
+    /// Number of annotations on this page.
+    /// </summary>
+    public int AnnotsCount => Annots.Count;
+
+    /// <summary>
+    /// Number of table borders on this page.
+    /// </summary>
+    public int TableBordersCount => TableBorders.Count;
 }
 
 /// <summary>
 /// Annotation in structure analysis.
 /// </summary>
-public class SAAnnotation : PDFObject
+public class SAAnnotation : PDFObject, ISAAnnotation
 {
     /// <summary>
     /// Text located in annotation rectangle.
@@ -221,7 +272,7 @@ public class SARepeatedCharacters : PDFObject
 /// <summary>
 /// Link annotation in structure analysis.
 /// </summary>
-public class SALinkAnnotation : SAAnnotation
+public class SALinkAnnotation : SAAnnotation, ISALinkAnnotation
 {
     /// <summary>
     /// True if text value is a link.
@@ -242,7 +293,7 @@ public class SALinkAnnotation : SAAnnotation
 /// <summary>
 /// Text chunk.
 /// </summary>
-public class SATextChunk : SAChunk
+public class SATextChunk : SAChunk, ISATextChunk
 {
     /// <summary>
     /// Text size.
@@ -302,29 +353,39 @@ public class SALineArtChunk : SAChunk
 /// <summary>
 /// Table border.
 /// </summary>
-public class SATableBorder : PDFObject
+public class SATableBorder : PDFObject, ISATableBorder
 {
     /// <summary>
     /// Rows of this table.
     /// </summary>
     public IReadOnlyList<SATableBorderRow> Rows { get; set; } = [];
+
+    /// <summary>
+    /// Number of rows.
+    /// </summary>
+    public int RowsCount => Rows.Count;
 }
 
 /// <summary>
 /// Table border row.
 /// </summary>
-public class SATableBorderRow : PDFObject
+public class SATableBorderRow : PDFObject, ISATableBorderRow
 {
     /// <summary>
     /// Cells in this row.
     /// </summary>
     public IReadOnlyList<SATableBorderCell> Cells { get; set; } = [];
+
+    /// <summary>
+    /// Number of cells.
+    /// </summary>
+    public int CellsCount => Cells.Count;
 }
 
 /// <summary>
 /// Table border cell.
 /// </summary>
-public class SATableBorderCell : SAObject
+public class SATableBorderCell : SAObject, ISATableBorderCell
 {
     /// <summary>
     /// Column span.
@@ -340,18 +401,23 @@ public class SATableBorderCell : SAObject
 /// <summary>
 /// List.
 /// </summary>
-public class SAList : PDFObject
+public class SAList : PDFObject, ISAList
 {
     /// <summary>
     /// List items.
     /// </summary>
     public IReadOnlyList<SAListItem> Items { get; set; } = [];
+
+    /// <summary>
+    /// Number of list items.
+    /// </summary>
+    public int ItemsCount => Items.Count;
 }
 
 /// <summary>
 /// List item.
 /// </summary>
-public class SAListItem : SAObject
+public class SAListItem : SAObject, ISAListItem
 {
 }
 

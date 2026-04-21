@@ -1,4 +1,6 @@
-﻿public sealed class RuleDefinition
+﻿namespace VeraPdf.NET.Validation.Profiles;
+
+public sealed class RuleDefinition
 {
     public string Id { get; init; } = default!;
 
