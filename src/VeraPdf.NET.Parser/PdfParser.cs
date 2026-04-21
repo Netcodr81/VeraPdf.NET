@@ -5,89 +5,85 @@ using VeraPdf.NET.Parser.Results;
 
 namespace VeraPdf.NET.Parser;
 
-public sealed class PdfParser : IPdfParser
+/// <summary>
+/// Parses PDF bytes or streams into a COS document model and parse diagnostics.
+/// </summary>
+public sealed class PdfParser
 {
     private readonly IPdfModelMapper _modelMapper;
 
+    /// <summary>
+    /// Initializes a parser with the default PDF model mapper.
+    /// </summary>
     public PdfParser()
         : this(new DefaultPdfModelMapper())
     {
     }
 
+    /// <summary>
+    /// Initializes a parser with a custom model mapper.
+    /// </summary>
+    /// <param name="modelMapper">The mapper used to convert parser snapshots into COS models.</param>
     public PdfParser(IPdfModelMapper modelMapper)
     {
         _modelMapper = modelMapper ?? throw new ArgumentNullException(nameof(modelMapper));
     }
 
-    public PdfParseResult Parse(Stream pdfStream, PdfParseOptions? options = null)
-    {
-        if (pdfStream == null)
-            throw new ArgumentNullException(nameof(pdfStream));
-
-        using var memory = new MemoryStream();
-        pdfStream.CopyTo(memory);
-
-        return Parse(memory.ToArray(), options);
-    }
-
+    /// <summary>
+    /// Parses PDF content from a byte array.
+    /// </summary>
+    /// <param name="pdfBytes">The PDF content bytes.</param>
+    /// <param name="options">Optional parser behavior settings.</param>
+    /// <returns>The parse result containing diagnostics and a mapped document when successful.</returns>
     public PdfParseResult Parse(byte[] pdfBytes, PdfParseOptions? options = null)
     {
-        options ??= new PdfParseOptions();
-
-        if (pdfBytes == null)
+        if (pdfBytes is null)
             throw new ArgumentNullException(nameof(pdfBytes));
+
+        options ??= new PdfParseOptions();
 
         var diagnostics = new List<ParseDiagnostic>();
         var snapshot = PdfStructureScanner.Scan(pdfBytes, options, diagnostics);
-
         var hasErrors = diagnostics.Any(d => d.Severity == ParseDiagnosticSeverity.Error);
-
-        if (hasErrors)
-        {
-            return new PdfParseResult
-            {
-                Success = false,
-                Diagnostics = options.CaptureDiagnostics ? diagnostics : []
-            };
-        }
-
-        var document = _modelMapper.MapToCosDocument(snapshot);
 
         return new PdfParseResult
         {
-            Success = true,
-            Document = document,
-            Diagnostics = options.CaptureDiagnostics ? diagnostics : []
+            Success = !hasErrors,
+            Document = hasErrors ? null : _modelMapper.MapToCosDocument(snapshot),
+            Diagnostics = diagnostics
         };
     }
 
-    public PdfParseResult ParseFile(string absolutePath, PdfParseOptions? options = null)
+    /// <summary>
+    /// Parses PDF content from a stream.
+    /// </summary>
+    /// <param name="stream">The stream containing PDF content.</param>
+    /// <param name="options">Optional parser behavior settings.</param>
+    /// <param name="cancellationToken">A token used to cancel asynchronous reading.</param>
+    /// <returns>The parse result containing diagnostics and a mapped document when successful.</returns>
+    public async Task<PdfParseResult> ParseAsync(Stream stream, PdfParseOptions? options = null, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(absolutePath))
-            throw new ArgumentException("Absolute path is required.", nameof(absolutePath));
+        if (stream is null)
+            throw new ArgumentNullException(nameof(stream));
 
-        if (!Path.IsPathRooted(absolutePath))
-            throw new ArgumentException("File path must be absolute.", nameof(absolutePath));
+        await using var memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream, cancellationToken);
 
-        if (!File.Exists(absolutePath))
-            throw new FileNotFoundException("PDF file was not found.", absolutePath);
-
-        var bytes = File.ReadAllBytes(absolutePath);
-
-        return Parse(bytes, options);
+        return Parse(memoryStream.ToArray(), options);
     }
 
-    public async Task<PdfParseResult> ParseAsync(
-        Stream pdfStream,
-        PdfParseOptions? options = null,
-        CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Parses PDF content from a file path.
+    /// </summary>
+    /// <param name="absoluteFilePath">The absolute path to the PDF file.</param>
+    /// <param name="options">Optional parser behavior settings.</param>
+    /// <returns>The parse result containing diagnostics and a mapped document when successful.</returns>
+    public PdfParseResult ParseFile(string absoluteFilePath, PdfParseOptions? options = null)
     {
-        if (pdfStream == null)
-            throw new ArgumentNullException(nameof(pdfStream));
+        if (string.IsNullOrWhiteSpace(absoluteFilePath))
+            throw new ArgumentException("File path is required.", nameof(absoluteFilePath));
 
-        using var memory = new MemoryStream();
-        await pdfStream.CopyToAsync(memory, cancellationToken).ConfigureAwait(false);
-
-        return Parse(memory.ToArray(), options);
+        var bytes = File.ReadAllBytes(absoluteFilePath);
+        return Parse(bytes, options);
     }
 }

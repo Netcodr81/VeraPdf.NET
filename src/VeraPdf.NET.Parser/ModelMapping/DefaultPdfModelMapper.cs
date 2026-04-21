@@ -3,30 +3,20 @@ using VeraPdf.NET.Parser.Abstractions;
 
 namespace VeraPdf.NET.Parser.ModelMapping;
 
+/// <summary>
+/// Provides the default mapping from parser snapshots to COS document models.
+/// </summary>
 public sealed class DefaultPdfModelMapper : IPdfModelMapper
 {
+    /// <summary>
+    /// Converts a parsed snapshot into a populated COS document.
+    /// </summary>
+    /// <param name="snapshot">The parsed PDF snapshot.</param>
+    /// <returns>A COS document mapped from snapshot values.</returns>
     public CosDocument MapToCosDocument(ParsedPdfSnapshot snapshot)
     {
         if (snapshot == null)
             throw new ArgumentNullException(nameof(snapshot));
-
-        var trailer = snapshot.HasTrailer
-            ? new CosTrailer
-            {
-                IsEncrypted = snapshot.TrailerContainsEncrypt,
-                Info = snapshot.TrailerContainsInfo ? new CosInfo() : null,
-                Size = snapshot.TrailerSize,
-                KeysString = snapshot.TrailerKeysString
-            }
-            : null;
-
-        var xref = snapshot.HasXrefKeyword || snapshot.HasXRefStream
-            ? new CosXRef
-            {
-                SubsectionHeaderSpaceSeparated = snapshot.XrefSubsectionHeaderSpaceSeparated,
-                XrefEOLMarkersComplyPDFA = snapshot.XrefEolMarkersComplyPdfa
-            }
-            : null;
 
         return new CosDocument
         {
@@ -46,14 +36,6 @@ public sealed class DefaultPdfModelMapper : IPdfModelMapper
             Marked = snapshot.MarkedTrue,
             Suspects = snapshot.SuspectsTrue,
             DisplayDocTitle = snapshot.DisplayDocTitleTrue,
-            FirstPageID = snapshot.FirstId,
-            LastID = snapshot.LastId,
-            FirstPageIDValue = snapshot.FirstId,
-            LastIDValue = snapshot.LastId,
-            MarkInfo = snapshot.TrailerRawMarkInfo,
-            ViewerPreferences = snapshot.TrailerRawViewerPreferences,
-            Trailer = trailer,
-            XRef = xref,
             Document = new PDDocument
             {
                 ContainsMetadata = snapshot.HasMetadataEntry,

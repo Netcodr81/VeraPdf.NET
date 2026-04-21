@@ -1,17 +1,9 @@
 namespace VeraPdf.NET.Parser.Results;
 
-public sealed class ParseDiagnostic
-{
-    public ParseDiagnostic(string code, string message, ParseDiagnosticSeverity severity)
-    {
-        Code = code;
-        Message = message;
-        Severity = severity;
-    }
-
-    public string Code { get; }
-
-    public string Message { get; }
-
-    public ParseDiagnosticSeverity Severity { get; }
-}
+/// <summary>
+/// Represents a single parser diagnostic with code, message, and severity.
+/// </summary>
+/// <param name="Code">The diagnostic code identifier.</param>
+/// <param name="Message">The diagnostic message text.</param>
+/// <param name="Severity">The diagnostic severity level.</param>
+public sealed record ParseDiagnostic(string Code, string Message, ParseDiagnosticSeverity Severity);

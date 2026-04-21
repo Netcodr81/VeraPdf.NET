@@ -17,15 +17,6 @@ internal static partial class PdfStructureScanner
     [GeneratedRegex("startxref\\s*(?<offset>\\d+)", RegexOptions.CultureInvariant)]
     private static partial Regex StartXrefRegex();
 
-    [GeneratedRegex("/(?<key>[A-Za-z0-9]+)", RegexOptions.CultureInvariant)]
-    private static partial Regex DictKeyRegex();
-
-    [GeneratedRegex("/Size\\s+(?<size>\\d+)", RegexOptions.CultureInvariant)]
-    private static partial Regex TrailerSizeRegex();
-
-    [GeneratedRegex("/ID\\s*\\[\\s*(?:<(?<firstHex>[^>]+)>|\\((?<firstLit>[^)]*)\\))\\s*(?:<(?<lastHex>[^>]+)>|\\((?<lastLit>[^)]*)\\))", RegexOptions.CultureInvariant)]
-    private static partial Regex TrailerIdRegex();
-
     public static ParsedPdfSnapshot Scan(byte[] bytes, PdfParseOptions options, List<ParseDiagnostic> diagnostics)
     {
         var text = Encoding.ASCII.GetString(bytes);
@@ -104,27 +95,11 @@ internal static partial class PdfStructureScanner
 
         var (headerByte1, headerByte2, headerByte3, headerByte4) = ExtractHeaderCommentBytes(bytes, headerOffset);
 
-        var hasXrefKeyword = TryFindLastXrefKeyword(text, out var xrefIndex);
-        var xrefSubsectionHeaderSpaceSeparated = hasXrefKeyword && TryCheckXrefSubsectionHeaderSpaceSeparated(text, xrefIndex);
-        var xrefEolMarkersComplyPdfa = hasXrefKeyword && CheckXrefKeywordEolCompliance(text, xrefIndex);
-
-        var hasTrailer = TryExtractLastTrailerDictionary(text, out var trailerDictionary);
-        var trailerContainsEncrypt = hasTrailer && trailerDictionary.Contains("/Encrypt", StringComparison.Ordinal);
-        var trailerContainsInfo = hasTrailer && trailerDictionary.Contains("/Info", StringComparison.Ordinal);
-        var trailerSize = hasTrailer && TryExtractTrailerSize(trailerDictionary, out var size) ? size : 0;
-        var trailerKeysString = hasTrailer ? BuildKeysString(trailerDictionary) : null;
-        var trailerRawMarkInfo = ExtractRawSubDictionary(text, "/MarkInfo");
-        var trailerRawViewerPreferences = ExtractRawSubDictionary(text, "/ViewerPreferences");
-        var (firstId, lastId) = hasTrailer ? ExtractTrailerIds(trailerDictionary) : (null, null);
-
         return new ParsedPdfSnapshot
         {
             HasHeader = hasHeader,
             HasEofMarker = hasEof,
             HasStartXref = startXref,
-            HasXrefKeyword = hasXrefKeyword,
-            XrefSubsectionHeaderSpaceSeparated = xrefSubsectionHeaderSpaceSeparated,
-            XrefEolMarkersComplyPdfa = xrefEolMarkersComplyPdfa,
             HasCatalogObject = hasCatalogObject,
             HasInfoEntry = hasInfoEntry,
             HasPieceInfoEntry = hasPieceInfoEntry,
@@ -137,15 +112,6 @@ internal static partial class PdfStructureScanner
             HasMetadataEntry = hasMetadataEntry,
             HasXRefStream = hasXRefStream,
             IsLinearized = isLinearized,
-            HasTrailer = hasTrailer,
-            TrailerContainsEncrypt = trailerContainsEncrypt,
-            TrailerContainsInfo = trailerContainsInfo,
-            TrailerSize = trailerSize,
-            TrailerKeysString = trailerKeysString,
-            TrailerRawMarkInfo = trailerRawMarkInfo,
-            TrailerRawViewerPreferences = trailerRawViewerPreferences,
-            FirstId = firstId,
-            LastId = lastId,
             Header = header,
             HeaderVersion = headerVersion,
             HeaderOffset = headerOffset,
@@ -157,196 +123,6 @@ internal static partial class PdfStructureScanner
             IndirectObjectCount = indirectObjectCount,
             StartXrefOffset = startXrefOffset
         };
-    }
-
-    private static bool TryFindLastXrefKeyword(string text, out int index)
-    {
-        var searchIndex = text.Length - 1;
-
-        while (searchIndex >= 0)
-        {
-            var candidate = text.LastIndexOf("xref", searchIndex, StringComparison.Ordinal);
-            if (candidate < 0)
-                break;
-
-            var beforeIsBoundary = candidate == 0 || char.IsWhiteSpace(text[candidate - 1]);
-            var afterIndex = candidate + 4;
-            var afterIsBoundary = afterIndex >= text.Length || char.IsWhiteSpace(text[afterIndex]);
-
-            if (beforeIsBoundary && afterIsBoundary)
-            {
-                index = candidate;
-                return true;
-            }
-
-            searchIndex = candidate - 1;
-        }
-
-        index = -1;
-        return false;
-    }
-
-    private static bool TryCheckXrefSubsectionHeaderSpaceSeparated(string text, int xrefIndex)
-    {
-        var lineStart = xrefIndex;
-        while (lineStart < text.Length && text[lineStart] != '\n' && text[lineStart] != '\r')
-            lineStart++;
-
-        while (lineStart < text.Length && (text[lineStart] == '\n' || text[lineStart] == '\r'))
-            lineStart++;
-
-        if (lineStart >= text.Length)
-            return false;
-
-        var lineEnd = lineStart;
-        while (lineEnd < text.Length && text[lineEnd] != '\n' && text[lineEnd] != '\r')
-            lineEnd++;
-
-        var headerLine = text[lineStart..lineEnd].Trim();
-        if (headerLine.Length == 0)
-            return false;
-
-        var parts = headerLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        return parts.Length == 2 &&
-               int.TryParse(parts[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out _) &&
-               int.TryParse(parts[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out _);
-    }
-
-    private static bool CheckXrefKeywordEolCompliance(string text, int xrefIndex)
-    {
-        var afterKeyword = xrefIndex + 4;
-        if (afterKeyword >= text.Length)
-            return false;
-
-        if (text.AsSpan(afterKeyword).StartsWith("\r\n", StringComparison.Ordinal))
-            return true;
-
-        return text[afterKeyword] == '\n' || text[afterKeyword] == '\r';
-    }
-
-    private static bool TryExtractLastTrailerDictionary(string text, out string trailerDictionary)
-    {
-        trailerDictionary = string.Empty;
-
-        var trailerIndex = text.LastIndexOf("trailer", StringComparison.Ordinal);
-        if (trailerIndex < 0)
-            return false;
-
-        var index = trailerIndex + "trailer".Length;
-
-        while (index < text.Length && char.IsWhiteSpace(text[index]))
-            index++;
-
-        if (index + 1 >= text.Length || text[index] != '<' || text[index + 1] != '<')
-            return false;
-
-        var start = index;
-        var depth = 0;
-
-        while (index + 1 < text.Length)
-        {
-            if (text[index] == '<' && text[index + 1] == '<')
-            {
-                depth++;
-                index += 2;
-                continue;
-            }
-
-            if (text[index] == '>' && text[index + 1] == '>')
-            {
-                depth--;
-                index += 2;
-
-                if (depth == 0)
-                {
-                    trailerDictionary = text[start..index];
-                    return true;
-                }
-
-                continue;
-            }
-
-            index++;
-        }
-
-        return false;
-    }
-
-    private static bool TryExtractTrailerSize(string trailerDictionary, out int size)
-    {
-        size = 0;
-        var match = TrailerSizeRegex().Match(trailerDictionary);
-
-        return match.Success && int.TryParse(match.Groups["size"].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out size);
-    }
-
-    private static string BuildKeysString(string dictionary)
-    {
-        var keys = DictKeyRegex()
-            .Matches(dictionary)
-            .Select(m => m.Groups["key"].Value)
-            .Distinct(StringComparer.Ordinal)
-            .ToArray();
-
-        return string.Join("&", keys);
-    }
-
-    private static (string? first, string? last) ExtractTrailerIds(string trailerDictionary)
-    {
-        var match = TrailerIdRegex().Match(trailerDictionary);
-        if (!match.Success)
-            return (null, null);
-
-        var first = match.Groups["firstHex"].Success
-            ? match.Groups["firstHex"].Value
-            : match.Groups["firstLit"].Value;
-
-        var last = match.Groups["lastHex"].Success
-            ? match.Groups["lastHex"].Value
-            : match.Groups["lastLit"].Value;
-
-        return (string.IsNullOrWhiteSpace(first) ? null : first, string.IsNullOrWhiteSpace(last) ? null : last);
-    }
-
-    private static string? ExtractRawSubDictionary(string text, string key)
-    {
-        var keyIndex = text.IndexOf(key, StringComparison.Ordinal);
-        if (keyIndex < 0)
-            return null;
-
-        var index = keyIndex + key.Length;
-        while (index < text.Length && char.IsWhiteSpace(text[index]))
-            index++;
-
-        if (index + 1 >= text.Length || text[index] != '<' || text[index + 1] != '<')
-            return null;
-
-        var start = index;
-        var depth = 0;
-
-        while (index + 1 < text.Length)
-        {
-            if (text[index] == '<' && text[index + 1] == '<')
-            {
-                depth++;
-                index += 2;
-                continue;
-            }
-
-            if (text[index] == '>' && text[index + 1] == '>')
-            {
-                depth--;
-                index += 2;
-                if (depth == 0)
-                    return text[start..index];
-
-                continue;
-            }
-
-            index++;
-        }
-
-        return null;
     }
 
     private static (int b1, int b2, int b3, int b4) ExtractHeaderCommentBytes(byte[] bytes, int headerOffset)

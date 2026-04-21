@@ -1,0 +1,59 @@
+name: dotnet
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore VeraPdfNet.slnx
+
+      - name: Build
+        run: dotnet build VeraPdfNet.slnx --configuration Release --no-restore -warnaserror
+
+      - name: Test
+        run: dotnet test VeraPdfNet.slnx --configuration Release --no-build
+
+      - name: Pack NuGet artifacts
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path artifacts/nupkg -Force | Out-Null
+          dotnet pack src/VeraPdf.NET.Validation/VeraPdf.NET.Validation.csproj --configuration Release --no-build -o artifacts/nupkg
+
+      - name: Upload NuGet artifacts
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: artifacts/nupkg/*
+
+      - name: Generate dependency SBOM manifest
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path sbom -Force | Out-Null
+          dotnet list VeraPdfNet.slnx package --include-transitive --format json > sbom/dependencies.json
+
+      - name: Upload SBOM manifest
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-manifest
+          path: sbom/dependencies.json

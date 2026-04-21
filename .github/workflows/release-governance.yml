@@ -1,0 +1,20 @@
+name: release-governance
+
+on:
+  workflow_dispatch:
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify release governance checklist files
+        run: |
+          test -f docs/governance/release-checklist.md
+          test -f docs/governance/signing-attestation-notes.md
+
+      - name: Governance placeholder
+        run: |
+          echo "Package signing and provenance attestation are tracked in docs/governance/signing-attestation-notes.md"
+          echo "Integrate org-specific signing infrastructure in this workflow before production release tagging."
