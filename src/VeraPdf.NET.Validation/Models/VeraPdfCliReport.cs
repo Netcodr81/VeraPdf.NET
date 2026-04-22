@@ -19,21 +19,39 @@ public sealed class VeraPdfCliReportEnvelope
 /// </summary>
 public sealed class VeraPdfCliReport
 {
+    /// <summary>
+    /// Gets build and release metadata emitted by veraPDF.
+    /// </summary>
     public VeraPdfBuildInformation? BuildInformation { get; init; }
 
+    /// <summary>
+    /// Gets per-file job reports included in the execution.
+    /// </summary>
     public IReadOnlyList<VeraPdfJobReport> Jobs { get; init; } = [];
 
+    /// <summary>
+    /// Gets aggregate batch summary metrics for the run.
+    /// </summary>
     public VeraPdfBatchSummary? BatchSummary { get; init; }
 
     [JsonExtensionData]
     public Dictionary<string, JsonElement>? ExtensionData { get; init; }
 }
 
+/// <summary>
+/// Contains veraPDF build metadata used to identify runtime version and release details.
+/// </summary>
 public sealed class VeraPdfBuildInformation
 {
+    /// <summary>
+    /// Gets release descriptors published by the executing veraPDF build.
+    /// </summary>
     public IReadOnlyList<VeraPdfReleaseDetail> ReleaseDetails { get; init; } = [];
 }
 
+/// <summary>
+/// Represents a single veraPDF release descriptor from build metadata.
+/// </summary>
 public sealed class VeraPdfReleaseDetail
 {
     public string? Id { get; init; }
@@ -43,6 +61,9 @@ public sealed class VeraPdfReleaseDetail
     public long? BuildDate { get; init; }
 }
 
+/// <summary>
+/// Represents validation output for one processed input document within a batch.
+/// </summary>
 public sealed class VeraPdfJobReport
 {
     public VeraPdfItemDetails? ItemDetails { get; init; }
@@ -55,6 +76,9 @@ public sealed class VeraPdfJobReport
     public Dictionary<string, JsonElement>? ExtensionData { get; init; }
 }
 
+/// <summary>
+/// Describes the input item processed by veraPDF in a single job.
+/// </summary>
 public sealed class VeraPdfItemDetails
 {
     public string? Name { get; init; }
@@ -62,6 +86,9 @@ public sealed class VeraPdfItemDetails
     public long? Size { get; init; }
 }
 
+/// <summary>
+/// Represents conformance evaluation results for a specific profile execution.
+/// </summary>
 public sealed class VeraPdfValidationResult
 {
     public VeraPdfValidationDetails? Details { get; init; }
@@ -78,6 +105,9 @@ public sealed class VeraPdfValidationResult
     public Dictionary<string, JsonElement>? ExtensionData { get; init; }
 }
 
+/// <summary>
+/// Contains aggregate pass/fail counts and rule-level summaries for one validation result.
+/// </summary>
 public sealed class VeraPdfValidationDetails
 {
     public int? PassedRules { get; init; }
@@ -91,6 +121,9 @@ public sealed class VeraPdfValidationDetails
     public IReadOnlyList<VeraPdfRuleSummary> RuleSummaries { get; init; } = [];
 }
 
+/// <summary>
+/// Represents aggregated outcome details for a single validation rule.
+/// </summary>
 public sealed class VeraPdfRuleSummary
 {
     public string? RuleStatus { get; init; }
@@ -117,6 +150,9 @@ public sealed class VeraPdfRuleSummary
     public Dictionary<string, JsonElement>? ExtensionData { get; init; }
 }
 
+/// <summary>
+/// Represents an individual check execution within a rule summary.
+/// </summary>
 public sealed class VeraPdfRuleCheck
 {
     public string? Status { get; init; }
@@ -131,6 +167,9 @@ public sealed class VeraPdfRuleCheck
     public Dictionary<string, JsonElement>? ExtensionData { get; init; }
 }
 
+/// <summary>
+/// Captures start/finish/duration timing information reported by veraPDF.
+/// </summary>
 public sealed class VeraPdfProcessingTime
 {
     public long? Start { get; init; }
@@ -142,6 +181,9 @@ public sealed class VeraPdfProcessingTime
     public string? Duration { get; init; }
 }
 
+/// <summary>
+/// Represents execution-level summary metrics for all processed jobs.
+/// </summary>
 public sealed class VeraPdfBatchSummary
 {
     public VeraPdfProcessingTime? Duration { get; init; }
@@ -168,6 +210,9 @@ public sealed class VeraPdfBatchSummary
     public Dictionary<string, JsonElement>? ExtensionData { get; init; }
 }
 
+/// <summary>
+/// Represents a minimal grouped job summary used across multiple batch summary sections.
+/// </summary>
 public sealed class VeraPdfSimpleJobSummary
 {
     public int? FailedJobCount { get; init; }

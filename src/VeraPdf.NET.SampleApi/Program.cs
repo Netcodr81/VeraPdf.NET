@@ -16,11 +16,7 @@ builder.Services.Configure<FormOptions>(options =>
 });
 
 builder.Services.AddOpenApi();
-builder.Services.AddVeraPDFNet(options =>
-{
-    builder.Configuration.GetSection("VeraPdfRuntime").Bind(options.Runtime);
-    builder.Configuration.GetSection("VeraPdfExecution").Bind(options.Execution);
-});
+builder.Services.AddVeraPDFNet();
 builder.Services.AddVeraPdfValidationHealthChecks();
 var app = builder.Build();
 

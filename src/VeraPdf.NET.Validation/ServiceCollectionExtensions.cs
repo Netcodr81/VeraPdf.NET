@@ -70,14 +70,14 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers VeraPdf.NET services using a single package-level configuration callback.
+    /// Registers VeraPdf.NET services using an optional package-level configuration callback.
     /// </summary>
     /// <param name="services">The service collection to extend.</param>
-    /// <param name="configure">Callback used to configure runtime and default execution options.</param>
+    /// <param name="configure">Optional callback used to configure runtime and default execution options.</param>
     /// <returns>The same service collection instance for chaining.</returns>
     public static IServiceCollection AddVeraPDFNet(
         this IServiceCollection services,
-        Action<VeraPdfNetOptions>? configure)
+        Action<VeraPdfNetOptions>? configure = null)
     {
         var options = new VeraPdfNetOptions();
         configure?.Invoke(options);

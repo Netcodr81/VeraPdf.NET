@@ -6,17 +6,37 @@ using VeraPdf.NET.Parser.Results;
 
 namespace VeraPdf.NET.Parser.Internal;
 
+/// <summary>
+/// Performs lightweight structural scanning over raw PDF bytes to extract parser signals
+/// used by <see cref="PdfParser"/> and downstream model mapping.
+/// </summary>
 internal static partial class PdfStructureScanner
 {
+    /// <summary>
+    /// Gets the regular expression used to locate the PDF header and version marker.
+    /// </summary>
     [GeneratedRegex("%PDF-(?<version>\\d\\.\\d)", RegexOptions.CultureInvariant)]
     private static partial Regex HeaderRegex();
 
+    /// <summary>
+    /// Gets the regular expression used to count indirect object declarations.
+    /// </summary>
     [GeneratedRegex("(?m)^\\s*\\d+\\s+\\d+\\s+obj\\b", RegexOptions.CultureInvariant)]
     private static partial Regex IndirectObjectRegex();
 
+    /// <summary>
+    /// Gets the regular expression used to locate the final startxref offset token.
+    /// </summary>
     [GeneratedRegex("startxref\\s*(?<offset>\\d+)", RegexOptions.CultureInvariant)]
     private static partial Regex StartXrefRegex();
 
+    /// <summary>
+    /// Scans PDF bytes and extracts structural markers, metadata flags, and offsets into a snapshot.
+    /// </summary>
+    /// <param name="bytes">Raw PDF bytes to inspect.</param>
+    /// <param name="options">Parse strictness options controlling diagnostic severity.</param>
+    /// <param name="diagnostics">The mutable diagnostics collection to populate while scanning.</param>
+    /// <returns>A snapshot containing extracted structural information.</returns>
     public static ParsedPdfSnapshot Scan(byte[] bytes, PdfParseOptions options, List<ParseDiagnostic> diagnostics)
     {
         var text = Encoding.ASCII.GetString(bytes);
@@ -125,6 +145,12 @@ internal static partial class PdfStructureScanner
         };
     }
 
+    /// <summary>
+    /// Extracts up to four binary comment bytes that typically follow the header line.
+    /// </summary>
+    /// <param name="bytes">Raw PDF bytes.</param>
+    /// <param name="headerOffset">The detected header offset.</param>
+    /// <returns>A tuple containing up to four bytes; zero values when unavailable.</returns>
     private static (int b1, int b2, int b3, int b4) ExtractHeaderCommentBytes(byte[] bytes, int headerOffset)
     {
         if (headerOffset < 0 || bytes.Length == 0)
@@ -151,6 +177,12 @@ internal static partial class PdfStructureScanner
         return (b1, b2, b3, b4);
     }
 
+    /// <summary>
+    /// Attempts to parse the last declared startxref numeric offset.
+    /// </summary>
+    /// <param name="text">ASCII-decoded PDF content.</param>
+    /// <param name="offset">The parsed offset when successful; otherwise -1.</param>
+    /// <returns><see langword="true"/> when a numeric startxref offset is found; otherwise <see langword="false"/>.</returns>
     private static bool TryGetStartXrefOffset(string text, out int offset)
     {
         var matches = StartXrefRegex().Matches(text);
@@ -170,6 +202,12 @@ internal static partial class PdfStructureScanner
         return true;
     }
 
+    /// <summary>
+    /// Computes the non-whitespace data length after the final EOF marker.
+    /// </summary>
+    /// <param name="text">ASCII-decoded PDF content.</param>
+    /// <param name="eofIndex">The index of the final EOF marker.</param>
+    /// <returns>The count of non-trimmed trailing characters after EOF.</returns>
     private static int ComputePostEofDataSize(string text, int eofIndex)
     {
         if (eofIndex < 0)

@@ -7,11 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddVeraPDFNet(options =>
-{
-    builder.Configuration.GetSection("VeraPdfRuntime").Bind(options.Runtime);
-    builder.Configuration.GetSection("VeraPdfExecution").Bind(options.Execution);
-});
+
+builder.Services.AddVeraPDFNet();
 
 var app = builder.Build();
 

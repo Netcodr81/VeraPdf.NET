@@ -10,6 +10,10 @@ using VeraPdf.NET.Validation.Models;
 
 namespace VeraPdf.NET.Validation;
 
+/// <summary>
+/// Coordinates end-to-end validation by combining parser prechecks, runtime provisioning,
+/// veraPDF process execution, and normalized report shaping.
+/// </summary>
 internal sealed class VeraPdfValidationService(
     PdfParser pdfParser,
     IVeraPdfRuntimeProvisioner runtimeProvisioner,
@@ -35,6 +39,15 @@ internal sealed class VeraPdfValidationService(
     private readonly SemaphoreSlim _validationThrottle = new(Math.Max(1, options.Value.MaxConcurrentValidations), Math.Max(1, options.Value.MaxConcurrentValidations));
     private readonly ValidationExecutionOptions _defaultExecutionOptions = defaultExecutionOptions.Value;
 
+    /// <summary>
+    /// Validates an input PDF stream against requested standards and returns a normalized report model.
+    /// </summary>
+    /// <param name="pdfStream">Input PDF content stream.</param>
+    /// <param name="fileName">Logical file name used in diagnostics and reporting.</param>
+    /// <param name="standards">Standards to evaluate for this request.</param>
+    /// <param name="executionOptions">Optional per-request execution overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel validation.</param>
+    /// <returns>A full validation report with parser diagnostics, standard outcomes, and summary metadata.</returns>
     public async Task<VeraPdfValidationReport> ValidateAsync(
         Stream pdfStream,
         string fileName,
@@ -275,6 +288,9 @@ internal sealed class VeraPdfValidationService(
         }
     }
 
+    /// <summary>
+    /// Merges registration-level execution defaults with per-request overrides.
+    /// </summary>
     private static ValidationExecutionOptions? MergeExecutionOptions(
         ValidationExecutionOptions defaults,
         ValidationExecutionOptions? perRequest)
@@ -294,6 +310,9 @@ internal sealed class VeraPdfValidationService(
         };
     }
 
+    /// <summary>
+    /// Merges per-standard argument overrides, preferring per-request values.
+    /// </summary>
     private static ValidationProfileOverrides? MergeProfileOverrides(
         ValidationProfileOverrides? defaults,
         ValidationProfileOverrides? perRequest)
@@ -317,11 +336,17 @@ internal sealed class VeraPdfValidationService(
         };
     }
 
+    /// <summary>
+    /// Returns the preferred non-empty string, otherwise the non-empty fallback value.
+    /// </summary>
     private static string? FirstNonEmpty(string? preferred, string? fallback)
         => !string.IsNullOrWhiteSpace(preferred)
             ? preferred
             : string.IsNullOrWhiteSpace(fallback) ? null : fallback;
 
+    /// <summary>
+    /// Maps raw process execution output to a normalized validation error code.
+    /// </summary>
     private static ValidationErrorCode ResolveErrorCode(ProcessExecutionResult result)
     {
         if (result.TimedOut)
@@ -337,6 +362,9 @@ internal sealed class VeraPdfValidationService(
         return ValidationErrorCode.None;
     }
 
+    /// <summary>
+    /// Attempts to parse raw veraPDF JSON output into a strongly-typed report model.
+    /// </summary>
     private static VeraPdfCliReport? ParseVeraPdfReport(string rawJsonReport)
     {
         if (string.IsNullOrWhiteSpace(rawJsonReport) || rawJsonReport == "{}")
@@ -355,6 +383,9 @@ internal sealed class VeraPdfValidationService(
         }
     }
 
+    /// <summary>
+    /// Provides a human-readable description for known veraPDF process exit codes.
+    /// </summary>
     private static string DescribeVeraPdfExitCode(int exitCode, bool timedOut)
     {
         if (timedOut)
@@ -373,6 +404,9 @@ internal sealed class VeraPdfValidationService(
         };
     }
 
+    /// <summary>
+    /// Provides a human-readable description for normalized validation error codes.
+    /// </summary>
     private static string DescribeValidationErrorCode(ValidationErrorCode errorCode)
     {
         return errorCode switch
@@ -388,6 +422,9 @@ internal sealed class VeraPdfValidationService(
         };
     }
 
+    /// <summary>
+    /// Builds a consistent failure report for input and orchestration-level validation errors.
+    /// </summary>
     private static VeraPdfValidationReport BuildFailureReport(
         string fileName,
         ValidationStandard standards,
@@ -422,6 +459,9 @@ internal sealed class VeraPdfValidationService(
         };
     }
 
+    /// <summary>
+    /// Reads the full stream into memory for parser precheck and temporary-file execution.
+    /// </summary>
     private static async Task<byte[]> ReadAllBytesAsync(Stream stream, CancellationToken cancellationToken)
     {
         if (stream.CanSeek)
@@ -434,6 +474,9 @@ internal sealed class VeraPdfValidationService(
         return memoryStream.ToArray();
     }
 
+    /// <summary>
+    /// Builds complete veraPDF arguments for the selected standard and input file.
+    /// </summary>
     private string BuildArguments(ValidationStandard standard, string filePath, ValidationExecutionOptions? executionOptions)
     {
         var standardArgs = standard switch
@@ -447,18 +490,27 @@ internal sealed class VeraPdfValidationService(
         return $"{standardArgs} \"{filePath}\"";
     }
 
+    /// <summary>
+    /// Resolves effective PDF/A argument set from request overrides or configured defaults.
+    /// </summary>
     private string ResolvePdfAArguments(ValidationExecutionOptions? executionOptions)
     {
         var overrideValue = executionOptions?.ProfileOverrides?.PdfAArguments;
         return string.IsNullOrWhiteSpace(overrideValue) ? _options.PdfAArguments : overrideValue;
     }
 
+    /// <summary>
+    /// Resolves effective PDF/UA argument set from request overrides or configured defaults.
+    /// </summary>
     private string ResolvePdfUaArguments(ValidationExecutionOptions? executionOptions)
     {
         var overrideValue = executionOptions?.ProfileOverrides?.PdfUaArguments;
         return string.IsNullOrWhiteSpace(overrideValue) ? _options.PdfUaArguments : overrideValue;
     }
 
+    /// <summary>
+    /// Builds WCAG arguments and appends policy/profile parameters based on file extension.
+    /// </summary>
     private string BuildWcagArguments(ValidationExecutionOptions? executionOptions)
     {
         var overrideValue = executionOptions?.ProfileOverrides?.Wcag22Arguments;
@@ -501,6 +553,9 @@ internal sealed class VeraPdfValidationService(
         throw new InvalidDataException("WCAG policy/profile file extension must be .xml, .sch, .xsl, or .xslt.");
     }
 
+    /// <summary>
+    /// Builds process environment variables required to run veraPDF with the provisioned Java runtime.
+    /// </summary>
     private static IReadOnlyDictionary<string, string> BuildEnvironment(string javaHomePath)
     {
         var javaBin = Path.Combine(javaHomePath, "bin");
@@ -515,6 +570,9 @@ internal sealed class VeraPdfValidationService(
         };
     }
 
+    /// <summary>
+    /// Expands combined standard flags into ordered individual standard executions.
+    /// </summary>
     private static IEnumerable<ValidationStandard> ExpandStandards(ValidationStandard standards)
     {
         if (standards.HasFlag(ValidationStandard.PdfA))
@@ -533,6 +591,9 @@ internal sealed class VeraPdfValidationService(
         }
     }
 
+    /// <summary>
+    /// Converts a validation standard enum value into a report display label.
+    /// </summary>
     private static string ToName(ValidationStandard standard) => standard switch
     {
         ValidationStandard.PdfA => "PDF-A",
@@ -541,6 +602,9 @@ internal sealed class VeraPdfValidationService(
         _ => standard.ToString()
     };
 
+    /// <summary>
+    /// Creates aggregate summary metrics from parser precheck and per-standard outcomes.
+    /// </summary>
     private static ValidationReportSummary CreateSummary(
         ParserPrecheckReport? parserPrecheck,
         IReadOnlyList<StandardValidationReport> reports,

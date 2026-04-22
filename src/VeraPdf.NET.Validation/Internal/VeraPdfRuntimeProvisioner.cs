@@ -4,12 +4,21 @@ using VeraPdf.NET.Validation.Configuration;
 
 namespace VeraPdf.NET.Validation.Internal;
 
+/// <summary>
+/// Provisions the local veraPDF runtime by extracting configured Java and veraPDF archives,
+/// then resolving executable paths required by validation execution.
+/// </summary>
 internal sealed class VeraPdfRuntimeProvisioner(IOptions<VeraPdfRuntimeOptions> options) : IVeraPdfRuntimeProvisioner
 {
     private readonly VeraPdfRuntimeOptions _options = options.Value;
     private readonly SemaphoreSlim _sync = new(1, 1);
     private VeraPdfRuntime? _cached;
 
+    /// <summary>
+    /// Ensures runtime artifacts are extracted and returns cached runtime paths for subsequent calls.
+    /// </summary>
+    /// <param name="cancellationToken">Token used to cancel runtime provisioning.</param>
+    /// <returns>A resolved runtime descriptor for veraPDF process execution.</returns>
     public async Task<VeraPdfRuntime> EnsureRuntimeAsync(CancellationToken cancellationToken)
     {
         if (_cached is not null)
@@ -45,6 +54,12 @@ internal sealed class VeraPdfRuntimeProvisioner(IOptions<VeraPdfRuntimeOptions> 
         }
     }
 
+    /// <summary>
+    /// Extracts a runtime archive into a destination folder when extraction marker is absent.
+    /// </summary>
+    /// <param name="zipPath">Path to the archive file.</param>
+    /// <param name="destination">Destination folder for extraction.</param>
+    /// <param name="expectedSha256">Optional expected SHA-256 checksum.</param>
     private static void ExtractIfNeeded(string zipPath, string destination, string? expectedSha256)
     {
         if (!File.Exists(zipPath))
@@ -70,6 +85,12 @@ internal sealed class VeraPdfRuntimeProvisioner(IOptions<VeraPdfRuntimeOptions> 
         File.WriteAllText(markerFile, DateTimeOffset.UtcNow.ToString("O"));
     }
 
+    /// <summary>
+    /// Verifies archive integrity using SHA-256 when an expected checksum is configured.
+    /// </summary>
+    /// <param name="archivePath">Path to the archive file.</param>
+    /// <param name="expectedSha256">Expected SHA-256 checksum string.</param>
+    /// <exception cref="InvalidDataException">Thrown when checksum validation fails.</exception>
     private static void VerifyArchiveChecksum(string archivePath, string? expectedSha256)
     {
         if (string.IsNullOrWhiteSpace(expectedSha256))
@@ -86,6 +107,11 @@ internal sealed class VeraPdfRuntimeProvisioner(IOptions<VeraPdfRuntimeOptions> 
         }
     }
 
+    /// <summary>
+    /// Resolves Java home by locating the first discovered <c>bin</c> directory under extracted runtime content.
+    /// </summary>
+    /// <param name="javaRoot">Root path of the extracted Java runtime.</param>
+    /// <returns>The resolved Java home path.</returns>
     private static string ResolveJavaHome(string javaRoot)
     {
         var binDirs = Directory.Exists(javaRoot)
@@ -102,6 +128,11 @@ internal sealed class VeraPdfRuntimeProvisioner(IOptions<VeraPdfRuntimeOptions> 
                ?? throw new DirectoryNotFoundException("Unable to resolve Java home path.");
     }
 
+    /// <summary>
+    /// Resolves the platform-appropriate veraPDF executable path from extracted runtime files.
+    /// </summary>
+    /// <param name="veraRoot">Root path of the extracted veraPDF runtime.</param>
+    /// <returns>The resolved executable/script path.</returns>
     private static string ResolveVeraPdfExecutable(string veraRoot)
     {
         if (!Directory.Exists(veraRoot))
@@ -125,6 +156,10 @@ internal sealed class VeraPdfRuntimeProvisioner(IOptions<VeraPdfRuntimeOptions> 
         throw new FileNotFoundException($"Unable to locate a veraPDF executable in '{veraRoot}'.");
     }
 
+    /// <summary>
+    /// Ensures execute permissions are set on non-Windows hosts for resolved runtime scripts/binaries.
+    /// </summary>
+    /// <param name="filePath">Path to the executable/script file.</param>
     private static void EnsureExecutablePermissions(string filePath)
     {
         if (OperatingSystem.IsWindows())
