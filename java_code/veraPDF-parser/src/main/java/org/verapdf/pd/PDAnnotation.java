@@ -1,0 +1,364 @@
+/*
+ * This file is part of veraPDF Parser, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Parser is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Parser as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Parser as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.pd;
+
+import org.verapdf.as.ASAtom;
+import org.verapdf.cos.COSKey;
+import org.verapdf.cos.COSObjType;
+import org.verapdf.cos.COSObject;
+import org.verapdf.cos.COSString;
+import org.verapdf.exceptions.LoopedException;
+import org.verapdf.pd.actions.PDAction;
+import org.verapdf.pd.actions.PDAnnotationAdditionalActions;
+import org.verapdf.pd.structure.PDNumberTreeNode;
+import org.verapdf.pd.structure.PDStructTreeRoot;
+import org.verapdf.tools.StaticResources;
+import org.verapdf.tools.TypeConverter;
+
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ *
+ * <h2>.NET porting notes</h2>
+ * In C#, retain {@code PDAnnotation} as a narrow, typed facade over its COS dictionary instead
+ * of exposing untyped COS access from every caller. Optional PDF entries should be nullable
+ * properties, and domain operations or cross-object lookups should live in injected services
+ * rather than static helpers.
+ *
+ * @author Maksim Bezrukov
+ */
+public class PDAnnotation extends PDObject {
+
+    private static final Set<ASAtom> markupAnnotationTypes = new HashSet<>();
+
+    static {
+        markupAnnotationTypes.add(ASAtom.TEXT);
+        markupAnnotationTypes.add(ASAtom.FREE_TEXT);
+        markupAnnotationTypes.add(ASAtom.LINE);
+        markupAnnotationTypes.add(ASAtom.SQUARE);
+        markupAnnotationTypes.add(ASAtom.CIRCLE);
+        markupAnnotationTypes.add(ASAtom.POLYGON);
+        markupAnnotationTypes.add(ASAtom.POLY_LINE);
+        markupAnnotationTypes.add(ASAtom.HIGHLIGHT);
+        markupAnnotationTypes.add(ASAtom.UNDERLINE);
+        markupAnnotationTypes.add(ASAtom.SQUIGGLY);
+        markupAnnotationTypes.add(ASAtom.STRIKE_OUT);
+        markupAnnotationTypes.add(ASAtom.CARET);
+        markupAnnotationTypes.add(ASAtom.STAMP);
+        markupAnnotationTypes.add(ASAtom.INK);
+        markupAnnotationTypes.add(ASAtom.FILE_ATTACHMENT);
+        markupAnnotationTypes.add(ASAtom.SOUND);
+        markupAnnotationTypes.add(ASAtom.REDACT);
+        markupAnnotationTypes.add(ASAtom.PROJECTION);
+    }
+
+	public PDAnnotation(COSObject obj) {
+		super(obj);
+	}
+
+	public ASAtom getSubtype() {
+		return getObject().getNameKey(ASAtom.SUBTYPE);
+	}
+
+	public Long getF() {
+		return getObject().getIntegerKey(ASAtom.F);
+	}
+
+	public Long getStructParent() {
+		return getObject().getIntegerKey(ASAtom.STRUCT_PARENT);
+	}
+
+	public String getContents() {
+		return getStringKey(ASAtom.CONTENTS);
+	}
+
+	public String getAnnotationName() {
+		return getStringKey(ASAtom.NM);
+	}
+
+	public String getModDate() {
+		return getStringKey(ASAtom.M);
+	}
+
+	public String getTU() {
+		return getStringKey(ASAtom.TU);
+	}
+
+	public COSObject getParent() {
+		COSObject res = getKey(ASAtom.PARENT);
+		if (res != null && res.getType() == COSObjType.COS_DICT) {
+			return res;
+		}
+		return null;
+	}
+
+    public boolean isMarkup() {
+        return markupAnnotationTypes.contains(getSubtype());
+    }
+
+	public COSObject getBM() {
+		return this.getKey(ASAtom.BM);
+	}
+
+	public Double getCA() {
+		return getObject().getRealKey(ASAtom.CA);
+	}
+
+	public ASAtom getFT() {
+		Set<COSKey> visitedKeys = new HashSet<>();
+		COSObject curr = getObject();
+		while (curr != null && curr.getType().isDictionaryBased()) {
+			COSKey key = curr.getObjectKey();
+			if (key != null) {
+				if (visitedKeys.contains(key)) {
+					throw new LoopedException("Loop in field tree");
+				}
+				visitedKeys.add(key);
+			}
+			if (curr.knownKey(ASAtom.FT)) {
+				return curr.getNameKey(ASAtom.FT);
+			}
+			curr = curr.getKey(ASAtom.PARENT);
+		}
+		return null;
+	}
+
+    public COSObject getStructElement() {
+        PDStructTreeRoot structTreeRoot = StaticResources.getDocument().getStructTreeRoot();
+        Long structParent = this.getStructParent();
+        if (structTreeRoot != null && structParent != null) {
+            PDNumberTreeNode parentTreeRoot = structTreeRoot.getParentTree();
+            return parentTreeRoot == null ? null : parentTreeRoot.getObject(structParent);
+        }
+
+        return null;
+    }
+
+    public String getAlt() {
+        COSObject structureElement = getStructElement();
+        if (structureElement != null) {
+            COSObject baseAlt = structureElement.getKey(ASAtom.ALT);
+            if (baseAlt != null && baseAlt.getType() == COSObjType.COS_STRING) {
+                return baseAlt.getString();
+            }
+        }
+        return null;
+    }
+
+	public double[] getRect() {
+		return TypeConverter.getRealArray(getKey(ASAtom.RECT), 4, "Rect");
+	}
+
+	public COSObject getCOSC() {
+		COSObject res = getKey(ASAtom.C);
+		if (res != null && res.getType() == COSObjType.COS_ARRAY) {
+			return res;
+		}
+		return null;
+	}
+
+	public COSObject getCOSIC() {
+		COSObject res = getKey(ASAtom.IC);
+		if (res != null && res.getType() == COSObjType.COS_ARRAY) {
+			return res;
+		}
+		return null;
+	}
+
+	public COSObject getCOSAP() {
+		COSObject appearanceDictionary = getKey(ASAtom.AP);
+		if (appearanceDictionary != null && appearanceDictionary.getType() == COSObjType.COS_DICT) {
+			return appearanceDictionary;
+		}
+		return null;
+	}
+
+	public PDAnnotation getPopup() {
+		COSObject popup = getKey(ASAtom.POPUP);
+		if (popup != null && popup.getType().isDictionaryBased()) {
+			return new PDAnnotation(popup);
+		}
+		return null;
+	}
+
+	public COSObject getDestination() {
+		return getKey(ASAtom.DEST);
+	}
+
+	public double[] getColor() {
+		return TypeConverter.getRealArray(getKey(ASAtom.C), "Color");
+	}
+
+	public boolean isInvisible() {
+		return getFlagValue(0);
+	}
+
+	public boolean isHidden() {
+		return getFlagValue(1);
+	}
+
+	public boolean isPrinted() {
+		return getFlagValue(2);
+	}
+
+	public boolean isNoZoom() {
+		return getFlagValue(3);
+	}
+
+	public boolean isNoRotate() {
+		return getFlagValue(4);
+	}
+
+	public boolean isNoView() {
+		return getFlagValue(5);
+	}
+
+	public boolean isReadOnly() {
+		return getFlagValue(6);
+	}
+
+	public boolean isLocked() {
+		return getFlagValue(7);
+	}
+
+	public boolean isToggleNoView() {
+		return getFlagValue(8);
+	}
+
+	public boolean isLockedContents() {
+		return getFlagValue(9);
+	}
+
+	private boolean getFlagValue(int index) {
+		Long flag = getIntegerKey(ASAtom.F);
+		if (flag != null) {
+			long f = flag;
+			int bitFlag = 1 << index;
+			return (f & bitFlag) == bitFlag;
+		}
+		return false;
+	}
+
+	public PDAppearanceEntry getNormalAppearance() {
+		return getAppearanceEntry(ASAtom.N);
+	}
+
+	public PDAppearanceEntry getRolloverAppearance() {
+		return getAppearanceEntry(ASAtom.R);
+	}
+
+	public PDAppearanceEntry getDownAppearance() {
+		return getAppearanceEntry(ASAtom.D);
+	}
+
+	private PDAppearanceEntry getAppearanceEntry(ASAtom key) {
+		COSObject appearanceDictionary = getCOSAP();
+		if (appearanceDictionary != null) {
+			COSObject appearance = appearanceDictionary.getKey(key);
+			if (appearance != null && appearance.getType().isDictionaryBased()) {
+				return new PDAppearanceEntry(appearance);
+			}
+		}
+		return null;
+	}
+
+	public PDAction getA() {
+		COSObject action = getKey(ASAtom.A);
+		if (action != null && action.getType() == COSObjType.COS_DICT) {
+			return new PDAction(action);
+		}
+		return null;
+	}
+
+	public PDAnnotationAdditionalActions getAdditionalActions() {
+		COSObject aa = getKey(ASAtom.AA);
+		if (aa != null && aa.getType() == COSObjType.COS_DICT) {
+			return new PDAnnotationAdditionalActions(aa);
+		}
+		return null;
+	}
+
+	public PD3DStream get3DD() {
+		COSObject object = getKey(ASAtom.key3DD);
+		if (object != null && (object.getType() == COSObjType.COS_DICT)) {
+			ASAtom type = object.getNameKey(ASAtom.TYPE);
+			if (ASAtom.key3DRef.equals(type)) {
+				object = object.getKey(ASAtom.key3DD);
+			}
+		}
+		if (object != null && object.getType() == COSObjType.COS_STREAM) {
+			ASAtom type = object.getNameKey(ASAtom.TYPE);
+			if (ASAtom.key3D.equals(type)) {
+				return new PD3DStream(object);
+			}
+		}
+		return null;
+	}
+
+    public static Boolean isOutsideCropBox(PDPage page, PDAnnotation annotation) {
+        double[] cropBox = page.getCropBox();
+        double[] rectangle = annotation.getRect();
+        if (rectangle != null && rectangle.length >= 4
+                && cropBox != null && cropBox.length >= 4) {
+            return cropBox[1] >= rectangle[3] || cropBox[0] >= rectangle[2]
+                    || cropBox[3] <= rectangle[1] || cropBox[2] <= rectangle[0];
+        }
+        return null;
+    }
+
+    public static COSObject getPageFromDestination(COSObject destination,  ASAtom key) {
+        if (destination.getType() == COSObjType.COS_STRING) {
+            PDNamesDictionary namesDictionary = StaticResources.getDocument().getCatalog().getNamesDictionary();
+            if (namesDictionary == null) {
+                return null;
+            }
+            PDNameTreeNode dests = namesDictionary.getDests();
+            if (dests != null) {
+                destination = dests.getObject((COSString) destination.getDirectBase());
+                if (destination == null) {
+                    return null;
+                }
+            }
+        } else if (destination.getType() == COSObjType.COS_NAME) {
+            COSObject dests = StaticResources.getDocument().getCatalog().getDests();
+            if (dests != null) {
+                destination = dests.getKey(destination.getDirectBase().getName());
+                if (destination == null) {
+                    return null;
+                }
+            }
+        }
+        if (destination.getType() == COSObjType.COS_DICT) {
+            destination = destination.getKey(key);
+        }
+        COSObject obj = null;
+        if (destination.getType() == COSObjType.COS_ARRAY && destination.size() > 0) {
+            obj = destination.at(0);
+        }
+        return obj;
+    }
+
+    public static boolean isVisibleAnnotation(PDAnnotation annotation) {
+        Long f = annotation.getIntegerKey(ASAtom.F);
+        return (f == null || (f & 2) != 2);
+    }
+}

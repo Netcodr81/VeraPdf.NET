@@ -1,0 +1,111 @@
+/*
+ * This file is part of veraPDF Parser, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Parser is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Parser as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Parser as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.pd.font;
+
+import org.verapdf.cos.COSArray;
+import org.verapdf.cos.COSObjType;
+import org.verapdf.cos.COSObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Represents W array in CID fonts.
+ *
+ *
+ * <h2>.NET porting notes</h2>
+ * In C#, model {@code CIDWArray} as immutable font metadata (records for ranges and width
+ * entries, read-only collections for lookup tables). Preserve PDF's one-, two-, and
+ * three-operand mapping forms; normalize them only at the API boundary.
+ *
+ * @author Sergey Shemyakov
+ */
+public class CIDWArray {
+
+    private static final Logger LOGGER = Logger.getLogger(CIDWArray.class.getCanonicalName());
+
+    private final Map<Integer, Double> singleMappings;
+    private final List<CIDWArrayRange> ranges;
+
+    /**
+     * Constructor from a COSObject.
+     *
+     * @param w is W array from CIDFont dictionary.
+     */
+    public CIDWArray(COSArray w) {
+        singleMappings = new HashMap<>();
+        ranges = new ArrayList<>();
+        if (w != null) {
+            for (int i = 0; i < w.size(); ++i) {
+                Long cidBegin = w.at(i++).getInteger();
+                if (cidBegin == null) {
+                    LOGGER.log(Level.FINE, "W array in CIDFont is invalid.");
+                    return;
+                }
+                COSObject obj = w.at(i);
+                if (obj.getType() == COSObjType.COS_INTEGER) {
+                    int cidEnd = obj.getInteger().intValue();
+                    Double width = w.at(++i).getReal();
+                    if (width == null) {
+                        LOGGER.log(Level.FINE, "W array in CIDFont is invalid.");
+                        return;
+                    }
+                    this.ranges.add(new CIDWArrayRange(cidBegin.intValue(), cidEnd, width));
+                } else if (obj.getType() == COSObjType.COS_ARRAY) {
+                    addSingleMappings(cidBegin.intValue(), (COSArray) obj.getDirectBase());
+                }
+            }
+        }
+    }
+
+    private void addSingleMappings(int cidBegin, COSArray arr) {
+        for (int i = 0; i < arr.size(); i++) {
+            if (!arr.at(i).getType().isNumber()) {
+                LOGGER.log(Level.FINE, "W array in CIDFont is invalid.");
+                continue;
+            }
+            this.singleMappings.put(cidBegin + i, arr.at(i).getReal());
+        }
+    }
+
+    /**
+     * Get width of glyph with given cid according to W array.
+     * @param cid is cid of glyph in CIDFont.
+     * @return width as it is specified in W array.
+     */
+    public Double getWidth(int cid) {
+        Double res = singleMappings.get(cid);
+        if (res == null) {
+            for (CIDWArrayRange range : ranges) {
+                if (range.contains(cid)) {
+                    res = range.getWidth();
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+
+}

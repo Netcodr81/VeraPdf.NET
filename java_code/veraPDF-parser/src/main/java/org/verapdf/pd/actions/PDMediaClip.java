@@ -1,0 +1,83 @@
+/*
+ * This file is part of veraPDF Parser, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Parser is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Parser as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Parser as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.pd.actions;
+
+import org.verapdf.as.ASAtom;
+import org.verapdf.cos.COSArray;
+import org.verapdf.cos.COSObjType;
+import org.verapdf.cos.COSObject;
+import org.verapdf.pd.PDObject;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ *
+ * <h2>.NET porting notes</h2>
+ * In C#, model {@code PDMediaClip} as an action-domain facade or discriminated union over a COS
+ * action dictionary. Keep command execution, media playback, and navigation in application
+ * services; this layer should only expose validated action type, target, and additional-action
+ * properties.
+ *
+ * @author Maxim Plushchov
+ */
+public class PDMediaClip extends PDObject {
+	public PDMediaClip(COSObject obj) {
+		super(obj);
+	}
+
+	public String getContentType() {
+		return getObject().getStringKey(ASAtom.CT);
+	}
+
+	public List<String> getAlternateDescription() {
+		COSObject object = getObject().getKey(ASAtom.ALT);
+		if (object.getType() == COSObjType.COS_ARRAY) {
+			List<String> list = new LinkedList<>();
+			for (COSObject elem : (COSArray)object.getDirectBase()) {
+				if (elem.getType() == COSObjType.COS_STRING) {
+					list.add(elem.getString());
+				}
+			}
+			return list;
+		}
+		return Collections.emptyList();
+	}
+
+    public Boolean hasCorrectAlt() {
+        COSObject object = getObject().getKey(ASAtom.ALT);
+        if (object == null || object.getType() != COSObjType.COS_ARRAY) {
+            return false;
+        }
+        COSArray array = (COSArray)object.getDirectBase();
+        if (array.size() % 2 != 0) {
+            return false;
+        }
+        for (int i = 0; i < array.size(); i++) {
+            COSObject elem = array.at(i);
+            if (elem.getType() != COSObjType.COS_STRING || (i % 2 == 1 && elem.getString().isEmpty())) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

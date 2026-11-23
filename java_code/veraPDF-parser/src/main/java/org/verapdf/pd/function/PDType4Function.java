@@ -1,0 +1,174 @@
+/*
+ * This file is part of veraPDF Parser, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Parser is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Parser as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Parser as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.pd.function;
+
+import org.verapdf.as.io.ASInputStream;
+import org.verapdf.cos.COSArray;
+import org.verapdf.cos.COSObjType;
+import org.verapdf.cos.COSObject;
+import org.verapdf.cos.COSStream;
+import org.verapdf.parser.FunctionParser;
+import org.verapdf.parser.postscript.PSOperator;
+import org.verapdf.parser.postscript.PSProcedure;
+import org.verapdf.parser.postscript.PostScriptException;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * <h2>.NET porting notes</h2>
+ * In C#, implement {@code PDType4Function} as a typed function model with a common {@code
+ * Evaluate(IReadOnlyList<double>)} contract and function-type subclasses. Validate domain/range
+ * cardinality at construction and keep sampled-data or calculator/interpreter details behind the
+ * implementation rather than in the PD dictionary facade.
+ */
+public class PDType4Function extends PDFunction {
+
+    private static final Logger LOGGER = Logger.getLogger(PDType4Function.class.getCanonicalName());
+
+    private static final int MAX_PROCEDURE_DEPTH = 64;
+    private List<COSObject> operators;
+    private List<COSObject> modifiedOperators;
+    private FunctionParser parser;
+    private boolean operatorsWithProceduresFailed;
+
+    protected PDType4Function(COSObject obj) {
+        super(obj);
+    }
+
+    public List<COSObject> getOperators() {
+        if (operators == null) {
+            operators = parseOperators();
+        }
+        return operators;
+    }
+
+    private void parseStream() throws IOException {
+        try (ASInputStream functionStream = getObject().getData(COSStream.FilterFlags.DECODE)) {
+            this.parser = new FunctionParser(functionStream, getObject().getKey());
+            this.parser.parse();
+        } finally {
+            if (this.parser != null) {
+                this.parser.closeInputStream();
+            }
+        }
+    }
+
+    public List<COSObject> parseOperators() {
+        COSObject obj = this.getObject();
+        if (obj.getType() != COSObjType.COS_STREAM) {
+            return Collections.emptyList();
+        }
+        if (this.parser == null) {
+            try {
+                parseStream();
+            } catch (IOException e) {
+                LOGGER.log(Level.WARNING, "Can not parse function");
+                return Collections.emptyList();
+            }
+        }
+        return Collections.unmodifiableList(parser.getOperators());
+    }
+
+    public void setOperators(List<COSObject> operators) {
+        this.operators = operators;
+        this.modifiedOperators = null;
+        this.operatorsWithProceduresFailed = false;
+    }
+
+    private List<COSObject> getOperatorsWithProcedures() throws PostScriptException {
+        if (operatorsWithProceduresFailed) {
+            throw new PostScriptException("Type 4 function operators could not be parsed");
+        }
+        if (modifiedOperators == null) {
+            modifiedOperators = new ArrayList<>();
+            if (getOperators().isEmpty()) {
+                return modifiedOperators;
+            }
+            Iterator<COSObject> ops = getOperators().iterator();
+            if (PSOperatorsConstants.LEFT_CURLY_BRACE.equals(getOperators().get(0).getString())) {
+                ops.next();
+            }
+            List<COSObject> parsedOperators = new ArrayList<>();
+            try {
+                while (ops.hasNext()) {
+                    COSObject obj = ops.next();
+                    if (obj != null) {
+                        if (obj instanceof PSOperator &&
+                                PSOperatorsConstants.LEFT_CURLY_BRACE.equals(((PSOperator) obj).getOperator())) {
+                            recursiveProcedure(ops, parsedOperators, 0);
+                        } else {
+                            parsedOperators.add(obj);
+                        }
+                    }
+                }
+            } catch (PostScriptException e) {
+                operatorsWithProceduresFailed = true;
+                throw e;
+            }
+            modifiedOperators = parsedOperators;
+        }
+        return modifiedOperators;
+    }
+
+    private void recursiveProcedure(Iterator<COSObject> ops, List<COSObject> modifiedOperators, int depth)
+            throws PostScriptException {
+        if (depth >= MAX_PROCEDURE_DEPTH) {
+            throw new PostScriptException("Type 4 function exceeded procedure recursion depth " + MAX_PROCEDURE_DEPTH);
+        }
+        List<COSObject> proc = new ArrayList<>();
+        while (ops.hasNext()) {
+            COSObject obj = ops.next();
+            if (obj instanceof PSOperator && PSOperatorsConstants.RIGHT_CURLY_BRACE.equals(((PSOperator) obj).getOperator())) {
+                break;
+            }
+            if (obj instanceof PSOperator && PSOperatorsConstants.LEFT_CURLY_BRACE.equals(((PSOperator) obj).getOperator())) {
+                recursiveProcedure(ops, proc, depth + 1);
+            }
+            proc.add(obj);
+        }
+        modifiedOperators.add(new PSProcedure(new COSArray(proc)));
+    }
+
+    @Override
+    public List<COSObject> getResult(List<COSObject> operands) {
+        try {
+            Stack<COSObject> operandStack = new Stack<>();
+            operandStack.addAll(getValuesInIntervals(operands, getDomain()));
+            for (COSObject obj : getOperatorsWithProcedures()) {
+                if (obj != null) {
+                    if (obj instanceof PSOperator) {
+                        ((PSOperator) obj).execute(operandStack, new HashMap<>());
+                    } else {
+                        operandStack.push(obj);
+                    }
+                }
+            }
+            List<COSObject> operandsInRange = new ArrayList<>(operandStack);
+            return Collections.unmodifiableList(getValuesInIntervals(operandsInRange, getRange()));
+        } catch (PostScriptException e) {
+            LOGGER.log(Level.WARNING, "Invalid operators stream");
+            return null;
+        }
+    }
+}

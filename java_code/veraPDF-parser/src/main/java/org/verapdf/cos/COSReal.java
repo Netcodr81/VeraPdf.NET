@@ -1,0 +1,156 @@
+/*
+ * This file is part of veraPDF Parser, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Parser is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Parser as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Parser as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.cos;
+
+import org.verapdf.cos.visitor.ICOSVisitor;
+import org.verapdf.cos.visitor.IVisitor;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+/**
+ * A PDF real-number value. Its textual form is formatted with a decimal point
+ * and trailing fractional zeroes are removed.
+ *
+ * <h2>.NET porting notes</h2>
+ * In C#, port {@code COSReal} as an immutable COS value, preferably a sealed class or readonly
+ * record/record struct with PDF-specific equality. Keep PDF {@code null} distinct from C# {@code
+ * null}, preserve integer/real/string representations where syntax fidelity matters, and avoid
+ * using a broad {@code object} value property.
+ */
+public class COSReal extends COSNumber {
+
+    private static final DecimalFormat FORMATTER;
+
+    static {
+        FORMATTER = new DecimalFormat("#0.0000000000000000000000000000000000000000");
+        DecimalFormatSymbols decFormSymbols = FORMATTER.getDecimalFormatSymbols();
+        decFormSymbols.setDecimalSeparator('.');
+        FORMATTER.setDecimalFormatSymbols(decFormSymbols);
+    }
+
+    private double value;
+
+    protected COSReal() {
+    }
+
+    @Override
+    public BigDecimal getDecimalValue() {
+        return BigDecimal.valueOf(value);
+    }
+
+    protected COSReal(final double value) {
+        this.value = value;
+    }
+
+    @Override
+    public COSObjType getType() {
+        return COSObjType.COS_REAL;
+    }
+
+    public static COSObject construct(final double initValue) {
+        return new COSObject(new COSReal(initValue));
+    }
+
+    @Override
+    public void accept(final IVisitor visitor) {
+        visitor.visitFromReal(this);
+    }
+
+    @Override
+    public Object accept(final ICOSVisitor visitor) {
+        return visitor.visitFromReal(this);
+    }
+
+    @Override
+    public Long getInteger() {
+        return (long) get();
+    }
+
+    public void setInteger(final int value) {
+        set(value);
+    }
+
+    @Override
+    public Double getReal() {
+        return get();
+    }
+
+    @Override
+    public boolean setReal(final double value) {
+        set(value);
+        return true;
+    }
+
+    @Override
+    public boolean isEquivalentTo(COSBase o) {
+        if (this == o) return true;
+
+        if (o.isIndirect()) {
+            return isEquivalentTo(o.getDirectBase());
+        }
+
+        if (o instanceof COSReal) {
+            COSReal thatReal = (COSReal) o;
+            return this.getDecimalValue().compareTo(thatReal.getDecimalValue()) == 0;
+        }
+
+        if (o instanceof COSInteger) {
+            COSInteger thatInt = (COSInteger) o;
+            return this.getDecimalValue().compareTo(thatInt.getDecimalValue()) == 0;
+        }
+
+        return false;
+    }
+
+    public double get() {
+        return this.value;
+    }
+
+    public void set(final double value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        String stringValue = FORMATTER.format(this.value);
+        // remove fraction digit "0" only
+        if (stringValue.indexOf('.') > -1 && !stringValue.endsWith(".0"))
+        {
+            while (stringValue.endsWith("0") && !stringValue.endsWith(".0"))
+            {
+                stringValue = stringValue.substring(0, stringValue.length() - 1);
+            }
+        }
+        return stringValue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof COSReal)) return false;
+
+        COSReal cosReal = (COSReal) o;
+
+        return Double.compare(cosReal.value, value) == 0;
+
+    }
+}

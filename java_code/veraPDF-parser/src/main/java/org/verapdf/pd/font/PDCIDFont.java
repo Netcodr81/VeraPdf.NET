@@ -1,0 +1,319 @@
+/*
+ * This file is part of veraPDF Parser, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Parser is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Parser as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Parser as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.pd.font;
+
+import org.verapdf.as.ASAtom;
+import org.verapdf.as.io.ASInputStream;
+import org.verapdf.cos.*;
+import org.verapdf.pd.font.cff.CFFFontProgram;
+import org.verapdf.pd.font.cff.CFFType1FontProgram;
+import org.verapdf.pd.font.cmap.CMap;
+import org.verapdf.pd.font.opentype.OpenTypeFontProgram;
+import org.verapdf.pd.font.truetype.CIDFontType2Program;
+import org.verapdf.tools.FontProgramIDGenerator;
+import org.verapdf.tools.StaticResources;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * High-level representation of a CID-keyed PDF font.
+ *
+ * <p>The associated CMap converts character codes to CIDs, while the font's
+ * width data and embedded program provide glyph metrics and outlines.
+ * Vertical writing and CID-to-glyph mapping are handled here where applicable.</p>
+ *
+ *
+ * <h2>.NET porting notes</h2>
+ * In C#, {@code PDCIDFont} should remain a typed facade/property set over a COS font dictionary.
+ * Model optional keys as nullable value/reference types and cache parsed descriptors, CMaps, and
+ * font programs behind lazy, side-effect-free accessors rather than copying bytes into each
+ * wrapper.
+ *
+ * @author Sergey Shemyakov
+ */
+public class PDCIDFont extends PDFont {
+
+    private static final Logger LOGGER = Logger.getLogger(PDCIDFont.class.getCanonicalName());
+    private static final Double[] DEFAULT_CID_FONT_VERTICAL_WIDTH = { 880d, -1000d };
+    private static final Double DEFAULT_CID_FONT_WIDTH = 1000d;
+
+    protected CMap cMap;
+    private CIDWArray widths;
+    private CIDW2Array verticalMetrics;
+    private PDCIDSystemInfo cidSystemInfo;
+
+    /**
+     * Constructor from COSDictionary and CMap with code -> cid mapping.
+     *
+     * @param dictionary is COSDictionary of CIDFont.
+     * @param cMap       is CMap object containing mapping code -> cid.
+     */
+    public PDCIDFont(COSDictionary dictionary, CMap cMap) {
+        super(dictionary);
+        this.cMap = cMap;
+    }
+
+    /**
+     * Constructor that sets font program for this CIDFont. Can be used when
+     * font program should not be parsed twice and is already read.
+     *
+     * @param dictionary   is COSDictionary of CIDFont.
+     * @param cMap         is CMap object containing mapping code -> cid.
+     * @param fontProgram  is embedded font program associated with this CIDFont.
+     * @param isFontParsed is true if embedded font program has been already
+     *                     parsed.
+     */
+    public PDCIDFont(COSDictionary dictionary, CMap cMap, FontProgram fontProgram,
+                     boolean isFontParsed) {
+        this(dictionary, cMap);
+        this.fontProgram = fontProgram;
+        this.isFontParsed = isFontParsed;
+        if (fontProgram != null) {
+            this.isFontParsed = true;
+        }
+    }
+
+    /*
+        Do not forget to set cMap!!!
+     */
+    protected PDCIDFont(COSDictionary dictionary) {
+        super(dictionary);
+    }
+
+    /**
+     * @return true if font is vertical.
+     */
+    public boolean isVertical() {
+        return cMap.getwMode() == 1;
+    }
+
+    /**
+     * @return a stream identifying which CIDs are present in the CIDFont file.
+     */
+    public COSStream getCIDSet() {
+        if (fontDescriptor != null) {
+            COSObject cidSet = this.fontDescriptor.getKey(ASAtom.CID_SET);
+            if (cidSet != null && cidSet.getType() == COSObjType.COS_STREAM) {
+                return (COSStream)cidSet.getDirectBase();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return a specification of the mapping from CIDs to glyph indices if
+     * CIDFont is a Type 2 CIDFont.
+     */
+    public COSObject getCIDToGIDMap() {
+        return this.dictionary.getKey(ASAtom.CID_TO_GID_MAP);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double getWidth(int code) {
+        if (this.widths == null) {
+            COSObject w = this.dictionary.getKey(ASAtom.W);
+            if (w.empty() || w.getType() != COSObjType.COS_ARRAY) {
+                return getDefaultWidth();
+            }
+            this.widths = new CIDWArray((COSArray) w.getDirectBase());
+        }
+        Double res = widths.getWidth(this.cMap.toCID(code));
+        if (res == null) {
+            res = getDefaultWidth();
+        }
+        return res;
+    }
+
+    /**
+     * Gets vertical width for glyph with given code in this font.
+     *
+     * @param code is code of glyph.
+     * @return vertical width for glyph with given code as specified in Widths 2 array.
+     */
+    public Double getVerticalWidth(int code) {
+        Double[] defaultMetrics = getDefaultVMetrics();
+        if (this.verticalMetrics == null) {
+            COSObject w2 = this.dictionary.getKey(ASAtom.W2);
+            if (w2.empty() || w2.getType() != COSObjType.COS_ARRAY) {
+                return defaultMetrics[1];
+            }
+            this.verticalMetrics = new CIDW2Array((COSArray) w2.getDirectBase());
+        }
+        Double res = verticalMetrics.getDisplacement(this.cMap.toCID(code));
+        return res == null ? defaultMetrics[1] : res;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Double getDefaultWidth() {
+        COSObject dw = this.dictionary.getKey(ASAtom.DW);
+        if (dw.getType().isNumber()) {
+            return dw.getReal();
+        } else {
+            return DEFAULT_CID_FONT_WIDTH;
+        }
+    }
+
+    /**
+     * @return default vertical metrics for this font as specified in font descriptor.
+     */
+    public Double[] getDefaultVMetrics() {
+        COSObject dw2 = this.dictionary.getKey(ASAtom.DW2);
+        if (dw2.getType() == COSObjType.COS_ARRAY && dw2.size() == 2) {
+            Double[] result = new Double[2];
+			result[0] = dw2.at(0).getReal();
+            if (result[0] == null) return DEFAULT_CID_FONT_VERTICAL_WIDTH;
+			result[1] = dw2.at(1).getReal();
+            if (result[1] == null) return DEFAULT_CID_FONT_VERTICAL_WIDTH;
+			return result;
+        }
+        return DEFAULT_CID_FONT_VERTICAL_WIDTH;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int readCode(InputStream stream) throws IOException {
+        if (cMap != null) {
+            return cMap.getCodeFromStream(stream);
+        }
+        throw new IOException("No CMap for Type 0 font " +
+                (this.getName() == null ? "" : this.getName()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FontProgram getFontProgram() {
+        if (!this.isFontParsed) {
+            this.isFontParsed = true;
+
+            if (fontDescriptor.canParseFontFile(ASAtom.FONT_FILE2) &&
+                    this.getSubtypeEntryValue() == ASAtom.CID_FONT_TYPE2) {
+                COSStream trueTypeFontFile = fontDescriptor.getFontFile2();
+                COSKey key = trueTypeFontFile.getObjectKey();
+                COSObject cidToGIDMap = this.getCIDToGIDMap();
+                String fontProgramID = FontProgramIDGenerator.getCIDFontType2ProgramID(key, this.cMap, cidToGIDMap);
+                this.fontProgram = StaticResources.getCachedFont(fontProgramID);
+                if (fontProgram == null) {
+                    try (ASInputStream fontData = trueTypeFontFile.getData(COSStream.FilterFlags.DECODE)) {
+                        this.fontProgram = new CIDFontType2Program(fontData, this.cMap, cidToGIDMap, key);
+                        StaticResources.cacheFontProgram(fontProgramID, this.fontProgram);
+                    } catch (IOException e) {
+                        LOGGER.log(Level.FINE, "Can't read TrueType font program.");
+                    }
+                }
+            } else if (fontDescriptor.canParseFontFile(ASAtom.FONT_FILE3)) {
+                COSStream fontFile = fontDescriptor.getFontFile3();
+                COSName subtype = (COSName) fontFile.getKey(ASAtom.SUBTYPE).getDirectBase();
+                ASAtom subtypeValue = subtype != null ? subtype.getName() : null;
+                COSKey key = fontFile.getObjectKey();
+                try {
+                    boolean isSubset = this.isSubset();
+                    if (ASAtom.CID_FONT_TYPE0C == subtypeValue) {
+                        String fontProgramID = FontProgramIDGenerator.getCFFFontProgramID(key, this.cMap, isSubset);
+                        this.fontProgram = StaticResources.getCachedFont(fontProgramID);
+                        if (fontProgram == null) {
+                            try (ASInputStream fontData = fontFile.getData(COSStream.FilterFlags.DECODE)) {
+                                this.fontProgram = new CFFFontProgram(fontData, this.cMap, isSubset);
+                                StaticResources.cacheFontProgram(fontProgramID, this.fontProgram);
+                            }
+                        }
+                    } else if (ASAtom.OPEN_TYPE == subtypeValue) {
+                        boolean isCFF = this.getSubtypeEntryValue() != ASAtom.TRUE_TYPE && this.getSubtypeEntryValue() != ASAtom.CID_FONT_TYPE2;
+                        boolean isCIDFontType2 = this.getSubtypeEntryValue() == ASAtom.CID_FONT_TYPE2;
+                        boolean isSymbolic = this.isSymbolic();
+                        COSObject encoding = this.getEncoding();
+                        String fontProgramID = FontProgramIDGenerator.getOpenTypeFontProgramID(key, isCFF, isSymbolic, encoding, this.cMap, isSubset);
+                        this.fontProgram = StaticResources.getCachedFont(fontProgramID);
+                        if (fontProgram == null) {
+                            COSObject cidToGIDMap = this.getCIDToGIDMap();
+                            try (ASInputStream fontData = fontFile.getData(COSStream.FilterFlags.DECODE)) {
+                                this.fontProgram = new OpenTypeFontProgram(
+                                        fontData, isCFF, isCIDFontType2, isSymbolic, encoding,
+                                        this.cMap, isSubset, cidToGIDMap, key);
+                                StaticResources.cacheFontProgram(fontProgramID, this.fontProgram);
+                            }
+                        }
+                    } else {
+                        LOGGER.warning("Invalid subtype of the embedded font stream");
+                    }
+                } catch (Exception e) {
+                    LOGGER.log(Level.FINE, "Can't read font program.");
+                }
+            } else {
+                this.fontProgram = null;
+            }
+        }
+        return this.fontProgram;
+    }
+
+    @Override
+    public float getWidthFromProgram(int code) {
+        FontProgram font = getFontProgram();
+        CFFType1FontProgram cffType1 = CFFType1FontProgram.getCFFType1(font);
+        if (cffType1 != null) {
+            int cid = this.cMap.toCID(code);
+            // In this case we ignore internal notations of names from CFF
+            // Type 1 font and use external CMap
+            if (cid != 0) {
+                return cffType1.getWidthFromGID(cid);
+            }
+        }
+        return font.getWidth(code);
+    }
+
+    @Override
+    public boolean glyphIsPresent(int code) {
+        FontProgram font = getFontProgram();
+        CFFType1FontProgram cffType1 = CFFType1FontProgram.getCFFType1(font);
+        if (cffType1 != null) {
+            int cid = this.cMap.toCID(code);
+            // In this case we ignore internal notations of names from CFF
+            // Type 1 font and use external CMap
+            if (cid != 0) {
+                return cffType1.containsGID(cid);
+            }
+        }
+        return font.containsCode(code);
+    }
+
+    /**
+     * @return CID System Info object for this CIDFont.
+     */
+    public PDCIDSystemInfo getCIDSystemInfo() {
+        if (this.cidSystemInfo == null) {
+            this.cidSystemInfo =
+                    new PDCIDSystemInfo(this.dictionary.getKey(ASAtom.CID_SYSTEM_INFO));
+        }
+        return this.cidSystemInfo;
+    }
+}
