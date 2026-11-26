@@ -11,6 +11,8 @@ or a PDF/A/PDF/UA validation engine. The Java reference snapshots remain under
 
 Build and test both workspaces through `VeraPdfNet.slnx`:
 
+GitHub Actions pipelines are intentionally not configured; run builds and tests locally.
+
 ```powershell
 dotnet build VeraPdfNet.slnx --configuration Release
 dotnet test VeraPdfNet.slnx --configuration Release --no-build

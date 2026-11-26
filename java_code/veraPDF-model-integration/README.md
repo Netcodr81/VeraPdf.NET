@@ -163,10 +163,8 @@ source root; the clean plugin deletes it. Edit the `.mdl` sources, not generated
 output. The model-syntax dependency is a build-plugin dependency, not an embedded
 font/XML/PDF parser implementation.
 
-The workflows under this snapshot's `.github\workflows` describe the upstream
-model repository's Java build and Arlington-branch propagation. Nested workflows
-are not automatically discovered as workflows for this enclosing repository.
-They do not build the C# parser or prove .NET model parity.
+GitHub Actions workflows are intentionally omitted from this repository,
+including this Java snapshot. Builds and checks are run locally.
 
 From the enclosing repository root, the upstream model build can be invoked as:
 
