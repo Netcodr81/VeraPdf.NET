@@ -1,0 +1,18 @@
+package org.verapdf.model.baselayer;
+
+% READING GUIDE: .mdl files describe validation contracts, not executable Java.
+% Xtext generates Java interfaces; parser-backed implementations supply the values.
+% A property exposes a scalar fact; a link exposes another model object for traversal.
+% Link suffixes describe multiplicity: ? optional, * zero or more, + one or more.
+% An unsuffixed link describes one target; check generated APIs for its representation.
+% Validation must still represent malformed PDFs, so multiplicity is not a reason
+% to invent missing objects or discard invalid input before rules can inspect it.
+%
+% C# PORT: Use a shared model interface (for example IModelObject), not System.Object.
+% Model "extends" becomes interface inheritance when porting the generated contracts.
+% Keep parser objects separate from these validation views and preserve model type names.
+% See README.md for scalar mappings, link collections and generator considerations.
+% Root object for the complete hierarchy of PDF types
+type Object {
+
+}

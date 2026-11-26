@@ -30,12 +30,19 @@ jobs:
       - name: Test
         run: dotnet test VeraPdfNet.slnx --configuration Release --no-build
 
+      - name: Check generated model contracts
+        shell: pwsh
+        run: |
+          dotnet run --project src/VeraPdfNet.Model/tools/VeraPdf.Model.Generation --configuration Release --no-build -- --input java_code/veraPDF-model-integration/src/main/java --output src/VeraPdfNet.Model/src/VeraPdf.Model.Core/Generated --check
+
       - name: Pack NuGet artifacts
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path artifacts/nupkg -Force | Out-Null
-          dotnet pack src/VeraPdf.NET.Validation/VeraPdf.NET.Validation.csproj --configuration Release --no-build -o artifacts/nupkg
+          dotnet pack src/VeraPdfNet.Parser/src/VeraPdf.Parser.Core/VeraPdf.Parser.Core.csproj --configuration Release --no-build -o artifacts/nupkg
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet pack src/VeraPdfNet.Model/src/VeraPdf.Model.Core/VeraPdf.Model.Core.csproj --configuration Release --no-build -o artifacts/nupkg
 
       - name: Upload NuGet artifacts
         if: matrix.os == 'windows-latest'

@@ -1,0 +1,6950 @@
+{
+  "GeneratorCommit": "f8e9f87d98a96784cd78a15229736722bb77eff8",
+  "Types": [
+    {
+      "Name": "Object",
+      "JavaName": "org.verapdf.model.baselayer.Object",
+      "ClrName": "VeraPdf.Model.BaseLayer.IModelObject",
+      "Source": "BaseLayer.mdl",
+      "BaseName": null,
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosActualText",
+      "JavaName": "org.verapdf.model.coslayer.CosActualText",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosActualText",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosString",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosAlt",
+      "JavaName": "org.verapdf.model.coslayer.CosAlt",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosAlt",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosString",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosArray",
+      "JavaName": "org.verapdf.model.coslayer.CosArray",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosArray",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "size",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "elements",
+          "Target": "CosObject",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "CosBBox",
+      "JavaName": "org.verapdf.model.coslayer.CosBBox",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosBBox",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosArray",
+      "Properties": [
+        {
+          "Name": "top",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "bottom",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "left",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "right",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosBM",
+      "JavaName": "org.verapdf.model.coslayer.CosBM",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosBM",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosName",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosBool",
+      "JavaName": "org.verapdf.model.coslayer.CosBool",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosBool",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "value",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosDict",
+      "JavaName": "org.verapdf.model.coslayer.CosDict",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosDict",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "size",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "keysString",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "keys",
+          "Target": "CosName",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "values",
+          "Target": "CosObject",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "metadata",
+          "Target": "PDMetadata",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "CosDocument",
+      "JavaName": "org.verapdf.model.coslayer.CosDocument",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosDocument",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "nrIndirects",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "headerVersion",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "isOptionalContentPresent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "postEOFDataSize",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "firstPageID",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "lastID",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "firstPageIDValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "lastIDValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isLinearized",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "headerOffset",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "header",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "headerByte1",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "headerByte2",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "headerByte3",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "headerByte4",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "Marked",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "Requirements",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "NeedsRendering",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsEmbeddedFiles",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "Suspects",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "DisplayDocTitle",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsInfo",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsPieceInfo",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "MarkInfo",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "ViewerPreferences",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "EmbeddedFiles",
+          "Target": "CosFileSpecification",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "xref",
+          "Target": "CosXRef",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "trailer",
+          "Target": "CosTrailer",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "indirectObjects",
+          "Target": "CosIndirect",
+          "Multiplicity": "\u002B"
+        },
+        {
+          "Name": "document",
+          "Target": "PDDocument",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "doc",
+          "Target": "SAPDFDocument",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "CosFileSpecification",
+      "JavaName": "org.verapdf.model.coslayer.CosFileSpecification",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosFileSpecification",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosDict",
+      "Properties": [
+        {
+          "Name": "containsEF",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsDesc",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "F",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "UF",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "AFRelationship",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isAssociatedFile",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "presentInEmbeddedFiles",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "EF",
+          "Target": "EmbeddedFile",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "CosFilter",
+      "JavaName": "org.verapdf.model.coslayer.CosFilter",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosFilter",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosName",
+      "Properties": [
+        {
+          "Name": "decodeParms",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosIIFilter",
+      "JavaName": "org.verapdf.model.coslayer.CosIIFilter",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosIIFilter",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosName",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosIndirect",
+      "JavaName": "org.verapdf.model.coslayer.CosIndirect",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosIndirect",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "spacingCompliesPDFA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "directObject",
+          "Target": "CosObject",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "CosInfo",
+      "JavaName": "org.verapdf.model.coslayer.CosInfo",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosInfo",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosDict",
+      "Properties": [
+        {
+          "Name": "ModDate",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPModifyDate",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "doModDatesMatch",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "CreationDate",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPCreateDate",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "doCreationDatesMatch",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "Title",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPTitle",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Author",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPCreator",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPCreatorSize",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "Subject",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPDescription",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Producer",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPProducer",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Creator",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPCreatorTool",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Keywords",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "XMPKeywords",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosInteger",
+      "JavaName": "org.verapdf.model.coslayer.CosInteger",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosInteger",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosNumber",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosLang",
+      "JavaName": "org.verapdf.model.coslayer.CosLang",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosLang",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosTextString",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosName",
+      "JavaName": "org.verapdf.model.coslayer.CosName",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosName",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "internalRepresentation",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosNull",
+      "JavaName": "org.verapdf.model.coslayer.CosNull",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosNull",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosNumber",
+      "JavaName": "org.verapdf.model.coslayer.CosNumber",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosNumber",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "stringValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "intValue",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "realValue",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosObject",
+      "JavaName": "org.verapdf.model.coslayer.CosObject",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosObject",
+      "Source": "CosLayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosReal",
+      "JavaName": "org.verapdf.model.coslayer.CosReal",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosReal",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosNumber",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosRenderingIntent",
+      "JavaName": "org.verapdf.model.coslayer.CosRenderingIntent",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosRenderingIntent",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosName",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "CosStream",
+      "JavaName": "org.verapdf.model.coslayer.CosStream",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosStream",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosDict",
+      "Properties": [
+        {
+          "Name": "Length",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "realLength",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "F",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "FFilter",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "FDecodeParms",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "streamKeywordCRLFCompliant",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "endstreamKeywordEOLCompliant",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "filters",
+          "Target": "CosFilter",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "CosString",
+      "JavaName": "org.verapdf.model.coslayer.CosString",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosString",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "value",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isHex",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsOnlyHex",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "hexCount",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "containsPUA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosTextString",
+      "JavaName": "org.verapdf.model.coslayer.CosTextString",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosTextString",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosString",
+      "Properties": [
+        {
+          "Name": "unicodeValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosTrailer",
+      "JavaName": "org.verapdf.model.coslayer.CosTrailer",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosTrailer",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosDict",
+      "Properties": [
+        {
+          "Name": "isEncrypted",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "Encrypt",
+          "Target": "PDEncryption",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Info",
+          "Target": "CosInfo",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "CosUnicodeName",
+      "JavaName": "org.verapdf.model.coslayer.CosUnicodeName",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosUnicodeName",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosName",
+      "Properties": [
+        {
+          "Name": "isValidUtf8",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "unicodeValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CosXRef",
+      "JavaName": "org.verapdf.model.coslayer.CosXRef",
+      "ClrName": "VeraPdf.Model.CosLayer.ICosXRef",
+      "Source": "CosLayer.mdl",
+      "BaseName": "CosObject",
+      "Properties": [
+        {
+          "Name": "subsectionHeaderSpaceSeparated",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "xrefEOLMarkersComplyPDFA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CMapFile",
+      "JavaName": "org.verapdf.model.external.CMapFile",
+      "ClrName": "VeraPdf.Model.External.ICMapFile",
+      "Source": "External.mdl",
+      "BaseName": "External",
+      "Properties": [
+        {
+          "Name": "WMode",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "dictWMode",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "maximalCID",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "EmbeddedFile",
+      "JavaName": "org.verapdf.model.external.EmbeddedFile",
+      "ClrName": "VeraPdf.Model.External.IEmbeddedFile",
+      "Source": "External.mdl",
+      "BaseName": "External",
+      "Properties": [
+        {
+          "Name": "Subtype",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isValidPDFA12",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isValidPDFA124",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "External",
+      "JavaName": "org.verapdf.model.external.External",
+      "ClrName": "VeraPdf.Model.External.IExternal",
+      "Source": "External.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "FontProgram",
+      "JavaName": "org.verapdf.model.external.FontProgram",
+      "ClrName": "VeraPdf.Model.External.IFontProgram",
+      "Source": "External.mdl",
+      "BaseName": "External",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "ICCInputProfile",
+      "JavaName": "org.verapdf.model.external.ICCInputProfile",
+      "ClrName": "VeraPdf.Model.External.IICCInputProfile",
+      "Source": "External.mdl",
+      "BaseName": "ICCProfile",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "ICCOutputProfile",
+      "JavaName": "org.verapdf.model.external.ICCOutputProfile",
+      "ClrName": "VeraPdf.Model.External.IICCOutputProfile",
+      "Source": "External.mdl",
+      "BaseName": "ICCProfile",
+      "Properties": [
+        {
+          "Name": "S",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "ICCProfile",
+      "JavaName": "org.verapdf.model.external.ICCProfile",
+      "ClrName": "VeraPdf.Model.External.IICCProfile",
+      "Source": "External.mdl",
+      "BaseName": "External",
+      "Properties": [
+        {
+          "Name": "N",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "deviceClass",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "colorSpace",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "version",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "isValid",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "JPEG2000",
+      "JavaName": "org.verapdf.model.external.JPEG2000",
+      "ClrName": "VeraPdf.Model.External.IJPEG2000",
+      "Source": "External.mdl",
+      "BaseName": "External",
+      "Properties": [
+        {
+          "Name": "nrColorChannels",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "nrColorSpaceSpecs",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "nrColorSpacesWithApproxField",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "colrMethod",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "colrEnumCS",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "bitDepth",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "bpccBoxPresent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "hasColorSpace",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PKCSDataObject",
+      "JavaName": "org.verapdf.model.external.PKCSDataObject",
+      "ClrName": "VeraPdf.Model.External.IPKCSDataObject",
+      "Source": "External.mdl",
+      "BaseName": "External",
+      "Properties": [
+        {
+          "Name": "SignerInfoCount",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "signingCertificatePresent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "TrueTypeFontProgram",
+      "JavaName": "org.verapdf.model.external.TrueTypeFontProgram",
+      "ClrName": "VeraPdf.Model.External.ITrueTypeFontProgram",
+      "Source": "External.mdl",
+      "BaseName": "FontProgram",
+      "Properties": [
+        {
+          "Name": "isSymbolic",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "nrCmaps",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "cmap30Present",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "cmap31Present",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "cmap10Present",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "CIDGlyph",
+      "JavaName": "org.verapdf.model.operator.CIDGlyph",
+      "ClrName": "VeraPdf.Model.Operator.ICIDGlyph",
+      "Source": "Operator.mdl",
+      "BaseName": "Glyph",
+      "Properties": [
+        {
+          "Name": "CID",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "Glyph",
+      "JavaName": "org.verapdf.model.operator.Glyph",
+      "ClrName": "VeraPdf.Model.Operator.IGlyph",
+      "Source": "Operator.mdl",
+      "BaseName": "Object",
+      "Properties": [
+        {
+          "Name": "name",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "widthFromDictionary",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "widthFromFontProgram",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "isGlyphPresent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "toUnicode",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "renderingMode",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "unicodePUA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "actualTextPresent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "altPresent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isRealContent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "OpClip",
+      "JavaName": "org.verapdf.model.operator.OpClip",
+      "ClrName": "VeraPdf.Model.Operator.IOpClip",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpColor",
+      "JavaName": "org.verapdf.model.operator.OpColor",
+      "ClrName": "VeraPdf.Model.Operator.IOpColor",
+      "Source": "Operator.mdl",
+      "BaseName": "OpSetColor",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "colorSpace",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "patternName",
+          "Target": "CosName",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "OpCompatibility",
+      "JavaName": "org.verapdf.model.operator.OpCompatibility",
+      "ClrName": "VeraPdf.Model.Operator.IOpCompatibility",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpGeneralGS",
+      "JavaName": "org.verapdf.model.operator.OpGeneralGS",
+      "ClrName": "VeraPdf.Model.Operator.IOpGeneralGS",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpInlineImage",
+      "JavaName": "org.verapdf.model.operator.OpInlineImage",
+      "ClrName": "VeraPdf.Model.Operator.IOpInlineImage",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpMarkedContent",
+      "JavaName": "org.verapdf.model.operator.OpMarkedContent",
+      "ClrName": "VeraPdf.Model.Operator.IOpMarkedContent",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "actualText",
+          "Target": "CosActualText",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "alt",
+          "Target": "CosAlt",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "OpPathConstruction",
+      "JavaName": "org.verapdf.model.operator.OpPathConstruction",
+      "ClrName": "VeraPdf.Model.Operator.IOpPathConstruction",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpPathPaint",
+      "JavaName": "org.verapdf.model.operator.OpPathPaint",
+      "ClrName": "VeraPdf.Model.Operator.IOpPathPaint",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpSetColor",
+      "JavaName": "org.verapdf.model.operator.OpSetColor",
+      "ClrName": "VeraPdf.Model.Operator.IOpSetColor",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "colorValues",
+          "Target": "CosNumber",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "OpShading",
+      "JavaName": "org.verapdf.model.operator.OpShading",
+      "ClrName": "VeraPdf.Model.Operator.IOpShading",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpSpecialGS",
+      "JavaName": "org.verapdf.model.operator.OpSpecialGS",
+      "ClrName": "VeraPdf.Model.Operator.IOpSpecialGS",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpTextObject",
+      "JavaName": "org.verapdf.model.operator.OpTextObject",
+      "ClrName": "VeraPdf.Model.Operator.IOpTextObject",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpTextPosition",
+      "JavaName": "org.verapdf.model.operator.OpTextPosition",
+      "ClrName": "VeraPdf.Model.Operator.IOpTextPosition",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpTextShow",
+      "JavaName": "org.verapdf.model.operator.OpTextShow",
+      "ClrName": "VeraPdf.Model.Operator.IOpTextShow",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "font",
+          "Target": "PDFont",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "usedGlyphs",
+          "Target": "Glyph",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "fillCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "strokeCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "OpTextState",
+      "JavaName": "org.verapdf.model.operator.OpTextState",
+      "ClrName": "VeraPdf.Model.Operator.IOpTextState",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpType3Font",
+      "JavaName": "org.verapdf.model.operator.OpType3Font",
+      "ClrName": "VeraPdf.Model.Operator.IOpType3Font",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OpXObject",
+      "JavaName": "org.verapdf.model.operator.OpXObject",
+      "ClrName": "VeraPdf.Model.Operator.IOpXObject",
+      "Source": "Operator.mdl",
+      "BaseName": "Operator",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_BDC",
+      "JavaName": "org.verapdf.model.operator.Op_BDC",
+      "ClrName": "VeraPdf.Model.Operator.IOp_BDC",
+      "Source": "Operator.mdl",
+      "BaseName": "OpMarkedContent",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "tag",
+          "Target": "CosName",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "properties",
+          "Target": "CosDict",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "Lang",
+          "Target": "CosLang",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "Op_BI",
+      "JavaName": "org.verapdf.model.operator.Op_BI",
+      "ClrName": "VeraPdf.Model.Operator.IOp_BI",
+      "Source": "Operator.mdl",
+      "BaseName": "OpInlineImage",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_BMC",
+      "JavaName": "org.verapdf.model.operator.Op_BMC",
+      "ClrName": "VeraPdf.Model.Operator.IOp_BMC",
+      "Source": "Operator.mdl",
+      "BaseName": "OpMarkedContent",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "tag",
+          "Target": "CosName",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_BStar_eofill_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_BStar_eofill_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_BStar_eofill_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "fillCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "strokeCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_BT",
+      "JavaName": "org.verapdf.model.operator.Op_BT",
+      "ClrName": "VeraPdf.Model.Operator.IOp_BT",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextObject",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_BX",
+      "JavaName": "org.verapdf.model.operator.Op_BX",
+      "ClrName": "VeraPdf.Model.Operator.IOp_BX",
+      "Source": "Operator.mdl",
+      "BaseName": "OpCompatibility",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_B_fill_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_B_fill_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_B_fill_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "fillCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "strokeCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_DP",
+      "JavaName": "org.verapdf.model.operator.Op_DP",
+      "ClrName": "VeraPdf.Model.Operator.IOp_DP",
+      "Source": "Operator.mdl",
+      "BaseName": "OpMarkedContent",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "tag",
+          "Target": "CosName",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "properties",
+          "Target": "CosDict",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Do",
+      "JavaName": "org.verapdf.model.operator.Op_Do",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Do",
+      "Source": "Operator.mdl",
+      "BaseName": "OpXObject",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "xObject",
+          "Target": "PDXObject",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_DoubleQuote",
+      "JavaName": "org.verapdf.model.operator.Op_DoubleQuote",
+      "ClrName": "VeraPdf.Model.Operator.IOp_DoubleQuote",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextShow",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "showString",
+          "Target": "CosString",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "wordSpacing",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "characterSpacing",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_EI",
+      "JavaName": "org.verapdf.model.operator.Op_EI",
+      "ClrName": "VeraPdf.Model.Operator.IOp_EI",
+      "Source": "Operator.mdl",
+      "BaseName": "OpInlineImage",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "inlineImage",
+          "Target": "PDInlineImage",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_EMC",
+      "JavaName": "org.verapdf.model.operator.Op_EMC",
+      "ClrName": "VeraPdf.Model.Operator.IOp_EMC",
+      "Source": "Operator.mdl",
+      "BaseName": "OpMarkedContent",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_ET",
+      "JavaName": "org.verapdf.model.operator.Op_ET",
+      "ClrName": "VeraPdf.Model.Operator.IOp_ET",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextObject",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_EX",
+      "JavaName": "org.verapdf.model.operator.Op_EX",
+      "ClrName": "VeraPdf.Model.Operator.IOp_EX",
+      "Source": "Operator.mdl",
+      "BaseName": "OpCompatibility",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_FStar",
+      "JavaName": "org.verapdf.model.operator.Op_FStar",
+      "ClrName": "VeraPdf.Model.Operator.IOp_FStar",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "fillCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_F_fill_obsolete",
+      "JavaName": "org.verapdf.model.operator.Op_F_fill_obsolete",
+      "ClrName": "VeraPdf.Model.Operator.IOp_F_fill_obsolete",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "fillCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_G_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_G_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_G_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_ID",
+      "JavaName": "org.verapdf.model.operator.Op_ID",
+      "ClrName": "VeraPdf.Model.Operator.IOp_ID",
+      "Source": "Operator.mdl",
+      "BaseName": "OpInlineImage",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "inlineImageDictionary",
+          "Target": "CosDict",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_J_line_cap",
+      "JavaName": "org.verapdf.model.operator.Op_J_line_cap",
+      "ClrName": "VeraPdf.Model.Operator.IOp_J_line_cap",
+      "Source": "Operator.mdl",
+      "BaseName": "OpGeneralGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "lineCap",
+          "Target": "CosInteger",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_K_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_K_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_K_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_MP",
+      "JavaName": "org.verapdf.model.operator.Op_MP",
+      "ClrName": "VeraPdf.Model.Operator.IOp_MP",
+      "Source": "Operator.mdl",
+      "BaseName": "OpMarkedContent",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "tag",
+          "Target": "CosName",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_M_miter_limit",
+      "JavaName": "org.verapdf.model.operator.Op_M_miter_limit",
+      "ClrName": "VeraPdf.Model.Operator.IOp_M_miter_limit",
+      "Source": "Operator.mdl",
+      "BaseName": "OpGeneralGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "miterLimit",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Q_grestore",
+      "JavaName": "org.verapdf.model.operator.Op_Q_grestore",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Q_grestore",
+      "Source": "Operator.mdl",
+      "BaseName": "OpSpecialGS",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_Quote",
+      "JavaName": "org.verapdf.model.operator.Op_Quote",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Quote",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextShow",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "showString",
+          "Target": "CosString",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_RG_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_RG_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_RG_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_SCN_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_SCN_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_SCN_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_SC_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_SC_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_SC_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpSetColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_S_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_S_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_S_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "strokeCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_TD_Big",
+      "JavaName": "org.verapdf.model.operator.Op_TD_Big",
+      "ClrName": "VeraPdf.Model.Operator.IOp_TD_Big",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextPosition",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "horizontalOffset",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "verticalOffset",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_TJ_Big",
+      "JavaName": "org.verapdf.model.operator.Op_TJ_Big",
+      "ClrName": "VeraPdf.Model.Operator.IOp_TJ_Big",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextShow",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "specialStrings",
+          "Target": "CosArray",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_T_Star",
+      "JavaName": "org.verapdf.model.operator.Op_T_Star",
+      "ClrName": "VeraPdf.Model.Operator.IOp_T_Star",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextPosition",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_Tc",
+      "JavaName": "org.verapdf.model.operator.Op_Tc",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Tc",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextState",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "charSpace",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Td",
+      "JavaName": "org.verapdf.model.operator.Op_Td",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Td",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextPosition",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "horizontalOffset",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "verticalOffset",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Tf",
+      "JavaName": "org.verapdf.model.operator.Op_Tf",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Tf",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextState",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "size",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "fontName",
+          "Target": "CosName",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Tj",
+      "JavaName": "org.verapdf.model.operator.Op_Tj",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Tj",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextShow",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "showString",
+          "Target": "CosString",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Tl",
+      "JavaName": "org.verapdf.model.operator.Op_Tl",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Tl",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextState",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "leading",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Tm",
+      "JavaName": "org.verapdf.model.operator.Op_Tm",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Tm",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextPosition",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "controlPoints",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Op_Tr",
+      "JavaName": "org.verapdf.model.operator.Op_Tr",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Tr",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextState",
+      "Properties": [
+        {
+          "Name": "renderingMode",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "Op_Ts",
+      "JavaName": "org.verapdf.model.operator.Op_Ts",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Ts",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextState",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "rise",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Tw",
+      "JavaName": "org.verapdf.model.operator.Op_Tw",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Tw",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextState",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "wordSpace",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Tz",
+      "JavaName": "org.verapdf.model.operator.Op_Tz",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Tz",
+      "Source": "Operator.mdl",
+      "BaseName": "OpTextState",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "scale",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_Undefined",
+      "JavaName": "org.verapdf.model.operator.Op_Undefined",
+      "ClrName": "VeraPdf.Model.Operator.IOp_Undefined",
+      "Source": "Operator.mdl",
+      "BaseName": "OpCompatibility",
+      "Properties": [
+        {
+          "Name": "name",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "Op_WStar",
+      "JavaName": "org.verapdf.model.operator.Op_WStar",
+      "ClrName": "VeraPdf.Model.Operator.IOp_WStar",
+      "Source": "Operator.mdl",
+      "BaseName": "OpClip",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_W_clip",
+      "JavaName": "org.verapdf.model.operator.Op_W_clip",
+      "ClrName": "VeraPdf.Model.Operator.IOp_W_clip",
+      "Source": "Operator.mdl",
+      "BaseName": "OpClip",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_b_closepath_fill_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_b_closepath_fill_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_b_closepath_fill_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "fillCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "strokeCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_bstar_closepath_eofill_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_bstar_closepath_eofill_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_bstar_closepath_eofill_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "fillCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "strokeCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_c",
+      "JavaName": "org.verapdf.model.operator.Op_c",
+      "ClrName": "VeraPdf.Model.Operator.IOp_c",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathConstruction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "controlPoints",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Op_cm",
+      "JavaName": "org.verapdf.model.operator.Op_cm",
+      "ClrName": "VeraPdf.Model.Operator.IOp_cm",
+      "Source": "Operator.mdl",
+      "BaseName": "OpSpecialGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "matrix",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Op_d",
+      "JavaName": "org.verapdf.model.operator.Op_d",
+      "ClrName": "VeraPdf.Model.Operator.IOp_d",
+      "Source": "Operator.mdl",
+      "BaseName": "OpGeneralGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "dashArray",
+          "Target": "CosArray",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "dashPhase",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_d0",
+      "JavaName": "org.verapdf.model.operator.Op_d0",
+      "ClrName": "VeraPdf.Model.Operator.IOp_d0",
+      "Source": "Operator.mdl",
+      "BaseName": "OpType3Font",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "horizontalDisplacement",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "verticalDisplacement",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_d1",
+      "JavaName": "org.verapdf.model.operator.Op_d1",
+      "ClrName": "VeraPdf.Model.Operator.IOp_d1",
+      "Source": "Operator.mdl",
+      "BaseName": "OpType3Font",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "controlPoints",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Op_f_fill",
+      "JavaName": "org.verapdf.model.operator.Op_f_fill",
+      "ClrName": "VeraPdf.Model.Operator.IOp_f_fill",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "fillCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_g_fill",
+      "JavaName": "org.verapdf.model.operator.Op_g_fill",
+      "ClrName": "VeraPdf.Model.Operator.IOp_g_fill",
+      "Source": "Operator.mdl",
+      "BaseName": "OpColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_gs",
+      "JavaName": "org.verapdf.model.operator.Op_gs",
+      "ClrName": "VeraPdf.Model.Operator.IOp_gs",
+      "Source": "Operator.mdl",
+      "BaseName": "OpGeneralGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "extGState",
+          "Target": "PDExtGState",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_h",
+      "JavaName": "org.verapdf.model.operator.Op_h",
+      "ClrName": "VeraPdf.Model.Operator.IOp_h",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathConstruction",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_i",
+      "JavaName": "org.verapdf.model.operator.Op_i",
+      "ClrName": "VeraPdf.Model.Operator.IOp_i",
+      "Source": "Operator.mdl",
+      "BaseName": "OpGeneralGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "flatness",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_j_line_join",
+      "JavaName": "org.verapdf.model.operator.Op_j_line_join",
+      "ClrName": "VeraPdf.Model.Operator.IOp_j_line_join",
+      "Source": "Operator.mdl",
+      "BaseName": "OpGeneralGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "lineJoin",
+          "Target": "CosInteger",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_k_fill",
+      "JavaName": "org.verapdf.model.operator.Op_k_fill",
+      "ClrName": "VeraPdf.Model.Operator.IOp_k_fill",
+      "Source": "Operator.mdl",
+      "BaseName": "OpColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_l",
+      "JavaName": "org.verapdf.model.operator.Op_l",
+      "ClrName": "VeraPdf.Model.Operator.IOp_l",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathConstruction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "point",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Op_m_moveto",
+      "JavaName": "org.verapdf.model.operator.Op_m_moveto",
+      "ClrName": "VeraPdf.Model.Operator.IOp_m_moveto",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathConstruction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "point",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Op_n",
+      "JavaName": "org.verapdf.model.operator.Op_n",
+      "ClrName": "VeraPdf.Model.Operator.IOp_n",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_q_gsave",
+      "JavaName": "org.verapdf.model.operator.Op_q_gsave",
+      "ClrName": "VeraPdf.Model.Operator.IOp_q_gsave",
+      "Source": "Operator.mdl",
+      "BaseName": "OpSpecialGS",
+      "Properties": [
+        {
+          "Name": "nestingLevel",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "Op_re",
+      "JavaName": "org.verapdf.model.operator.Op_re",
+      "ClrName": "VeraPdf.Model.Operator.IOp_re",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathConstruction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "rectBox",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Op_rg_fill",
+      "JavaName": "org.verapdf.model.operator.Op_rg_fill",
+      "ClrName": "VeraPdf.Model.Operator.IOp_rg_fill",
+      "Source": "Operator.mdl",
+      "BaseName": "OpColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_ri",
+      "JavaName": "org.verapdf.model.operator.Op_ri",
+      "ClrName": "VeraPdf.Model.Operator.IOp_ri",
+      "Source": "Operator.mdl",
+      "BaseName": "OpGeneralGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "renderingIntent",
+          "Target": "CosRenderingIntent",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_s_close_stroke",
+      "JavaName": "org.verapdf.model.operator.Op_s_close_stroke",
+      "ClrName": "VeraPdf.Model.Operator.IOp_s_close_stroke",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathPaint",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "strokeCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_sc_fill",
+      "JavaName": "org.verapdf.model.operator.Op_sc_fill",
+      "ClrName": "VeraPdf.Model.Operator.IOp_sc_fill",
+      "Source": "Operator.mdl",
+      "BaseName": "OpSetColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_scn_fill",
+      "JavaName": "org.verapdf.model.operator.Op_scn_fill",
+      "ClrName": "VeraPdf.Model.Operator.IOp_scn_fill",
+      "Source": "Operator.mdl",
+      "BaseName": "OpColor",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "Op_sh",
+      "JavaName": "org.verapdf.model.operator.Op_sh",
+      "ClrName": "VeraPdf.Model.Operator.IOp_sh",
+      "Source": "Operator.mdl",
+      "BaseName": "OpShading",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "shading",
+          "Target": "PDShading",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_v",
+      "JavaName": "org.verapdf.model.operator.Op_v",
+      "ClrName": "VeraPdf.Model.Operator.IOp_v",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathConstruction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "controlPoints",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Op_w_line_width",
+      "JavaName": "org.verapdf.model.operator.Op_w_line_width",
+      "ClrName": "VeraPdf.Model.Operator.IOp_w_line_width",
+      "Source": "Operator.mdl",
+      "BaseName": "OpGeneralGS",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "lineWidth",
+          "Target": "CosNumber",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "Op_y",
+      "JavaName": "org.verapdf.model.operator.Op_y",
+      "ClrName": "VeraPdf.Model.Operator.IOp_y",
+      "Source": "Operator.mdl",
+      "BaseName": "OpPathConstruction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "controlPoints",
+          "Target": "CosNumber",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "Operator",
+      "JavaName": "org.verapdf.model.operator.Operator",
+      "ClrName": "VeraPdf.Model.Operator.IOperator",
+      "Source": "Operator.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "OutputIntents",
+      "JavaName": "org.verapdf.model.pdlayer.OutputIntents",
+      "ClrName": "VeraPdf.Model.PDLayer.IOutputIntents",
+      "Source": "PDLayer.mdl",
+      "BaseName": "Object",
+      "Properties": [
+        {
+          "Name": "sameOutputProfileIndirect",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "outputProfileIndirects",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "numberOfPDFAOutputIntents",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "outputIntents",
+          "Target": "PDOutputIntent",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PD3DAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PD3DAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPD3DAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "stream3D",
+          "Target": "PD3DStream",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PD3DStream",
+      "JavaName": "org.verapdf.model.pdlayer.PD3DStream",
+      "ClrName": "VeraPdf.Model.PDLayer.IPD3DStream",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "Subtype",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "colorSpace",
+          "Target": "PDColorSpace",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDAcroForm",
+      "JavaName": "org.verapdf.model.pdlayer.PDAcroForm",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDAcroForm",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "NeedAppearances",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsXFA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "dynamicRender",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "formFields",
+          "Target": "PDFormField",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDAction",
+      "JavaName": "org.verapdf.model.pdlayer.PDAction",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDAction",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "S",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "Next",
+          "Target": "PDAction",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDAdditionalActions",
+      "JavaName": "org.verapdf.model.pdlayer.PDAdditionalActions",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDAdditionalActions",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "parentType",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "Actions",
+          "Target": "PDAction",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "Subtype",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "CA",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "F",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "AP",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsAppearances",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "FT",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "N_type",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsC",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsIC",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "width",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "height",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "containsA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsAA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "structParentType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "structParentStandardType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "structParentObjectKey",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsLang",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "Contents",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Alt",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isOutsideCropBox",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isArtifact",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "appearance",
+          "Target": "PDXForm",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "A",
+          "Target": "PDAction",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "AA",
+          "Target": "PDAdditionalActions",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Lang",
+          "Target": "CosLang",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "BM",
+          "Target": "CosBM",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDCIDFont",
+      "JavaName": "org.verapdf.model.pdlayer.PDCIDFont",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDCIDFont",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFont",
+      "Properties": [
+        {
+          "Name": "CIDToGIDMap",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsCIDSet",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "cidSetListsAllGlyphs",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDCMap",
+      "JavaName": "org.verapdf.model.pdlayer.PDCMap",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDCMap",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "CMapName",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsEmbeddedFile",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "UseCMap",
+          "Target": "PDReferencedCMap",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "embeddedFile",
+          "Target": "CMapFile",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDCalGray",
+      "JavaName": "org.verapdf.model.pdlayer.PDCalGray",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDCalGray",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDCalRGB",
+      "JavaName": "org.verapdf.model.pdlayer.PDCalRGB",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDCalRGB",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDColorSpace",
+      "JavaName": "org.verapdf.model.pdlayer.PDColorSpace",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDColorSpace",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDResource",
+      "Properties": [
+        {
+          "Name": "nrComponents",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDContentStream",
+      "JavaName": "org.verapdf.model.pdlayer.PDContentStream",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDContentStream",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "undefinedResourceNames",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "inheritedResourceNames",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "operators",
+          "Target": "Operator",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "resources",
+          "Target": "PDResources",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDDestination",
+      "JavaName": "org.verapdf.model.pdlayer.PDDestination",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDDestination",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "isStructDestination",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDDeviceCMYK",
+      "JavaName": "org.verapdf.model.pdlayer.PDDeviceCMYK",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDDeviceCMYK",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDDeviceGray",
+      "JavaName": "org.verapdf.model.pdlayer.PDDeviceGray",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDDeviceGray",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDDeviceN",
+      "JavaName": "org.verapdf.model.pdlayer.PDDeviceN",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDDeviceN",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [
+        {
+          "Name": "areColorantsPresent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "tintTransform",
+          "Target": "PDFunction",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "alternate",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "colorantNames",
+          "Target": "CosUnicodeName",
+          "Multiplicity": "\u002B"
+        },
+        {
+          "Name": "Colorants",
+          "Target": "PDSeparation",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "processColor",
+          "Target": "PDColorSpace",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDDeviceRGB",
+      "JavaName": "org.verapdf.model.pdlayer.PDDeviceRGB",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDDeviceRGB",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDDocument",
+      "JavaName": "org.verapdf.model.pdlayer.PDDocument",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDDocument",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "containsMetadata",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsStructTreeRoot",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsAlternatePresentations",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsLang",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsAA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "outputColorSpace",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Version",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "pdfVersion",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "header",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "mostCommonOrientation",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsXRefStream",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "outputIntents",
+          "Target": "OutputIntents",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "pages",
+          "Target": "PDPage",
+          "Multiplicity": "\u002B"
+        },
+        {
+          "Name": "metadata",
+          "Target": "PDMetadata",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "AcroForm",
+          "Target": "PDAcroForm",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "AA",
+          "Target": "PDAdditionalActions",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "OpenAction",
+          "Target": "PDAction",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "OpenActionDestination",
+          "Target": "PDDestination",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Outlines",
+          "Target": "PDOutline",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "OCProperties",
+          "Target": "PDOCProperties",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "StructTreeRoot",
+          "Target": "PDStructTreeRoot",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Lang",
+          "Target": "CosLang",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Perms",
+          "Target": "PDPerms",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDEncryption",
+      "JavaName": "org.verapdf.model.pdlayer.PDEncryption",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDEncryption",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "P",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDExtGState",
+      "JavaName": "org.verapdf.model.pdlayer.PDExtGState",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDExtGState",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDResource",
+      "Properties": [
+        {
+          "Name": "TR2NameValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsTR",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsTR2",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsHTP",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsHTO",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "SMaskNameValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsSMask",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsBM",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "BMNameValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "ca",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "CA",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "HT",
+          "Target": "PDHalftone",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "bm",
+          "Target": "CosBM",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "RI",
+          "Target": "CosRenderingIntent",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "customFunctions",
+          "Target": "PDFunction",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDFileAttachmentAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDFileAttachmentAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDFileAttachmentAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDMarkupAnnot",
+      "Properties": [
+        {
+          "Name": "containsFS",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "AFRelationship",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDFont",
+      "JavaName": "org.verapdf.model.pdlayer.PDFont",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDFont",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDResource",
+      "Properties": [
+        {
+          "Name": "Type",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Subtype",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "fontName",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isSymbolic",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "renderingMode",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "containsFontFile",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "fontFileSubtype",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isItalic",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "BaseFont",
+          "Target": "CosUnicodeName",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "fontFile",
+          "Target": "FontProgram",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDFormField",
+      "JavaName": "org.verapdf.model.pdlayer.PDFormField",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDFormField",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "FT",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsAA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsLang",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "TU",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Ff",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "AA",
+          "Target": "PDAdditionalActions",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Lang",
+          "Target": "CosLang",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Kids",
+          "Target": "PDFormField",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDFunction",
+      "JavaName": "org.verapdf.model.pdlayer.PDFunction",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDFunction",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "FunctionType",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDGoToAction",
+      "JavaName": "org.verapdf.model.pdlayer.PDGoToAction",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDGoToAction",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAction",
+      "Properties": [
+        {
+          "Name": "containsStructDestination",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDGoToRemoteAction",
+      "JavaName": "org.verapdf.model.pdlayer.PDGoToRemoteAction",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDGoToRemoteAction",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAction",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDGroup",
+      "JavaName": "org.verapdf.model.pdlayer.PDGroup",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDGroup",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "S",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "colorSpace",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDHalftone",
+      "JavaName": "org.verapdf.model.pdlayer.PDHalftone",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDHalftone",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "HalftoneType",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "HalftoneName",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "colorantName",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "TransferFunction",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "customFunction",
+          "Target": "PDFunction",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "halftones",
+          "Target": "PDHalftone",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDICCBased",
+      "JavaName": "org.verapdf.model.pdlayer.PDICCBased",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDICCBased",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [
+        {
+          "Name": "ICCProfileIndirect",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "currentTransparencyProfileIndirect",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "ICCProfileMD5",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "currentTransparencyICCProfileMD5",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "iccProfile",
+          "Target": "ICCInputProfile",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDICCBasedCMYK",
+      "JavaName": "org.verapdf.model.pdlayer.PDICCBasedCMYK",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDICCBasedCMYK",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDICCBased",
+      "Properties": [
+        {
+          "Name": "OPM",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "overprintFlag",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDIndexed",
+      "JavaName": "org.verapdf.model.pdlayer.PDIndexed",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDIndexed",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "base",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDInkAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDInkAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDInkAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDMarkupAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDInlineImage",
+      "JavaName": "org.verapdf.model.pdlayer.PDInlineImage",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDInlineImage",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDXImage",
+      "Properties": [
+        {
+          "Name": "L",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "streamLength",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "F",
+          "Target": "CosIIFilter",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDLab",
+      "JavaName": "org.verapdf.model.pdlayer.PDLab",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDLab",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDLinkAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDLinkAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDLinkAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [
+        {
+          "Name": "structDestinationKey",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "differentTargetAnnotObjectKey",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "differentTargetAnnotDestinationKey",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "Dest",
+          "Target": "PDDestination",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDMarkupAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDMarkupAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDMarkupAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [
+        {
+          "Name": "RC",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsRC",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDMaskImage",
+      "JavaName": "org.verapdf.model.pdlayer.PDMaskImage",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDMaskImage",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDXImage",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDMediaClip",
+      "JavaName": "org.verapdf.model.pdlayer.PDMediaClip",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDMediaClip",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "CT",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Alt",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "hasCorrectAlt",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDMetadata",
+      "JavaName": "org.verapdf.model.pdlayer.PDMetadata",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDMetadata",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "Filter",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isCatalogMetadata",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "XMPPackage",
+          "Target": "XMPPackage",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "stream",
+          "Target": "CosStream",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDMovieAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDMovieAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDMovieAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDNamedAction",
+      "JavaName": "org.verapdf.model.pdlayer.PDNamedAction",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDNamedAction",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAction",
+      "Properties": [
+        {
+          "Name": "N",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDOCConfig",
+      "JavaName": "org.verapdf.model.pdlayer.PDOCConfig",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDOCConfig",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "Name",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "hasDuplicateName",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "AS",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "OCGsNotContainedInOrder",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDOCProperties",
+      "JavaName": "org.verapdf.model.pdlayer.PDOCProperties",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDOCProperties",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "containsConfigs",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "D",
+          "Target": "PDOCConfig",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "Configs",
+          "Target": "PDOCConfig",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDObject",
+      "JavaName": "org.verapdf.model.pdlayer.PDObject",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDObject",
+      "Source": "PDLayer.mdl",
+      "BaseName": "Object",
+      "Properties": [
+        {
+          "Name": "entries",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "objectKey",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDOutline",
+      "JavaName": "org.verapdf.model.pdlayer.PDOutline",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDOutline",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "A",
+          "Target": "PDAction",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Title",
+          "Target": "CosTextString",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Dest",
+          "Target": "PDDestination",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDOutputIntent",
+      "JavaName": "org.verapdf.model.pdlayer.PDOutputIntent",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDOutputIntent",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "destOutputProfileIndirect",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsDestOutputProfileRef",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "OutputConditionIdentifier",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "S",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "ICCProfileMD5",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "destProfile",
+          "Target": "ICCOutputProfile",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDPage",
+      "JavaName": "org.verapdf.model.pdlayer.PDPage",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDPage",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "containsAnnotations",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsPresSteps",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsTransparency",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsGroupCS",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsAA",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "Tabs",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "orientation",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "outputColorSpace",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "pageNumber",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "outputIntents",
+          "Target": "OutputIntents",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "AA",
+          "Target": "PDAdditionalActions",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "transparencyColorSpace",
+          "Target": "TransparencyColorSpace",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "contentStream",
+          "Target": "PDContentStream",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "annots",
+          "Target": "PDAnnot",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "parentTransparencyColorSpace",
+          "Target": "TransparencyColorSpace",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Group",
+          "Target": "PDGroup",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "MediaBox",
+          "Target": "CosBBox",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "CropBox",
+          "Target": "CosBBox",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "BleedBox",
+          "Target": "CosBBox",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "TrimBox",
+          "Target": "CosBBox",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "ArtBox",
+          "Target": "CosBBox",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "resources",
+          "Target": "PDResources",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDPattern",
+      "JavaName": "org.verapdf.model.pdlayer.PDPattern",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDPattern",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDPerms",
+      "JavaName": "org.verapdf.model.pdlayer.PDPerms",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDPerms",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDPopupAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDPopupAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDPopupAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDPrinterMarkAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDPrinterMarkAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDPrinterMarkAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDReferencedCMap",
+      "JavaName": "org.verapdf.model.pdlayer.PDReferencedCMap",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDReferencedCMap",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDCMap",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDRenditionAction",
+      "JavaName": "org.verapdf.model.pdlayer.PDRenditionAction",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDRenditionAction",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "C",
+          "Target": "PDMediaClip",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDResource",
+      "JavaName": "org.verapdf.model.pdlayer.PDResource",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDResource",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "isInherited",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDResources",
+      "JavaName": "org.verapdf.model.pdlayer.PDResources",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDResources",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "resourcesNames",
+          "Target": "CosUnicodeName",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDRichMediaAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDRichMediaAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDRichMediaAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDRubberStampAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDRubberStampAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDRubberStampAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDMarkupAnnot",
+      "Properties": [
+        {
+          "Name": "Name",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDSMaskImage",
+      "JavaName": "org.verapdf.model.pdlayer.PDSMaskImage",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDSMaskImage",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDXImage",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDScreenAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDScreenAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDScreenAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDSemanticContentStream",
+      "JavaName": "org.verapdf.model.pdlayer.PDSemanticContentStream",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDSemanticContentStream",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDContentStream",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "content",
+          "Target": "SEContentItem",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDSeparation",
+      "JavaName": "org.verapdf.model.pdlayer.PDSeparation",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDSeparation",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDColorSpace",
+      "Properties": [
+        {
+          "Name": "name",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "areTintAndAlternateConsistent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "tintTransform",
+          "Target": "PDFunction",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "alternate",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "colorantName",
+          "Target": "CosUnicodeName",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDShading",
+      "JavaName": "org.verapdf.model.pdlayer.PDShading",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDShading",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDResource",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "colorSpace",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDShadingPattern",
+      "JavaName": "org.verapdf.model.pdlayer.PDShadingPattern",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDShadingPattern",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDPattern",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "shading",
+          "Target": "PDShading",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDSigRef",
+      "JavaName": "org.verapdf.model.pdlayer.PDSigRef",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDSigRef",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "permsContainDocMDP",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDSignature",
+      "JavaName": "org.verapdf.model.pdlayer.PDSignature",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDSignature",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "doesByteRangeCoverEntireDocument",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "Contents",
+          "Target": "PKCSDataObject",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "Reference",
+          "Target": "PDSigRef",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDSignatureField",
+      "JavaName": "org.verapdf.model.pdlayer.PDSignatureField",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDSignatureField",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFormField",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "V",
+          "Target": "PDSignature",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDSimpleFont",
+      "JavaName": "org.verapdf.model.pdlayer.PDSimpleFont",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDSimpleFont",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFont",
+      "Properties": [
+        {
+          "Name": "isStandard",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "FirstChar",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "LastChar",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "Widths_size",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "Encoding",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsDifferences",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDSoundAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDSoundAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDSoundAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDStructElem",
+      "JavaName": "org.verapdf.model.pdlayer.PDStructElem",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDStructElem",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDStructTreeNode",
+      "Properties": [
+        {
+          "Name": "parentStandardType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "namespaceAndTag",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "valueS",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "standardType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsLang",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "parentLang",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "remappedStandardType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Alt",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "ActualText",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "E",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "circularMappingExist",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "roleMapToSameNamespaceTag",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsParent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isGrouping",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "S",
+          "Target": "CosUnicodeName",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "Lang",
+          "Target": "CosLang",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "actualText",
+          "Target": "CosActualText",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "alt",
+          "Target": "CosAlt",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDStructTreeNode",
+      "JavaName": "org.verapdf.model.pdlayer.PDStructTreeNode",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDStructTreeNode",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDObject",
+      "Properties": [
+        {
+          "Name": "kidsStandardTypes",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "hasContentItems",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "K",
+          "Target": "PDStructElem",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDStructTreeRoot",
+      "JavaName": "org.verapdf.model.pdlayer.PDStructTreeRoot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDStructTreeRoot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDStructTreeNode",
+      "Properties": [
+        {
+          "Name": "firstChildStandardTypeNamespaceURL",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "roleMapNames",
+          "Target": "CosUnicodeName",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDTextField",
+      "JavaName": "org.verapdf.model.pdlayer.PDTextField",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDTextField",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFormField",
+      "Properties": [
+        {
+          "Name": "V",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "RV",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsRV",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDTilingPattern",
+      "JavaName": "org.verapdf.model.pdlayer.PDTilingPattern",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDTilingPattern",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDPattern",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "contentStream",
+          "Target": "PDContentStream",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDTrapNetAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDTrapNetAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDTrapNetAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDTrueTypeFont",
+      "JavaName": "org.verapdf.model.pdlayer.PDTrueTypeFont",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDTrueTypeFont",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDSimpleFont",
+      "Properties": [
+        {
+          "Name": "differencesAreUnicodeCompliant",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDType0Font",
+      "JavaName": "org.verapdf.model.pdlayer.PDType0Font",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDType0Font",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFont",
+      "Properties": [
+        {
+          "Name": "CIDFontOrdering",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "CMapOrdering",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "CIDFontRegistry",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "CMapRegistry",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "CIDFontSupplement",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "CMapSupplement",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "cmapName",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "DescendantFonts",
+          "Target": "PDCIDFont",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "Encoding",
+          "Target": "PDCMap",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDType0Function",
+      "JavaName": "org.verapdf.model.pdlayer.PDType0Function",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDType0Function",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFunction",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDType1Font",
+      "JavaName": "org.verapdf.model.pdlayer.PDType1Font",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDType1Font",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDSimpleFont",
+      "Properties": [
+        {
+          "Name": "CharSet",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "charSetListsAllGlyphs",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDType2Function",
+      "JavaName": "org.verapdf.model.pdlayer.PDType2Function",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDType2Function",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFunction",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDType3Font",
+      "JavaName": "org.verapdf.model.pdlayer.PDType3Font",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDType3Font",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDSimpleFont",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "charStrings",
+          "Target": "PDContentStream",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDType3Function",
+      "JavaName": "org.verapdf.model.pdlayer.PDType3Function",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDType3Function",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFunction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "Functions",
+          "Target": "PDFunction",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDType4Function",
+      "JavaName": "org.verapdf.model.pdlayer.PDType4Function",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDType4Function",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDFunction",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "operators",
+          "Target": "CosObject",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "PDWatermarkAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDWatermarkAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDWatermarkAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "PDWidgetAnnot",
+      "JavaName": "org.verapdf.model.pdlayer.PDWidgetAnnot",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDWidgetAnnot",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDAnnot",
+      "Properties": [
+        {
+          "Name": "TU",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsLbl",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isFieldWidget",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDXForm",
+      "JavaName": "org.verapdf.model.pdlayer.PDXForm",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDXForm",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDXObject",
+      "Properties": [
+        {
+          "Name": "Subtype2",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsPS",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsRef",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isUniqueSemanticParent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "transparencyColorSpace",
+          "Target": "TransparencyColorSpace",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "contentStream",
+          "Target": "PDContentStream",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "parentTransparencyColorSpace",
+          "Target": "TransparencyColorSpace",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Group",
+          "Target": "PDGroup",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDXImage",
+      "JavaName": "org.verapdf.model.pdlayer.PDXImage",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDXImage",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDXObject",
+      "Properties": [
+        {
+          "Name": "Interpolate",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsAlternates",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "BitsPerComponent",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "isMask",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "imageCS",
+          "Target": "PDColorSpace",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "Alternates",
+          "Target": "PDXImage",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "Intent",
+          "Target": "CosRenderingIntent",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "jpxStream",
+          "Target": "JPEG2000",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "SMask",
+          "Target": "PDSMaskImage",
+          "Multiplicity": "?"
+        },
+        {
+          "Name": "Mask",
+          "Target": "PDMaskImage",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "PDXObject",
+      "JavaName": "org.verapdf.model.pdlayer.PDXObject",
+      "ClrName": "VeraPdf.Model.PDLayer.IPDXObject",
+      "Source": "PDLayer.mdl",
+      "BaseName": "PDResource",
+      "Properties": [
+        {
+          "Name": "Subtype",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsOPI",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsSMask",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "TransparencyColorSpace",
+      "JavaName": "org.verapdf.model.pdlayer.TransparencyColorSpace",
+      "ClrName": "VeraPdf.Model.PDLayer.ITransparencyColorSpace",
+      "Source": "PDLayer.mdl",
+      "BaseName": "Object",
+      "Properties": [
+        {
+          "Name": "colorSpaceType",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SAAnnot",
+      "JavaName": "org.verapdf.model.salayer.SAAnnot",
+      "ClrName": "VeraPdf.Model.SALayer.ISAAnnot",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAAnnotation",
+      "JavaName": "org.verapdf.model.salayer.SAAnnotation",
+      "ClrName": "VeraPdf.Model.SALayer.ISAAnnotation",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [
+        {
+          "Name": "textValue",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "F",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "Contents",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Alt",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isOutsideCropBox",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SAArt",
+      "JavaName": "org.verapdf.model.salayer.SAArt",
+      "ClrName": "VeraPdf.Model.SALayer.ISAArt",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAArtifact",
+      "JavaName": "org.verapdf.model.salayer.SAArtifact",
+      "ClrName": "VeraPdf.Model.SALayer.ISAArtifact",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAAside",
+      "JavaName": "org.verapdf.model.salayer.SAAside",
+      "ClrName": "VeraPdf.Model.SALayer.ISAAside",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SABibEntry",
+      "JavaName": "org.verapdf.model.salayer.SABibEntry",
+      "ClrName": "VeraPdf.Model.SALayer.ISABibEntry",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SABlockQuote",
+      "JavaName": "org.verapdf.model.salayer.SABlockQuote",
+      "ClrName": "VeraPdf.Model.SALayer.ISABlockQuote",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SACaption",
+      "JavaName": "org.verapdf.model.salayer.SACaption",
+      "ClrName": "VeraPdf.Model.SALayer.ISACaption",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAChunk",
+      "JavaName": "org.verapdf.model.salayer.SAChunk",
+      "ClrName": "VeraPdf.Model.SALayer.ISAChunk",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SACode",
+      "JavaName": "org.verapdf.model.salayer.SACode",
+      "ClrName": "VeraPdf.Model.SALayer.ISACode",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SADiv",
+      "JavaName": "org.verapdf.model.salayer.SADiv",
+      "ClrName": "VeraPdf.Model.SALayer.ISADiv",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SADocument",
+      "JavaName": "org.verapdf.model.salayer.SADocument",
+      "ClrName": "VeraPdf.Model.SALayer.ISADocument",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SADocumentFragment",
+      "JavaName": "org.verapdf.model.salayer.SADocumentFragment",
+      "ClrName": "VeraPdf.Model.SALayer.ISADocumentFragment",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAEm",
+      "JavaName": "org.verapdf.model.salayer.SAEm",
+      "ClrName": "VeraPdf.Model.SALayer.ISAEm",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAFENote",
+      "JavaName": "org.verapdf.model.salayer.SAFENote",
+      "ClrName": "VeraPdf.Model.SALayer.ISAFENote",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAFigure",
+      "JavaName": "org.verapdf.model.salayer.SAFigure",
+      "ClrName": "VeraPdf.Model.SALayer.ISAFigure",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [
+        {
+          "Name": "hasBBox",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SAForm",
+      "JavaName": "org.verapdf.model.salayer.SAForm",
+      "ClrName": "VeraPdf.Model.SALayer.ISAForm",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAFormula",
+      "JavaName": "org.verapdf.model.salayer.SAFormula",
+      "ClrName": "VeraPdf.Model.SALayer.ISAFormula",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAH",
+      "JavaName": "org.verapdf.model.salayer.SAH",
+      "ClrName": "VeraPdf.Model.SALayer.ISAH",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAHn",
+      "JavaName": "org.verapdf.model.salayer.SAHn",
+      "ClrName": "VeraPdf.Model.SALayer.ISAHn",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAImageChunk",
+      "JavaName": "org.verapdf.model.salayer.SAImageChunk",
+      "ClrName": "VeraPdf.Model.SALayer.ISAImageChunk",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAChunk",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAIndex",
+      "JavaName": "org.verapdf.model.salayer.SAIndex",
+      "ClrName": "VeraPdf.Model.SALayer.ISAIndex",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAL",
+      "JavaName": "org.verapdf.model.salayer.SAL",
+      "ClrName": "VeraPdf.Model.SALayer.ISAL",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SALBody",
+      "JavaName": "org.verapdf.model.salayer.SALBody",
+      "ClrName": "VeraPdf.Model.SALayer.ISALBody",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SALI",
+      "JavaName": "org.verapdf.model.salayer.SALI",
+      "ClrName": "VeraPdf.Model.SALayer.ISALI",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SALbl",
+      "JavaName": "org.verapdf.model.salayer.SALbl",
+      "ClrName": "VeraPdf.Model.SALayer.ISALbl",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SALineArtChunk",
+      "JavaName": "org.verapdf.model.salayer.SALineArtChunk",
+      "ClrName": "VeraPdf.Model.SALayer.ISALineArtChunk",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAChunk",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SALink",
+      "JavaName": "org.verapdf.model.salayer.SALink",
+      "ClrName": "VeraPdf.Model.SALayer.ISALink",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SALinkAnnotation",
+      "JavaName": "org.verapdf.model.salayer.SALinkAnnotation",
+      "ClrName": "VeraPdf.Model.SALayer.ISALinkAnnotation",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAAnnotation",
+      "Properties": [
+        {
+          "Name": "textValueIsLink",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "contentsIsLink",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "altIsLink",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SAList",
+      "JavaName": "org.verapdf.model.salayer.SAList",
+      "ClrName": "VeraPdf.Model.SALayer.ISAList",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "items",
+          "Target": "SAListItem",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "SAListItem",
+      "JavaName": "org.verapdf.model.salayer.SAListItem",
+      "ClrName": "VeraPdf.Model.SALayer.ISAListItem",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAObject",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAMathMLStructElem",
+      "JavaName": "org.verapdf.model.salayer.SAMathMLStructElem",
+      "ClrName": "VeraPdf.Model.SALayer.ISAMathMLStructElem",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SANonStandard",
+      "JavaName": "org.verapdf.model.salayer.SANonStandard",
+      "ClrName": "VeraPdf.Model.SALayer.ISANonStandard",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SANonStruct",
+      "JavaName": "org.verapdf.model.salayer.SANonStruct",
+      "ClrName": "VeraPdf.Model.SALayer.ISANonStruct",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SANote",
+      "JavaName": "org.verapdf.model.salayer.SANote",
+      "ClrName": "VeraPdf.Model.SALayer.ISANote",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAObject",
+      "JavaName": "org.verapdf.model.salayer.SAObject",
+      "ClrName": "VeraPdf.Model.SALayer.ISAObject",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [
+        {
+          "Name": "structureID",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "errorCodes",
+          "DslType": "List\u003CString\u003E",
+          "ClrType": "IReadOnlyList\u003Cstring\u003E?"
+        },
+        {
+          "Name": "errorArguments",
+          "DslType": "List\u003CList\u003CString\u003E\u003E",
+          "ClrType": "IReadOnlyList\u003CIReadOnlyList\u003Cstring\u003E\u003E?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SAP",
+      "JavaName": "org.verapdf.model.salayer.SAP",
+      "ClrName": "VeraPdf.Model.SALayer.ISAP",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAPDFDocument",
+      "JavaName": "org.verapdf.model.salayer.SAPDFDocument",
+      "ClrName": "VeraPdf.Model.SALayer.ISAPDFDocument",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "pages",
+          "Target": "SAPage",
+          "Multiplicity": "\u002B"
+        },
+        {
+          "Name": "repeatedCharacters",
+          "Target": "SARepeatedCharacters",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "lists",
+          "Target": "SAList",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "StructTreeRoot",
+          "Target": "SAStructTreeRoot",
+          "Multiplicity": "?"
+        }
+      ]
+    },
+    {
+      "Name": "SAPage",
+      "JavaName": "org.verapdf.model.salayer.SAPage",
+      "ClrName": "VeraPdf.Model.SALayer.ISAPage",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "annots",
+          "Target": "SAAnnotation",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "tableBorders",
+          "Target": "SATableBorder",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "SAPart",
+      "JavaName": "org.verapdf.model.salayer.SAPart",
+      "ClrName": "VeraPdf.Model.SALayer.ISAPart",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAPrivate",
+      "JavaName": "org.verapdf.model.salayer.SAPrivate",
+      "ClrName": "VeraPdf.Model.SALayer.ISAPrivate",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAQuote",
+      "JavaName": "org.verapdf.model.salayer.SAQuote",
+      "ClrName": "VeraPdf.Model.SALayer.ISAQuote",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SARB",
+      "JavaName": "org.verapdf.model.salayer.SARB",
+      "ClrName": "VeraPdf.Model.SALayer.ISARB",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SARP",
+      "JavaName": "org.verapdf.model.salayer.SARP",
+      "ClrName": "VeraPdf.Model.SALayer.ISARP",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SART",
+      "JavaName": "org.verapdf.model.salayer.SART",
+      "ClrName": "VeraPdf.Model.SALayer.ISART",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAReference",
+      "JavaName": "org.verapdf.model.salayer.SAReference",
+      "ClrName": "VeraPdf.Model.SALayer.ISAReference",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SARepeatedCharacters",
+      "JavaName": "org.verapdf.model.salayer.SARepeatedCharacters",
+      "ClrName": "VeraPdf.Model.SALayer.ISARepeatedCharacters",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [
+        {
+          "Name": "isNonSpace",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "numberOfRepeatedCharacters",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SARuby",
+      "JavaName": "org.verapdf.model.salayer.SARuby",
+      "ClrName": "VeraPdf.Model.SALayer.ISARuby",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SASect",
+      "JavaName": "org.verapdf.model.salayer.SASect",
+      "ClrName": "VeraPdf.Model.SALayer.ISASect",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SASpan",
+      "JavaName": "org.verapdf.model.salayer.SASpan",
+      "ClrName": "VeraPdf.Model.SALayer.ISASpan",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAStrong",
+      "JavaName": "org.verapdf.model.salayer.SAStrong",
+      "ClrName": "VeraPdf.Model.SALayer.ISAStrong",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAStructElem",
+      "JavaName": "org.verapdf.model.salayer.SAStructElem",
+      "ClrName": "VeraPdf.Model.SALayer.ISAStructElem",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAObject",
+      "Properties": [
+        {
+          "Name": "valueS",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "correctSemanticScore",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "correctType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "standardType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isTableElem",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isTableChild",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isListElem",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isListChild",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isLeafElem",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "parentsStandardTypes",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "kidsStandardTypes",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "parentStandardType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "hasLowestDepthError",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "page",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "lastPage",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "children",
+          "Target": "Object",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "SAStructTreeRoot",
+      "JavaName": "org.verapdf.model.salayer.SAStructTreeRoot",
+      "ClrName": "VeraPdf.Model.SALayer.ISAStructTreeRoot",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "children",
+          "Target": "SAStructElem",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "SASub",
+      "JavaName": "org.verapdf.model.salayer.SASub",
+      "ClrName": "VeraPdf.Model.SALayer.ISASub",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATBody",
+      "JavaName": "org.verapdf.model.salayer.SATBody",
+      "ClrName": "VeraPdf.Model.SALayer.ISATBody",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATD",
+      "JavaName": "org.verapdf.model.salayer.SATD",
+      "ClrName": "VeraPdf.Model.SALayer.ISATD",
+      "Source": "SALayer.mdl",
+      "BaseName": "SATableCell",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATFoot",
+      "JavaName": "org.verapdf.model.salayer.SATFoot",
+      "ClrName": "VeraPdf.Model.SALayer.ISATFoot",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATH",
+      "JavaName": "org.verapdf.model.salayer.SATH",
+      "ClrName": "VeraPdf.Model.SALayer.ISATH",
+      "Source": "SALayer.mdl",
+      "BaseName": "SATableCell",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATHead",
+      "JavaName": "org.verapdf.model.salayer.SATHead",
+      "ClrName": "VeraPdf.Model.SALayer.ISATHead",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATOC",
+      "JavaName": "org.verapdf.model.salayer.SATOC",
+      "ClrName": "VeraPdf.Model.SALayer.ISATOC",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATOCI",
+      "JavaName": "org.verapdf.model.salayer.SATOCI",
+      "ClrName": "VeraPdf.Model.SALayer.ISATOCI",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATR",
+      "JavaName": "org.verapdf.model.salayer.SATR",
+      "ClrName": "VeraPdf.Model.SALayer.ISATR",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATable",
+      "JavaName": "org.verapdf.model.salayer.SATable",
+      "ClrName": "VeraPdf.Model.SALayer.ISATable",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATableBorder",
+      "JavaName": "org.verapdf.model.salayer.SATableBorder",
+      "ClrName": "VeraPdf.Model.SALayer.ISATableBorder",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "rows",
+          "Target": "SATableBorderRow",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "SATableBorderCell",
+      "JavaName": "org.verapdf.model.salayer.SATableBorderCell",
+      "ClrName": "VeraPdf.Model.SALayer.ISATableBorderCell",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAObject",
+      "Properties": [
+        {
+          "Name": "colSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "rowSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SATableBorderRow",
+      "JavaName": "org.verapdf.model.salayer.SATableBorderRow",
+      "ClrName": "VeraPdf.Model.SALayer.ISATableBorderRow",
+      "Source": "SALayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "cells",
+          "Target": "SATableBorderCell",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "SATableCell",
+      "JavaName": "org.verapdf.model.salayer.SATableCell",
+      "ClrName": "VeraPdf.Model.SALayer.ISATableCell",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SATextChunk",
+      "JavaName": "org.verapdf.model.salayer.SATextChunk",
+      "ClrName": "VeraPdf.Model.SALayer.ISATextChunk",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAChunk",
+      "Properties": [
+        {
+          "Name": "textSize",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "contrastRatio",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "textWeight",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "hasSpecialStyle",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "hasSpecialBackground",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isUnderlined",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "parentsStandardTypes",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isWhiteSpaceChunk",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SATitle",
+      "JavaName": "org.verapdf.model.salayer.SATitle",
+      "ClrName": "VeraPdf.Model.SALayer.ISATitle",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAWP",
+      "JavaName": "org.verapdf.model.salayer.SAWP",
+      "ClrName": "VeraPdf.Model.SALayer.ISAWP",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAWT",
+      "JavaName": "org.verapdf.model.salayer.SAWT",
+      "ClrName": "VeraPdf.Model.SALayer.ISAWT",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SAWarichu",
+      "JavaName": "org.verapdf.model.salayer.SAWarichu",
+      "ClrName": "VeraPdf.Model.SALayer.ISAWarichu",
+      "Source": "SALayer.mdl",
+      "BaseName": "SAStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEAnnot",
+      "JavaName": "org.verapdf.model.selayer.SEAnnot",
+      "ClrName": "VeraPdf.Model.SELayer.ISEAnnot",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEArt",
+      "JavaName": "org.verapdf.model.selayer.SEArt",
+      "ClrName": "VeraPdf.Model.SELayer.ISEArt",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEArtifact",
+      "JavaName": "org.verapdf.model.selayer.SEArtifact",
+      "ClrName": "VeraPdf.Model.SELayer.ISEArtifact",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEAside",
+      "JavaName": "org.verapdf.model.selayer.SEAside",
+      "ClrName": "VeraPdf.Model.SELayer.ISEAside",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEBibEntry",
+      "JavaName": "org.verapdf.model.selayer.SEBibEntry",
+      "ClrName": "VeraPdf.Model.SELayer.ISEBibEntry",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEBlockQuote",
+      "JavaName": "org.verapdf.model.selayer.SEBlockQuote",
+      "ClrName": "VeraPdf.Model.SELayer.ISEBlockQuote",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SECaption",
+      "JavaName": "org.verapdf.model.selayer.SECaption",
+      "ClrName": "VeraPdf.Model.SELayer.ISECaption",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SECode",
+      "JavaName": "org.verapdf.model.selayer.SECode",
+      "ClrName": "VeraPdf.Model.SELayer.ISECode",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEContentItem",
+      "JavaName": "org.verapdf.model.selayer.SEContentItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISEContentItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "Object",
+      "Properties": [
+        {
+          "Name": "parentsTags",
+          "DslType": "List\u003CString\u003E",
+          "ClrType": "IReadOnlyList\u003Cstring\u003E?"
+        },
+        {
+          "Name": "parentStructureTag",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isTaggedContent",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "parentStructureElementObjectKey",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "parentStandardTag",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "ActualText",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Alt",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isSignature",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isArtifact",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SEDiv",
+      "JavaName": "org.verapdf.model.selayer.SEDiv",
+      "ClrName": "VeraPdf.Model.SELayer.ISEDiv",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEDocument",
+      "JavaName": "org.verapdf.model.selayer.SEDocument",
+      "ClrName": "VeraPdf.Model.SELayer.ISEDocument",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEDocumentFragment",
+      "JavaName": "org.verapdf.model.selayer.SEDocumentFragment",
+      "ClrName": "VeraPdf.Model.SELayer.ISEDocumentFragment",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEEm",
+      "JavaName": "org.verapdf.model.selayer.SEEm",
+      "ClrName": "VeraPdf.Model.SELayer.ISEEm",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEFENote",
+      "JavaName": "org.verapdf.model.selayer.SEFENote",
+      "ClrName": "VeraPdf.Model.SELayer.ISEFENote",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "NoteType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "orphanRefs",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "ghostRefs",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SEFigure",
+      "JavaName": "org.verapdf.model.selayer.SEFigure",
+      "ClrName": "VeraPdf.Model.SELayer.ISEFigure",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEForm",
+      "JavaName": "org.verapdf.model.selayer.SEForm",
+      "ClrName": "VeraPdf.Model.SELayer.ISEForm",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "roleAttribute",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "hasOneInteractiveChild",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "widgetAnnotsCount",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SEFormula",
+      "JavaName": "org.verapdf.model.selayer.SEFormula",
+      "ClrName": "VeraPdf.Model.SELayer.ISEFormula",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEGraphicContentItem",
+      "JavaName": "org.verapdf.model.selayer.SEGraphicContentItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISEGraphicContentItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "SESimpleContentItem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEGroupedContent",
+      "JavaName": "org.verapdf.model.selayer.SEGroupedContent",
+      "ClrName": "VeraPdf.Model.SELayer.ISEGroupedContent",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEContentItem",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "contentItem",
+          "Target": "SEContentItem",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "SEH",
+      "JavaName": "org.verapdf.model.selayer.SEH",
+      "ClrName": "VeraPdf.Model.SELayer.ISEH",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEHn",
+      "JavaName": "org.verapdf.model.selayer.SEHn",
+      "ClrName": "VeraPdf.Model.SELayer.ISEHn",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "hasCorrectNestingLevel",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "nestingLevel",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SEImageItem",
+      "JavaName": "org.verapdf.model.selayer.SEImageItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISEImageItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEGraphicContentItem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEImageXObjectItem",
+      "JavaName": "org.verapdf.model.selayer.SEImageXObjectItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISEImageXObjectItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEImageItem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEIndex",
+      "JavaName": "org.verapdf.model.selayer.SEIndex",
+      "ClrName": "VeraPdf.Model.SELayer.ISEIndex",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEInlineImageItem",
+      "JavaName": "org.verapdf.model.selayer.SEInlineImageItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISEInlineImageItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEImageItem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEL",
+      "JavaName": "org.verapdf.model.selayer.SEL",
+      "ClrName": "VeraPdf.Model.SELayer.ISEL",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "ListNumbering",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "containsLabels",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SELBody",
+      "JavaName": "org.verapdf.model.selayer.SELBody",
+      "ClrName": "VeraPdf.Model.SELayer.ISELBody",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SELI",
+      "JavaName": "org.verapdf.model.selayer.SELI",
+      "ClrName": "VeraPdf.Model.SELayer.ISELI",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SELbl",
+      "JavaName": "org.verapdf.model.selayer.SELbl",
+      "ClrName": "VeraPdf.Model.SELayer.ISELbl",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SELineArtItem",
+      "JavaName": "org.verapdf.model.selayer.SELineArtItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISELineArtItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEGraphicContentItem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SELink",
+      "JavaName": "org.verapdf.model.selayer.SELink",
+      "ClrName": "VeraPdf.Model.SELayer.ISELink",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEMarkedContent",
+      "JavaName": "org.verapdf.model.selayer.SEMarkedContent",
+      "ClrName": "VeraPdf.Model.SELayer.ISEMarkedContent",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEGroupedContent",
+      "Properties": [
+        {
+          "Name": "tag",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "E",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "Lang",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "inheritedLang",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SEMathMLStructElem",
+      "JavaName": "org.verapdf.model.selayer.SEMathMLStructElem",
+      "ClrName": "VeraPdf.Model.SELayer.ISEMathMLStructElem",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "hasParentFormulaOrMathML",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SENonStandard",
+      "JavaName": "org.verapdf.model.selayer.SENonStandard",
+      "ClrName": "VeraPdf.Model.SELayer.ISENonStandard",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "isNotMappedToStandardType",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SENonStruct",
+      "JavaName": "org.verapdf.model.selayer.SENonStruct",
+      "ClrName": "VeraPdf.Model.SELayer.ISENonStruct",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SENote",
+      "JavaName": "org.verapdf.model.selayer.SENote",
+      "ClrName": "VeraPdf.Model.SELayer.ISENote",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "noteID",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "hasDuplicateNoteID",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SEP",
+      "JavaName": "org.verapdf.model.selayer.SEP",
+      "ClrName": "VeraPdf.Model.SELayer.ISEP",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEPart",
+      "JavaName": "org.verapdf.model.selayer.SEPart",
+      "ClrName": "VeraPdf.Model.SELayer.ISEPart",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEPrivate",
+      "JavaName": "org.verapdf.model.selayer.SEPrivate",
+      "ClrName": "VeraPdf.Model.SELayer.ISEPrivate",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEQuote",
+      "JavaName": "org.verapdf.model.selayer.SEQuote",
+      "ClrName": "VeraPdf.Model.SELayer.ISEQuote",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SERB",
+      "JavaName": "org.verapdf.model.selayer.SERB",
+      "ClrName": "VeraPdf.Model.SELayer.ISERB",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SERP",
+      "JavaName": "org.verapdf.model.selayer.SERP",
+      "ClrName": "VeraPdf.Model.SELayer.ISERP",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SERT",
+      "JavaName": "org.verapdf.model.selayer.SERT",
+      "ClrName": "VeraPdf.Model.SELayer.ISERT",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEReference",
+      "JavaName": "org.verapdf.model.selayer.SEReference",
+      "ClrName": "VeraPdf.Model.SELayer.ISEReference",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SERuby",
+      "JavaName": "org.verapdf.model.selayer.SERuby",
+      "ClrName": "VeraPdf.Model.SELayer.ISERuby",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SESect",
+      "JavaName": "org.verapdf.model.selayer.SESect",
+      "ClrName": "VeraPdf.Model.SELayer.ISESect",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEShadingItem",
+      "JavaName": "org.verapdf.model.selayer.SEShadingItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISEShadingItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "SESimpleContentItem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SESimpleContentItem",
+      "JavaName": "org.verapdf.model.selayer.SESimpleContentItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISESimpleContentItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEContentItem",
+      "Properties": [
+        {
+          "Name": "itemType",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isFormula",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isFigure",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SESpan",
+      "JavaName": "org.verapdf.model.selayer.SESpan",
+      "ClrName": "VeraPdf.Model.SELayer.ISESpan",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEStrong",
+      "JavaName": "org.verapdf.model.selayer.SEStrong",
+      "ClrName": "VeraPdf.Model.SELayer.ISEStrong",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SESub",
+      "JavaName": "org.verapdf.model.selayer.SESub",
+      "ClrName": "VeraPdf.Model.SELayer.ISESub",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SETBody",
+      "JavaName": "org.verapdf.model.selayer.SETBody",
+      "ClrName": "VeraPdf.Model.SELayer.ISETBody",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SETD",
+      "JavaName": "org.verapdf.model.selayer.SETD",
+      "ClrName": "VeraPdf.Model.SELayer.ISETD",
+      "Source": "SELayer.mdl",
+      "BaseName": "SETableCell",
+      "Properties": [
+        {
+          "Name": "hasConnectedHeader",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "unknownHeaders",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SETFoot",
+      "JavaName": "org.verapdf.model.selayer.SETFoot",
+      "ClrName": "VeraPdf.Model.SELayer.ISETFoot",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SETH",
+      "JavaName": "org.verapdf.model.selayer.SETH",
+      "ClrName": "VeraPdf.Model.SELayer.ISETH",
+      "Source": "SELayer.mdl",
+      "BaseName": "SETableCell",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SETHead",
+      "JavaName": "org.verapdf.model.selayer.SETHead",
+      "ClrName": "VeraPdf.Model.SELayer.ISETHead",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SETOC",
+      "JavaName": "org.verapdf.model.selayer.SETOC",
+      "ClrName": "VeraPdf.Model.SELayer.ISETOC",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SETOCI",
+      "JavaName": "org.verapdf.model.selayer.SETOCI",
+      "ClrName": "VeraPdf.Model.SELayer.ISETOCI",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "containsRef",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SETR",
+      "JavaName": "org.verapdf.model.selayer.SETR",
+      "ClrName": "VeraPdf.Model.SELayer.ISETR",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SETable",
+      "JavaName": "org.verapdf.model.selayer.SETable",
+      "ClrName": "VeraPdf.Model.SELayer.ISETable",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "useHeadersAndIdOrScope",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "columnSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "rowSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "numberOfRowWithWrongColumnSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "numberOfColumnWithWrongRowSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "wrongColumnSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SETableCell",
+      "JavaName": "org.verapdf.model.selayer.SETableCell",
+      "ClrName": "VeraPdf.Model.SELayer.ISETableCell",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [
+        {
+          "Name": "ColSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "RowSpan",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "hasIntersection",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SETextItem",
+      "JavaName": "org.verapdf.model.selayer.SETextItem",
+      "ClrName": "VeraPdf.Model.SELayer.ISETextItem",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEGraphicContentItem",
+      "Properties": [
+        {
+          "Name": "fontName",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "scaleFactor",
+          "DslType": "Decimal",
+          "ClrType": "double?"
+        },
+        {
+          "Name": "Lang",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "SETitle",
+      "JavaName": "org.verapdf.model.selayer.SETitle",
+      "ClrName": "VeraPdf.Model.SELayer.ISETitle",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEUnmarkedContent",
+      "JavaName": "org.verapdf.model.selayer.SEUnmarkedContent",
+      "ClrName": "VeraPdf.Model.SELayer.ISEUnmarkedContent",
+      "Source": "SELayer.mdl",
+      "BaseName": "SEGroupedContent",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEWP",
+      "JavaName": "org.verapdf.model.selayer.SEWP",
+      "ClrName": "VeraPdf.Model.SELayer.ISEWP",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEWT",
+      "JavaName": "org.verapdf.model.selayer.SEWT",
+      "ClrName": "VeraPdf.Model.SELayer.ISEWT",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "SEWarichu",
+      "JavaName": "org.verapdf.model.selayer.SEWarichu",
+      "ClrName": "VeraPdf.Model.SELayer.ISEWarichu",
+      "Source": "SELayer.mdl",
+      "BaseName": "PDStructElem",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "ExtensionSchemaDefinition",
+      "JavaName": "org.verapdf.model.xmplayer.ExtensionSchemaDefinition",
+      "ClrName": "VeraPdf.Model.XMPLayer.IExtensionSchemaDefinition",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "ExtensionSchemaObject",
+      "Properties": [
+        {
+          "Name": "isNamespaceURIValidURI",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isPrefixValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isPropertyValidSeq",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isSchemaValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isValueTypeValidSeq",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "namespaceURIPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "prefixPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "propertyPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "schemaPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "valueTypePrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "ExtensionSchemaProperties",
+          "Target": "ExtensionSchemaProperty",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "ExtensionSchemaValueTypes",
+          "Target": "ExtensionSchemaValueType",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "ExtensionSchemaField",
+      "JavaName": "org.verapdf.model.xmplayer.ExtensionSchemaField",
+      "ClrName": "VeraPdf.Model.XMPLayer.IExtensionSchemaField",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "ExtensionSchemaObject",
+      "Properties": [
+        {
+          "Name": "isDescriptionValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isNameValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isValueTypeValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isValueTypeDefined",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "descriptionPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "namePrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "valueTypePrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "ExtensionSchemaObject",
+      "JavaName": "org.verapdf.model.xmplayer.ExtensionSchemaObject",
+      "ClrName": "VeraPdf.Model.XMPLayer.IExtensionSchemaObject",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPObject",
+      "Properties": [
+        {
+          "Name": "containsUndefinedFields",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "undefinedFields",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "ExtensionSchemaProperty",
+      "JavaName": "org.verapdf.model.xmplayer.ExtensionSchemaProperty",
+      "ClrName": "VeraPdf.Model.XMPLayer.IExtensionSchemaProperty",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "ExtensionSchemaObject",
+      "Properties": [
+        {
+          "Name": "category",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isCategoryValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isDescriptionValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isNameValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isValueTypeValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isValueTypeDefined",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "categoryPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "descriptionPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "namePrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "valueTypePrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "ExtensionSchemaValueType",
+      "JavaName": "org.verapdf.model.xmplayer.ExtensionSchemaValueType",
+      "ClrName": "VeraPdf.Model.XMPLayer.IExtensionSchemaValueType",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "ExtensionSchemaObject",
+      "Properties": [
+        {
+          "Name": "isDescriptionValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isFieldValidSeq",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isNamespaceURIValidURI",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isPrefixValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isTypeValidText",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "descriptionPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "fieldPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "namespaceURIPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "prefixPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "typePrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "ExtensionSchemaFields",
+          "Target": "ExtensionSchemaField",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "ExtensionSchemasContainer",
+      "JavaName": "org.verapdf.model.xmplayer.ExtensionSchemasContainer",
+      "ClrName": "VeraPdf.Model.XMPLayer.IExtensionSchemasContainer",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPObject",
+      "Properties": [
+        {
+          "Name": "prefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "isValidBag",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "ExtensionSchemaDefinitions",
+          "Target": "ExtensionSchemaDefinition",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "MainXMPPackage",
+      "JavaName": "org.verapdf.model.xmplayer.MainXMPPackage",
+      "ClrName": "VeraPdf.Model.XMPLayer.IMainXMPPackage",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPPackage",
+      "Properties": [
+        {
+          "Name": "containsPDFAIdentification",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "containsPDFUAIdentification",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "dc_title",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "declarations",
+          "DslType": "Set\u003CString\u003E",
+          "ClrType": "IReadOnlySet\u003Cstring\u003E?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "PDFAIdentification",
+          "Target": "PDFAIdentification",
+          "Multiplicity": ""
+        },
+        {
+          "Name": "PDFUAIdentification",
+          "Target": "PDFUAIdentification",
+          "Multiplicity": ""
+        }
+      ]
+    },
+    {
+      "Name": "PDFAIdentification",
+      "JavaName": "org.verapdf.model.xmplayer.PDFAIdentification",
+      "ClrName": "VeraPdf.Model.XMPLayer.IPDFAIdentification",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPObject",
+      "Properties": [
+        {
+          "Name": "part",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "conformance",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "rev",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "partPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "conformancePrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "amdPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "corrPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "revPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "PDFUAIdentification",
+      "JavaName": "org.verapdf.model.xmplayer.PDFUAIdentification",
+      "ClrName": "VeraPdf.Model.XMPLayer.IPDFUAIdentification",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPObject",
+      "Properties": [
+        {
+          "Name": "part",
+          "DslType": "Integer",
+          "ClrType": "long?"
+        },
+        {
+          "Name": "rev",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "partPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "amdPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "corrPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "revPrefix",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "XMPLangAlt",
+      "JavaName": "org.verapdf.model.xmplayer.XMPLangAlt",
+      "ClrName": "VeraPdf.Model.XMPLayer.IXMPLangAlt",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPProperty",
+      "Properties": [
+        {
+          "Name": "xDefault",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "XMPMMHistoryProperty",
+      "JavaName": "org.verapdf.model.xmplayer.XMPMMHistoryProperty",
+      "ClrName": "VeraPdf.Model.XMPLayer.IXMPMMHistoryProperty",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPProperty",
+      "Properties": [],
+      "Links": [
+        {
+          "Name": "ResourceEvents",
+          "Target": "XMPMMHistoryResourceEvent",
+          "Multiplicity": "\u002B"
+        }
+      ]
+    },
+    {
+      "Name": "XMPMMHistoryResourceEvent",
+      "JavaName": "org.verapdf.model.xmplayer.XMPMMHistoryResourceEvent",
+      "ClrName": "VeraPdf.Model.XMPLayer.IXMPMMHistoryResourceEvent",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPObject",
+      "Properties": [
+        {
+          "Name": "action",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "parameters",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "when",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    },
+    {
+      "Name": "XMPObject",
+      "JavaName": "org.verapdf.model.xmplayer.XMPObject",
+      "ClrName": "VeraPdf.Model.XMPLayer.IXMPObject",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "Object",
+      "Properties": [],
+      "Links": []
+    },
+    {
+      "Name": "XMPPackage",
+      "JavaName": "org.verapdf.model.xmplayer.XMPPackage",
+      "ClrName": "VeraPdf.Model.XMPLayer.IXMPPackage",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPObject",
+      "Properties": [
+        {
+          "Name": "isSerializationValid",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "actualEncoding",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "bytes",
+          "DslType": "String",
+          "ClrType": "string?"
+        },
+        {
+          "Name": "encoding",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": [
+        {
+          "Name": "Properties",
+          "Target": "XMPProperty",
+          "Multiplicity": "*"
+        },
+        {
+          "Name": "ExtensionSchemasContainers",
+          "Target": "ExtensionSchemasContainer",
+          "Multiplicity": "*"
+        }
+      ]
+    },
+    {
+      "Name": "XMPProperty",
+      "JavaName": "org.verapdf.model.xmplayer.XMPProperty",
+      "ClrName": "VeraPdf.Model.XMPLayer.IXMPProperty",
+      "Source": "XMPLayer.mdl",
+      "BaseName": "XMPObject",
+      "Properties": [
+        {
+          "Name": "isPredefinedInXMP2004",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isPredefinedInXMP2005",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isDefinedInCurrentPackage",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isDefinedInMainPackage",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "isValueTypeCorrect",
+          "DslType": "Boolean",
+          "ClrType": "bool?"
+        },
+        {
+          "Name": "predefinedType",
+          "DslType": "String",
+          "ClrType": "string?"
+        }
+      ],
+      "Links": []
+    }
+  ]
+}

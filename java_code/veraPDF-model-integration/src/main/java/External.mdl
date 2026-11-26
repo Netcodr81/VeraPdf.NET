@@ -1,0 +1,130 @@
+package org.verapdf.model.external;
+
+import org.verapdf.model.baselayer.Object;
+import java.util.List;
+
+% READING GUIDE: External objects interpret embedded non-PDF formats. The PDF
+% stream/dictionary and the embedded font, ICC, image or signature have separate
+% validation contracts. This file declares facts, not the binary-format parsers.
+% C# PORT: These are custom model interfaces, not built-in .NET document types.
+% System.IO.Stream and System.Buffers.Binary.BinaryPrimitives can support binary
+% readers; retain byte order, bounds checks and validity evidence from each format.
+% There is no built-in .NET replacement for all ICC/font/JPEG2000 validation.
+% Parent type for all external objects embedded into the PDF document
+type External extends Object {
+	
+}
+
+% Embedded ICC profile
+type ICCProfile extends External {
+	% ICC signatures are four-byte identifiers, not localized color-space names.
+	% C# PORT: An ICC parser/color-management library may help, but conversion or
+	% successful rendering alone does not prove conformance to the ICC specification.
+	% value of the N key in the ICC profile stream dictionary
+	property N: Integer;
+	% a four-byte string identifying the device class of the profile (monitor, printer, scanner, abstract color space)
+	property deviceClass: String;
+	% a four-byte string identifying the device class of the profile (GRAY, RGB, CMYK, LAB)
+	property colorSpace: String;
+	% version of the ICC profile
+	property version: Decimal;
+	% true if the profile satisfies the corresponding ICC Specification
+	property isValid: Boolean;
+}
+
+% Embedded ICC profile used for ICCBased color spaces
+type ICCInputProfile extends ICCProfile
+{
+
+}
+
+% Embedded ICC profile used as a destination profile in the output intent dictionary
+type ICCOutputProfile extends ICCProfile
+{
+	% subtype of the output profile
+	property S: String;
+}
+
+% embedded font program
+type FontProgram extends External {
+
+}
+
+% TrueType font program embedded into PDF document 
+type TrueTypeFontProgram extends FontProgram {
+	% A cmap maps character codes to glyphs; its platform/encoding IDs determine
+	% the interpretation. This is different from the PDF CMapFile below.
+	% C# PORT: System.Drawing.Font is not an embedded-font validator. Read the font
+	% tables with a compatible font parser and preserve the distinct cmap checks.
+	% true / false if the corresponding PDF Font is marked as symbolic / non-symbolic in its font dictionary
+	property isSymbolic: Boolean;
+	% number of cmap subtables in the font program
+	property nrCmaps: Integer;
+	% true if the font program contains the Microsoft Symbol (3,0 – Platform ID=3, Encoding ID=0) cmap subtable
+	property cmap30Present: Boolean;
+	% true if the font program contains the Microsoft Unicode (3,1 – Platform ID=3, Encoding ID=1) cmap subtable
+	property cmap31Present: Boolean;
+	% true if the font program contains the Macintosh Roman (1,0 – Platform ID=1, Encoding ID=0) cmap subtable
+	property cmap10Present: Boolean;
+}
+
+% embedded CMap file
+type CMapFile extends External {
+	% A PDF CMap maps encoded character codes to CIDs (character identifiers).
+	% C# PORT: System.Text.Encoding alone cannot express these PDF mapping rules.
+	% Keep the file WMode separate from the enclosing dictionary's WMode.
+	% the value of the WMode entry in the embedded CMap file
+	property WMode: Integer;
+	% the value of the WMode entry in the parent CMap dictionary
+	property dictWMode: Integer;
+	% maximal CID of code contained in this CMap file
+	property maximalCID: Integer;
+}
+
+% JPEG2000 image
+type JPEG2000 extends External {
+	% These facts describe JP2 boxes and codestream components, not rendered pixels.
+	% C# PORT: Use a JPEG2000-capable parser/codec with metadata access; a decoded
+	% bitmap can lose colr/bpcc box evidence needed by these validation properties.
+	% the number of colour channels
+	property nrColorChannels: Integer;
+	% the number of colour space specifications
+	property nrColorSpaceSpecs: Integer;
+	% the number of colour space specifications with APPROX field set to 0x01
+	property nrColorSpacesWithApproxField: Integer;
+	% the METH entry in the 'colr' box specification with APPROX field equal to 0x01
+	property colrMethod: Integer;
+	% EnumCS (enumerated color space) field of in the 'colr' box specification with APPROX field equal to 0x01
+	property colrEnumCS: Integer;
+	% image bit depth
+	property bitDepth: Integer;
+	% true if the 'bpcc' box is present and, thus, the bit depth is not constant across all components
+	property bpccBoxPresent: Boolean;
+	% true, if Image XObject has /ColorSpace entry, which means that colr box in JPEG2000 should be ignored
+	property hasColorSpace: Boolean;
+}
+
+% embedded file
+type EmbeddedFile extends External {
+	% C# PORT: An embedded file need not be a PDF. PDF/A checks require recursively
+	% validating its bytes with the specified parts, not just checking a MIME type.
+	% MIME type of the embedded file (/Subtype entry in the embedded file dictionary)
+	property Subtype: String;
+	% true if this file is a valid PDF/A document (Part 1 or Part 2) on its own
+	property isValidPDFA12: Boolean;
+	% true if this file is a valid PDF/A document (Part 1, Part 2 or Part 4) on its own
+	property isValidPDFA124: Boolean;
+}
+
+% PKCS#7 binary data object representing the PDF Signature
+type PKCSDataObject extends External {
+	% C# PORT: System.Security.Cryptography.Pkcs.SignedCms and
+	% System.Security.Cryptography.X509Certificates.X509Certificate2 can inspect
+	% CMS signers/certificates. System.Formats.Asn1.AsnReader can inspect DER fields.
+	% These two facts do not by themselves establish signature validity or trust;
+	% PDF ByteRange coverage is a separate PDSignature property.
+	% number of the SignerInfo structures
+	property SignerInfoCount: Integer;
+	% true if the object contains the X.509 signing certificate
+	property signingCertificatePresent: Boolean;
+}
