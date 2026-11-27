@@ -1,0 +1,223 @@
+/*
+ * This file is part of veraPDF Validation, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Validation is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Validation as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Validation as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.gf.model.impl.pd;
+
+import org.verapdf.as.ASAtom;
+import org.verapdf.cos.*;
+import org.verapdf.gf.model.factory.functions.FunctionFactory;
+import org.verapdf.gf.model.impl.containers.StaticContainers;
+import org.verapdf.gf.model.impl.cos.GFCosBM;
+import org.verapdf.gf.model.impl.cos.GFCosRenderingIntent;
+import org.verapdf.gf.model.impl.pd.functions.GFPDFunction;
+import org.verapdf.model.baselayer.Object;
+import org.verapdf.model.coslayer.CosBM;
+import org.verapdf.model.coslayer.CosRenderingIntent;
+import org.verapdf.model.pdlayer.PDExtGState;
+import org.verapdf.model.pdlayer.PDHalftone;
+import org.verapdf.pd.function.PDFunction;
+import org.verapdf.pdfa.flavours.PDFAFlavour;
+import org.verapdf.pdfa.flavours.PDFFlavours;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Validation-model adapter for an {@code ExtGState} PDF graphics-state resource.
+ *
+ * <p>Graphics-state dictionaries control stroking/non-stroking alpha, rendering intent, blend mode,
+ * halftone, soft masks, and transfer functions.  The object exposes scalar values and links to blend,
+ * rendering-intent, halftone, and custom transfer-function model objects for ISO 32000 and PDF/A
+ * transparency checks.</p>
+ *
+ * <p><b>.NET porting notes:</b></p>
+ * <ul>
+ *   <li>Suggested C# type: {@code VeraPdf.Validation.Gf.Model.Impl.Pd.GFPDExtGState}, implementing
+ *       {@code VeraPdf.Model.PDLayer.IPDExtGState}.</li>
+ *   <li>Map {@code PDExtGState}, {@code PDHalftone}, and {@code PDFunction} to parser PD equivalents;
+ *       COS numbers and names must retain their original PDF types.</li>
+ *   <li>Invalid numeric alpha values deliberately return {@code 2.0} as a failing sentinel.  Translate
+ *       this exactly and document it rather than silently returning NaN or null.</li>
+ * </ul>
+ *
+ * @author Maksim Bezrukov
+ */
+public class GFPDExtGState extends GFPDResource implements PDExtGState {
+
+    private static final Logger LOGGER = Logger.getLogger(GFPDExtGState.class.getCanonicalName());
+
+    public static final String EXT_G_STATE_TYPE = "PDExtGState";
+
+    public static final String RI = "RI";
+    public static final String LINK_BM = "bm";
+    public static final String HALFTONE = "HT";
+    public static final String CUSTOM_FUNCTIONS = "customFunctions";
+
+    public GFPDExtGState(org.verapdf.pd.PDExtGState state) {
+        super(state, EXT_G_STATE_TYPE);
+    }
+
+    private List<CosBM> getlinkBM() {
+        COSObject BM = ((org.verapdf.pd.PDExtGState)simplePDObject).getCOSBM();
+        if (BM == null || BM.empty() || BM.getType() == COSObjType.COS_NULL) {
+            return Collections.emptyList();
+        }
+        if (!PDFFlavours.isPDFSpecification(StaticContainers.getFlavour(), PDFAFlavour.PDFSpecification.ISO_32000_2_0)) {
+            if (BM.getType() == COSObjType.COS_ARRAY) {
+                COSArray array = (COSArray)BM.getDirectBase();
+                for (COSObject obj : array) {
+                    if (obj.getType() == COSObjType.COS_NAME) {
+                        BM = obj;
+                        break;
+                    }
+                }
+            }
+        }
+        if (BM.getType() == COSObjType.COS_NAME) {
+            List<CosBM> list = new ArrayList<>(MAX_NUMBER_OF_ELEMENTS);
+            list.add(new GFCosBM((COSName)BM.getDirectBase()));
+            return Collections.unmodifiableList(list);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Double getca() {
+        COSObject ca = ((org.verapdf.pd.PDExtGState) simplePDObject).getCA_NS();
+        if (ca == null || ca.empty()) {
+            return null;
+        }
+        if (ca.getType().isNumber()) {
+            return ca.getReal();
+        }
+        LOGGER.log(Level.SEVERE, "Value of ca key is not a number. Ignoring ca");
+        return 2.0; // check is failed
+    }
+
+    @Override
+    public Double getCA() {
+        COSObject ca = ((org.verapdf.pd.PDExtGState) simplePDObject).getCA();
+        if (ca == null || ca.empty()) {
+            return null;
+        }
+        if (ca.getType().isNumber()) {
+            return ca.getReal();
+        }
+        LOGGER.log(Level.SEVERE, "Value of CA key is not a number. Ignoring CA");
+        return 2.0; // check is failed
+    }
+
+    @Override
+    public String getTR2NameValue() {
+        return simplePDObject.getNameKeyStringValue(ASAtom.TR2);
+    }
+
+    @Override
+    public Boolean getcontainsTR() {
+        return simplePDObject.knownKey(ASAtom.TR);
+    }
+
+    @Override
+    public Boolean getcontainsTR2() {
+        return simplePDObject.knownKey(ASAtom.TR2);
+    }
+
+    @Override
+    public Boolean getcontainsHTP() {
+        return this.simplePDObject.knownKey(ASAtom.HTP);
+    }
+
+    @Override
+    public Boolean getcontainsHTO() {
+        return this.simplePDObject.knownKey(ASAtom.HTO);
+    }
+
+    @Override
+    public String getSMaskNameValue() {
+        return simplePDObject.getNameKeyStringValue(ASAtom.SMASK);
+    }
+
+    @Override
+    public Boolean getcontainsSMask() {
+        return simplePDObject.knownKey(ASAtom.SMASK);
+    }
+
+    @Override
+    public Boolean getcontainsBM() {
+        return simplePDObject.knownKey(ASAtom.BM);
+    }
+
+    @Override
+    public String getBMNameValue() {
+        return simplePDObject.getNameKeyStringValue(ASAtom.BM);
+    }
+
+    @Override
+    public List<? extends Object> getLinkedObjects(String link) {
+        switch (link) {
+            case RI:
+                return this.getRI();
+            case HALFTONE:
+                return this.getHalftone();
+            case CUSTOM_FUNCTIONS:
+                return this.getCustomFunctions();
+            case LINK_BM:
+                return this.getlinkBM();
+            default:
+                return super.getLinkedObjects(link);
+        }
+    }
+
+    private List<CosRenderingIntent> getRI() {
+        COSName renderingIntent = ((org.verapdf.pd.PDExtGState) this.simplePDObject)
+                .getCOSRenderingIntentName();
+        if (renderingIntent != null) {
+            List<CosRenderingIntent> renderingIntents = new ArrayList<>(MAX_NUMBER_OF_ELEMENTS);
+            renderingIntents.add(new GFCosRenderingIntent(renderingIntent));
+            return Collections.unmodifiableList(renderingIntents);
+        }
+        return Collections.emptyList();
+    }
+
+    private List<PDHalftone> getHalftone() {
+        org.verapdf.pd.PDHalftone halftone = ((org.verapdf.pd.PDExtGState) simplePDObject).getHalftone();
+        if (halftone != null) {
+            List<PDHalftone> list = new ArrayList<>(MAX_NUMBER_OF_ELEMENTS);
+            list.add(new GFPDHalftone(halftone));
+            return Collections.unmodifiableList(list);
+        }
+        return Collections.emptyList();
+    }
+
+    private List<GFPDFunction> getCustomFunctions() {
+        org.verapdf.pd.PDExtGState extGState = (org.verapdf.pd.PDExtGState) this.simplePDObject;
+        List<GFPDFunction> result = new ArrayList<>();
+        for (PDFunction function : extGState.getTRFunctions()) {
+            result.add(FunctionFactory.createFunction(function));
+        }
+        for (PDFunction function : extGState.getTR2Functions()) {
+            result.add(FunctionFactory.createFunction(function));
+        }
+        return Collections.unmodifiableList(result);
+    }
+}

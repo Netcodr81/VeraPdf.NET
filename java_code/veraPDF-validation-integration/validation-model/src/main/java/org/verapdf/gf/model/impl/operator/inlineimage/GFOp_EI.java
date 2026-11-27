@@ -1,0 +1,80 @@
+/*
+ * This file is part of veraPDF Validation, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Validation is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Validation as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Validation as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.gf.model.impl.operator.inlineimage;
+
+import org.verapdf.cos.COSBase;
+import org.verapdf.cos.COSObject;
+import org.verapdf.gf.model.impl.pd.images.GFPDInlineImage;
+import org.verapdf.pd.PDResourcesHandler;
+import org.verapdf.model.baselayer.Object;
+import org.verapdf.model.operator.Op_EI;
+import org.verapdf.model.pdlayer.PDInlineImage;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * EI ends inline-image data and constructs the inlineImage link (ISO 32000-1 section 8.9). Construction depends on page/object resources, inherited fill color space, and the known byte length.
+ *
+ * <p> The model type is {@code Op_EI} implementing {@code Op_EI}. Named links include {@code inlineImage}. The parser creates these objects while walking the content stream; validation profiles query their typed links.</p>
+ *
+ * <p><b>.NET porting notes:</b> Suggested C# type: {@code VeraPdf.Validation.Gf.Model.Impl.Operator.InlineImage.GFOp_EI}, implementing {@code VeraPdf.Model.Operator.IOp_EI}. Expose links through {@code IReadOnlyList<IModelObject> GetLinkedObjects(string)} and keep missing data as empty/null links. Map Java lists to read-only .NET collections and parser COS data to {@code VeraPdf.Parser.Cos.CosValue} types. Resource/parent-tree context should remain document-scoped rather than static.</p>
+ *
+ * @author Timur Kamalov
+ */
+public class GFOp_EI extends GFOpInlineImage implements Op_EI {
+
+	public static final String OP_EI_TYPE = "Op_EI";
+
+	public static final String INLINE_IMAGE = "inlineImage";
+
+	private final PDResourcesHandler resourcesHandler;
+	private final org.verapdf.pd.colors.PDColorSpace inheritedFillCS;
+    private final Long dataStreamLength;
+
+	public GFOp_EI(List<COSBase> arguments, PDResourcesHandler resourcesHandler,
+				   org.verapdf.pd.colors.PDColorSpace inheritedFillCS, Long dataStreamLength) {
+		super(arguments, OP_EI_TYPE);
+		this.resourcesHandler = resourcesHandler;
+		this.inheritedFillCS = inheritedFillCS;
+        this.dataStreamLength = dataStreamLength;
+	}
+
+	@Override
+	public List<? extends Object> getLinkedObjects(String link) {
+		if (INLINE_IMAGE.equals(link)) {
+			return this.getInlineImage();
+		}
+		return super.getLinkedObjects(link);
+	}
+
+	private List<PDInlineImage> getInlineImage() {
+		COSBase parameters = this.arguments.get(0);
+		org.verapdf.pd.images.PDInlineImage inlineImage =
+				new org.verapdf.pd.images.PDInlineImage(new COSObject(parameters),
+						resourcesHandler.getObjectResources(), resourcesHandler.getPageResources(), dataStreamLength);
+		List<PDInlineImage> inlineImages = new ArrayList<>(MAX_NUMBER_OF_ELEMENTS);
+		inlineImages.add(new GFPDInlineImage(inlineImage, this.inheritedFillCS));
+		return Collections.unmodifiableList(inlineImages);
+	}
+
+}

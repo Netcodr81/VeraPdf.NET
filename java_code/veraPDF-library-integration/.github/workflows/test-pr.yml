@@ -1,0 +1,80 @@
+#
+# This file is part of veraPDF PDF/A Validation Library, a module of the veraPDF project.
+# Copyright (c) 2015-2025, veraPDF Consortium <info@verapdf.org>
+# All rights reserved.
+#
+# veraPDF PDF/A Validation Library is free software: you can redistribute it and/or modify
+# it under the terms of either:
+#
+# The GNU General public license GPLv3+.
+# You should have received a copy of the GNU General Public License
+# along with veraPDF PDF/A Validation Library as the LICENSE.GPL file in the root of the source
+# tree.  If not, see http://www.gnu.org/licenses/ or
+# https://www.gnu.org/licenses/gpl-3.0.en.html.
+#
+# The Mozilla Public License MPLv2+.
+# You should have received a copy of the Mozilla Public License along with
+# veraPDF PDF/A Validation Library as the LICENSE.MPL file in the root of the source tree.
+# If a copy of the MPL was not distributed with this file, you can obtain one at
+# http://mozilla.org/MPL/2.0/.
+#
+
+name: PR QA
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: Checkout and Build
+    runs-on: ubuntu-latest
+
+    continue-on-error: true
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [8, 11, 17, 21, 25]
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: JDK setup
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots verify
+      - name: Upload coverage report
+        if: matrix.java-version == 8
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: core/target/site/jacoco/
+  coverage:
+    name: Quality Assurance
+    runs-on: ubuntu-latest
+    needs: [ build ]
+
+    steps:
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: core/target/site/jacoco/
+      - name: Codecov coverage reporting
+        uses: codecov/codecov-action@v2
+        with:
+          files: core/target/site/jacoco/jacoco.xml
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Codacy coverage reporting
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: core/target/site/jacoco/jacoco.xml
+      - name: Codacy analysis reporting
+        uses: codacy/codacy-analysis-cli-action@4.0.0

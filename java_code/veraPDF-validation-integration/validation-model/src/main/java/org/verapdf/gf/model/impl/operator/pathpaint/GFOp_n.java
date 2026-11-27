@@ -1,0 +1,47 @@
+/*
+ * This file is part of veraPDF Validation, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Validation is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Validation as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Validation as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.gf.model.impl.operator.pathpaint;
+
+import org.verapdf.cos.COSBase;
+import org.verapdf.model.operator.Op_n;
+
+import java.util.List;
+
+
+/**
+ * n ends the current path without painting it (ISO 32000-1 section 8.5.3); after W or W* it can apply the pending clipping path.
+ *
+ * <p> The model type is {@code Op_n} implementing {@code Op_n}. The operator parser supplies inherited graphics state; validation profiles inspect the operator type and links.</p>
+ *
+ * <p><b>.NET porting notes:</b> Suggested C# type: {@code VeraPdf.Validation.Gf.Model.Impl.Operator.PathPaint.GFOp_n}, implementing {@code VeraPdf.Model.Operator.IOp_n}. Use {@code IReadOnlyList<IModelObject>} for {@code GetLinkedObjects(string)} and preserve optional fill/stroke color-space links. Resolve color spaces through the ported model factory rather than assuming a drawing-library color representation.</p>
+ *
+ * @author Timur Kamalov
+ */
+public class GFOp_n extends GFOpPathPaint implements Op_n {
+
+	/** Type name for {@code GFOp_n} */
+	public static final String OP_N_TYPE = "Op_n";
+
+	public GFOp_n(List<COSBase> arguments) {
+		super(arguments, false, OP_N_TYPE);
+	}
+
+}

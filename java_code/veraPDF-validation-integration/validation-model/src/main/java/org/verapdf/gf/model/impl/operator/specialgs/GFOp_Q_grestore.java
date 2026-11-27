@@ -1,0 +1,50 @@
+/*
+ * This file is part of veraPDF Validation, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Validation is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Validation as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Validation as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.gf.model.impl.operator.specialgs;
+
+import org.verapdf.cos.COSBase;
+import org.verapdf.model.operator.Op_Q_grestore;
+
+import java.util.List;
+
+/**
+ * Validation model for PDF {@code Q}, which restores a saved graphics state.
+ *
+ * <p>The parser supplies the operands and this type's model name; state
+ * management itself belongs to the content-stream processing pipeline.</p>
+ *
+ * <p><b>.NET port:</b> Implement
+ * {@code VeraPdf.Model.Operator.IOp_Q_grestore} with the ported operator
+ * base and COS operands, keeping {@code Op_Q_grestore} unchanged for
+ * validation-profile dispatch. Java {@code List} maps to {@code List<T>}.</p>
+ *
+ * @author Timur Kamalov
+ */
+public class GFOp_Q_grestore extends GFOpSpecialGS implements Op_Q_grestore {
+
+	/** Type name for {@code GFOp_Q_grestore} */
+    public static final String OP_Q_GRESTORE_TYPE = "Op_Q_grestore";
+
+    public GFOp_Q_grestore(List<COSBase> arguments) {
+        super(arguments, OP_Q_GRESTORE_TYPE);
+    }
+
+}

@@ -1,0 +1,53 @@
+/*
+ * This file is part of veraPDF Validation, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Validation is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Validation as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Validation as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+package org.verapdf.gf.model.impl.pd.annotations;
+
+import org.verapdf.gf.model.impl.pd.GFPDAnnot;
+import org.verapdf.pd.PDResourcesHandler;
+import org.verapdf.model.pdlayer.PDPopupAnnot;
+import org.verapdf.pd.PDAnnotation;
+import org.verapdf.pd.PDPage;
+
+/**
+ * Represents the popup annotation used to display a markup annotation's note.
+ *
+ * <p>A popup is commonly linked from a parent text or markup annotation and supplies
+ * an interactive comment window. It inherits the shared annotation model; PDF/A
+ * conformance rules can inspect the subtype and standard dictionary values without
+ * opening a user interface.</p>
+ *
+ * <p><b>.NET porting notes:</b> Suggested type:
+ * {@code VeraPdf.Validation.Gf.Model.Impl.Pd.Annotations.GFPDPopupAnnot}, implementing
+ * {@code VeraPdf.Model.PDLayer.IPDPopupAnnot}; preserve the shared {@code GFPDAnnot}
+ * implementation and nullable property semantics.</p>
+ *
+ * @author Maxim Plushchov
+ */
+public class GFPDPopupAnnot extends GFPDAnnot implements PDPopupAnnot {
+
+	/** Model type name for popup annotations. */
+	public static final String POPUP_ANNOTATION_TYPE = "PDPopupAnnot";
+
+	public GFPDPopupAnnot(PDAnnotation annot, PDResourcesHandler pageResources, PDPage page) {
+		super(annot, pageResources, page, POPUP_ANNOTATION_TYPE);
+	}
+
+}

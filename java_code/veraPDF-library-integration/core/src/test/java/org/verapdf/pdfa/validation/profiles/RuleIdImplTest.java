@@ -1,0 +1,83 @@
+/*
+ * This file is part of veraPDF Library core, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Library core is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Library core as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Library core as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+/**
+ * 
+ */
+package org.verapdf.pdfa.validation.profiles;
+
+import org.junit.Test;
+import org.verapdf.pdfa.flavours.PDFAFlavour.Specification;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+
+import static org.junit.Assert.*;
+
+/**
+ * @author <a href="mailto:carl@openpreservation.org">Carl Wilson</a>
+ *
+ */
+@SuppressWarnings("static-method")
+public class RuleIdImplTest {
+    private static final String DEFAULT_RULE_ID_STRING = "RuleId [specification=" + Specification.NO_STANDARD + ", clause=clause, testNumber=0]";
+    /**
+     * Test method for {@link org.verapdf.pdfa.validation.profiles.RuleIdImpl#equals(java.lang.Object)}.
+     */
+    @Test
+    public final void testEqualsObject() {
+        EqualsVerifier.simple().forClass(RuleIdImpl.class).verify();
+    }
+
+    /**
+     * Test method for {@link org.verapdf.pdfa.validation.profiles.RuleIdImpl#toString()}.
+     */
+    @Test
+    public final void testToString() {
+        assertEquals(Profiles.defaultRuleId().toString(), DEFAULT_RULE_ID_STRING);
+    }
+
+    /**
+     * Test method for {@link org.verapdf.pdfa.validation.profiles.RuleIdImpl#fromValues(org.verapdf.pdfa.flavours.PDFAFlavour.Specification, java.lang.String, int)}.
+     */
+    @Test
+    public final void testFromValues() {
+        // Get an equivalent to the default instance
+        RuleId ruleId = Profiles.ruleIdFromValues(Specification.NO_STANDARD, "clause", 0);
+        RuleId defaultInstance = Profiles.defaultRuleId();
+        // Equivalent is NOT the same object as default instance
+        assertNotSame(ruleId, defaultInstance);
+        // But it is equal
+        assertEquals(ruleId, defaultInstance);
+    }
+
+    /**
+     * Test method for {@link org.verapdf.pdfa.validation.profiles.RuleIdImpl#fromRuleId(org.verapdf.pdfa.validation.profiles.RuleId)}
+     */
+    @Test
+    public final void testFromRuleId() {
+        // Get an equivalent to the default instance
+        RuleId ruleId = RuleIdImpl.fromRuleId(RuleIdImpl.defaultInstance());
+        RuleId defaultInstance = Profiles.defaultRuleId();
+        // Equivalent is NOT the same object as default instance
+        assertNotSame(ruleId, defaultInstance);
+        // But it is equal
+        assertEquals(ruleId, defaultInstance);
+    }
+}

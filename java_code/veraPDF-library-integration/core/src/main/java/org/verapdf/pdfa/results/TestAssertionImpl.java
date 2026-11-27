@@ -1,0 +1,219 @@
+/*
+ * This file is part of veraPDF Library core, a module of the veraPDF project.
+ * Copyright (c) 2015-2026, veraPDF Consortium <info@verapdf.org>
+ * All rights reserved.
+ *
+ * veraPDF Library core is free software: you can redistribute it and/or modify
+ * it under the terms of either:
+ *
+ * The GNU General public license GPLv3+.
+ * You should have received a copy of the GNU General Public License
+ * along with veraPDF Library core as the LICENSE.GPL file in the root of the source
+ * tree.  If not, see http://www.gnu.org/licenses/ or
+ * https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ * The Mozilla Public License MPLv2+.
+ * You should have received a copy of the Mozilla Public License along with
+ * veraPDF Library core as the LICENSE.MPL file in the root of the source tree.
+ * If a copy of the MPL was not distributed with this file, you can obtain one at
+ * http://mozilla.org/MPL/2.0/.
+ */
+/**
+ * 
+ */
+package org.verapdf.pdfa.results;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import org.verapdf.pdfa.validation.profiles.ErrorArgument;
+import org.verapdf.pdfa.validation.profiles.Profiles;
+import org.verapdf.pdfa.validation.profiles.RuleId;
+
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * @author <a href="mailto:carl@openpreservation.org">Carl Wilson</a>
+ *
+ */
+@XmlRootElement(name="testAssertion")
+final class TestAssertionImpl implements TestAssertion {
+    private static final TestAssertionImpl DEFAULT = new TestAssertionImpl();
+    @XmlAttribute
+    private int ordinal;
+    @XmlElement
+    private RuleId ruleId;
+    @XmlAttribute
+    private Status status;
+    @XmlElement
+    private String message;
+    @XmlElement
+    private Location location;
+    @XmlElement
+    private String locationContext;
+    @XmlElement
+    private String errorMessage;
+
+    private final List<ErrorArgument> errorArguments;
+
+    private TestAssertionImpl() {
+        this(0, Profiles.defaultRuleId(), Status.FAILED, "message", LocationImpl
+                .defaultInstance(), null, null, null);
+    }
+
+    private TestAssertionImpl(final int ordinal, final RuleId ruleId, final Status status, final String message,
+                              final Location location, final String locationContext, final String errorMessage,
+                              final List<ErrorArgument> errorArguments) {
+        super();
+        this.ordinal = ordinal;
+        this.ruleId = ruleId;
+        this.status = status;
+        this.message = message;
+        this.location = location;
+        this.locationContext = locationContext;
+        this.errorMessage = errorMessage;
+        this.errorArguments = errorArguments;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public int getOrdinal() {
+        return this.ordinal;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public RuleId getRuleId() {
+        return this.ruleId;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public Status getStatus() {
+        return this.status;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public String getMessage() {
+        return this.message;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public String getLocationContext() {
+        return this.locationContext;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public Location getLocation() {
+        return this.location;
+    }
+
+    @Override
+    public List<ErrorArgument> getErrorArguments() {
+        return errorArguments;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((this.location == null) ? 0 : this.location.hashCode());
+        result = prime * result + ((this.message == null) ? 0 : this.message.hashCode());
+        result = prime * result + ((this.locationContext == null) ? 0 : this.locationContext.hashCode());
+        result = prime * result + ((this.errorMessage == null) ? 0 : this.errorMessage.hashCode());
+        result = prime * result + ((this.ruleId == null) ? 0 : this.ruleId.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        return result;
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof TestAssertion))
+            return false;
+        TestAssertion other = (TestAssertion) obj;
+        if (!Objects.equals(this.location, other.getLocation())) {
+            return false;
+        }
+        if (!Objects.equals(this.message, other.getMessage())) {
+            return false;
+        }
+        if (!Objects.equals(this.ruleId, other.getRuleId())) {
+            return false;
+        }
+        if (this.status != other.getStatus())
+            return false;
+        if (!Objects.equals(this.getLocationContext(), other.getLocationContext())) {
+            return false;
+        }
+        return Objects.equals(this.getErrorMessage(), other.getErrorMessage());
+    }
+
+    /**
+     * { @inheritDoc }
+     */
+    @Override
+    public String toString() {
+        return "TestAssertion [ruleId=" + this.ruleId + ", status=" + this.status + ", message=" + this.message +
+                ", location=" + this.location + ", locationContext=" + this.locationContext + ", errorMessage=" +
+                this.errorMessage + "]";
+    }
+    
+    static TestAssertionImpl defaultInstance() {
+        return DEFAULT;
+    }
+
+    static TestAssertionImpl fromValues(final int ordinal, final RuleId ruleId, final Status status,
+            final String message, final Location location, final String locationContext, final String errorMessage,
+            final List<ErrorArgument> errorArguments) {
+        return new TestAssertionImpl(ordinal, ruleId, status, message, location, locationContext, errorMessage, errorArguments);
+    }
+
+    static class Adapter extends XmlAdapter<TestAssertionImpl, TestAssertion> {
+        @Override
+        public TestAssertion unmarshal(TestAssertionImpl testAssertionImpl) {
+            return testAssertionImpl;
+        }
+
+        @Override
+        public TestAssertionImpl marshal(TestAssertion testAssertion) {
+            return (TestAssertionImpl) testAssertion;
+        }
+    }
+}
