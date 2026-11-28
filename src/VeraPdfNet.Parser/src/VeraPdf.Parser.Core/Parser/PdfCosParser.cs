@@ -66,8 +66,10 @@ public sealed class PdfCosParser
         {
             PdfTokenType.Integer => new CosInteger(token.IntegerValue),
             PdfTokenType.Real => new CosReal(token.RealValue),
-            PdfTokenType.LiteralString => new CosString(token.Bytes ?? []),
-            PdfTokenType.HexString => new CosString(token.Bytes ?? []),
+            PdfTokenType.LiteralString => new CosString(
+                token.Bytes ?? [], false, token.ContainsOnlyHex, token.HexCount),
+            PdfTokenType.HexString => new CosString(
+                token.Bytes ?? [], true, token.ContainsOnlyHex, token.HexCount),
             PdfTokenType.Name => new CosName(token.Bytes ?? []),
             PdfTokenType.Keyword => ReadKeyword(token),
             PdfTokenType.OpenArray => ReadArray(),
@@ -139,7 +141,7 @@ public sealed class PdfCosParser
             throw new IOException("A PDF stream with no direct /Length is not supported in Phase 2.");
         }
 
-        SkipOneEndOfLine();
+        var streamKeywordCompliant = SkipOneEndOfLine();
         var data = new byte[length.Value];
         var read = 0;
         while (read < data.Length)
@@ -151,26 +153,55 @@ public sealed class PdfCosParser
             }
             read += count;
         }
-        return new CosStream(dictionary, data);
+        var endstreamKeywordCompliant = HasEndstreamEol();
+        return new CosStream(dictionary, data)
+        {
+            StreamKeywordCRLFCompliant = streamKeywordCompliant,
+            EndstreamKeywordEOLCompliant = endstreamKeywordCompliant
+        };
     }
 
-    private void SkipOneEndOfLine()
+    private bool SkipOneEndOfLine()
     {
         if (_lexer.Source.IsEndOfStream)
         {
-            return;
+            return false;
         }
+
         var first = _lexer.Source.ReadByteOrThrow();
         if (first == '\r')
         {
             if (!_lexer.Source.IsEndOfStream && _lexer.Source.Peek() == '\n')
             {
                 _lexer.Source.ReadByte();
+                return true;
             }
+
+            return false;
         }
-        else if (first != '\n')
+
+        if (first == '\n')
         {
-            _lexer.Source.Unread();
+            return true;
         }
+
+        _lexer.Source.Unread();
+        return false;
     }
+
+    private bool HasEndstreamEol()
+    {
+        var source = _lexer.Source;
+        var dataEnd = source.Offset;
+        var lastWhitespace = -1;
+        while (!source.IsEndOfStream && IsWhitespace(source.Peek()))
+        {
+            lastWhitespace = source.ReadByte();
+        }
+
+        source.Seek(dataEnd);
+        return lastWhitespace is '\r' or '\n';
+    }
+
+    private static bool IsWhitespace(int value) => value is 0 or 9 or 10 or 12 or 13 or 32;
 }

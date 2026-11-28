@@ -1,0 +1,90 @@
+N	adobe:ns:meta/	x:
+N	http://cipa.jp/exif/1.0/	exifEX:
+N	http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/	Iptc4xmpCore:
+N	http://iptc.org/std/Iptc4xmpExt/2008-02-29/	Iptc4xmpExt:
+N	http://ns.adobe.com/DICOM/	DICOM:
+N	http://ns.adobe.com/StockPhoto/1.0/	bmsp:
+N	http://ns.adobe.com/TransformXMP/	txmp:
+N	http://ns.adobe.com/album/1.0/	album:
+N	http://ns.adobe.com/asf/1.0/	asf:
+N	http://ns.adobe.com/bwf/bext/1.0/	bext:
+N	http://ns.adobe.com/camera-raw-settings/1.0/	crs:
+N	http://ns.adobe.com/creatorAtom/1.0/	creatorAtom:
+N	http://ns.adobe.com/exif/1.0/	exif:
+N	http://ns.adobe.com/exif/1.0/aux/	aux:
+N	http://ns.adobe.com/iX/1.0/	iX:
+N	http://ns.adobe.com/jp2k/1.0/	jp2k:
+N	http://ns.adobe.com/jpeg/1.0/	jpeg:
+N	http://ns.adobe.com/pdf/1.3/	pdf:
+N	http://ns.adobe.com/pdfx/1.3/	pdfx:
+N	http://ns.adobe.com/photoshop/1.0/	photoshop:
+N	http://ns.adobe.com/png/1.0/	png:
+N	http://ns.adobe.com/riff/info/	riffinfo:
+N	http://ns.adobe.com/swf/1.0/	swf:
+N	http://ns.adobe.com/tiff/1.0/	tiff:
+N	http://ns.adobe.com/xap/1.0/	xmp:
+N	http://ns.adobe.com/xap/1.0/bj/	xmpBJ:
+N	http://ns.adobe.com/xap/1.0/g/	xmpG:
+N	http://ns.adobe.com/xap/1.0/g/img/	xmpGImg:
+N	http://ns.adobe.com/xap/1.0/mm/	xmpMM:
+N	http://ns.adobe.com/xap/1.0/rights/	xmpRights:
+N	http://ns.adobe.com/xap/1.0/sType/Dimensions#	stDim:
+N	http://ns.adobe.com/xap/1.0/sType/Font#	stFnt:
+N	http://ns.adobe.com/xap/1.0/sType/Job#	stJob:
+N	http://ns.adobe.com/xap/1.0/sType/ManifestItem#	stMfs:
+N	http://ns.adobe.com/xap/1.0/sType/ResourceEvent#	stEvt:
+N	http://ns.adobe.com/xap/1.0/sType/ResourceRef#	stRef:
+N	http://ns.adobe.com/xap/1.0/sType/Version#	stVer:
+N	http://ns.adobe.com/xap/1.0/t/	xmpT:
+N	http://ns.adobe.com/xap/1.0/t/pg/	xmpTPg:
+N	http://ns.adobe.com/xmp/1.0/DynamicMedia/	xmpDM:
+N	http://ns.adobe.com/xmp/1.0/Script/	xmpScript:
+N	http://ns.adobe.com/xmp/Identifier/qual/1.0/	xmpidq:
+N	http://ns.adobe.com/xmp/note/	xmpNote:
+N	http://ns.adobe.com/xmp/transient/1.0/	xmpx:
+N	http://ns.adobe.com/xmp/wav/1.0/	wav:
+N	http://ns.useplus.org/ldf/xmp/1.0/	plus:
+N	http://purl.org/dc/elements/1.1/	dc:
+N	http://www.aiim.org/pdfa/ns/extension/	pdfaExtension:
+N	http://www.aiim.org/pdfa/ns/field#	pdfaField:
+N	http://www.aiim.org/pdfa/ns/id/	pdfaid:
+N	http://www.aiim.org/pdfa/ns/property#	pdfaProperty:
+N	http://www.aiim.org/pdfa/ns/schema#	pdfaSchema:
+N	http://www.aiim.org/pdfa/ns/type#	pdfaType:
+N	http://www.npes.org/pdfx/ns/id/	pdfxid:
+N	http://www.w3.org/1999/02/22-rdf-syntax-ns#	rdf:
+N	http://www.w3.org/XML/1998/namespace	xml:
+A	pdf:Author	http://purl.org/dc/elements/1.1/	dc:	creator	OrderedArrayFirstItem
+A	pdf:BaseURL	http://ns.adobe.com/xap/1.0/	xmp:	BaseURL	Direct
+A	pdf:CreationDate	http://ns.adobe.com/xap/1.0/	xmp:	CreateDate	Direct
+A	pdf:Creator	http://ns.adobe.com/xap/1.0/	xmp:	CreatorTool	Direct
+A	pdf:ModDate	http://ns.adobe.com/xap/1.0/	xmp:	ModifyDate	Direct
+A	pdf:Subject	http://purl.org/dc/elements/1.1/	dc:	description	AltTextDefaultItem
+A	pdf:Title	http://purl.org/dc/elements/1.1/	dc:	title	AltTextDefaultItem
+A	photoshop:Author	http://purl.org/dc/elements/1.1/	dc:	creator	OrderedArrayFirstItem
+A	photoshop:Caption	http://purl.org/dc/elements/1.1/	dc:	description	AltTextDefaultItem
+A	photoshop:Copyright	http://purl.org/dc/elements/1.1/	dc:	rights	AltTextDefaultItem
+A	photoshop:Keywords	http://purl.org/dc/elements/1.1/	dc:	subject	Direct
+A	photoshop:Marked	http://ns.adobe.com/xap/1.0/rights/	xmpRights:	Marked	Direct
+A	photoshop:Title	http://purl.org/dc/elements/1.1/	dc:	title	AltTextDefaultItem
+A	photoshop:WebStatement	http://ns.adobe.com/xap/1.0/rights/	xmpRights:	WebStatement	Direct
+A	png:Author	http://purl.org/dc/elements/1.1/	dc:	creator	OrderedArrayFirstItem
+A	png:Copyright	http://purl.org/dc/elements/1.1/	dc:	rights	AltTextDefaultItem
+A	png:CreationTime	http://ns.adobe.com/xap/1.0/	xmp:	CreateDate	Direct
+A	png:Description	http://purl.org/dc/elements/1.1/	dc:	description	AltTextDefaultItem
+A	png:ModificationTime	http://ns.adobe.com/xap/1.0/	xmp:	ModifyDate	Direct
+A	png:Software	http://ns.adobe.com/xap/1.0/	xmp:	CreatorTool	Direct
+A	png:Title	http://purl.org/dc/elements/1.1/	dc:	title	AltTextDefaultItem
+A	tiff:Artist	http://purl.org/dc/elements/1.1/	dc:	creator	OrderedArrayFirstItem
+A	tiff:Copyright	http://purl.org/dc/elements/1.1/	dc:	rights	Direct
+A	tiff:DateTime	http://ns.adobe.com/xap/1.0/	xmp:	ModifyDate	Direct
+A	tiff:ImageDescription	http://purl.org/dc/elements/1.1/	dc:	description	Direct
+A	tiff:Software	http://ns.adobe.com/xap/1.0/	xmp:	CreatorTool	Direct
+A	xmp:Author	http://purl.org/dc/elements/1.1/	dc:	creator	OrderedArrayFirstItem
+A	xmp:Authors	http://purl.org/dc/elements/1.1/	dc:	creator	Direct
+A	xmp:Description	http://purl.org/dc/elements/1.1/	dc:	description	Direct
+A	xmp:Format	http://purl.org/dc/elements/1.1/	dc:	format	Direct
+A	xmp:Keywords	http://purl.org/dc/elements/1.1/	dc:	subject	Direct
+A	xmp:Locale	http://purl.org/dc/elements/1.1/	dc:	language	Direct
+A	xmp:Title	http://purl.org/dc/elements/1.1/	dc:	title	Direct
+A	xmpRights:Copyright	http://purl.org/dc/elements/1.1/	dc:	rights	Direct

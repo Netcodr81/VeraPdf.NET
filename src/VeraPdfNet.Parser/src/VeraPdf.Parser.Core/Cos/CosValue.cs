@@ -8,10 +8,29 @@ public sealed record CosName(byte[] Name) : CosValue
 {
     public string Text => System.Text.Encoding.Latin1.GetString(Name);
 }
-public sealed record CosString(byte[] Value) : CosValue;
+public sealed record CosString(byte[] Value) : CosValue
+{
+    public bool IsHex { get; }
+    public bool ContainsOnlyHex { get; } = true;
+    public long HexCount { get; }
+    public string Text => PdfStringTextDecoder.GetString(Value);
+
+    public CosString(byte[] value, bool isHex, bool containsOnlyHex, long hexCount)
+        : this(value)
+    {
+        IsHex = isHex;
+        ContainsOnlyHex = containsOnlyHex;
+        HexCount = hexCount;
+    }
+
+}
 public sealed record CosNull() : CosValue;
 public sealed record CosIndirectReference(long ObjectNumber, long Generation) : CosValue;
-public sealed record CosStream(CosDictionary Dictionary, byte[] RawData) : CosValue;
+public sealed record CosStream(CosDictionary Dictionary, byte[] RawData) : CosValue
+{
+    public bool? StreamKeywordCRLFCompliant { get; init; }
+    public bool? EndstreamKeywordEOLCompliant { get; init; }
+}
 public readonly record struct CosKey(long ObjectNumber, long Generation);
 public sealed record CosIndirectObject(CosKey Key, CosValue Value) : CosValue;
 

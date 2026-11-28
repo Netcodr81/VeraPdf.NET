@@ -18,7 +18,7 @@
     <EmbeddedResource Include="Generated\schema.json" />
     <None Include="..\..\README.md" Pack="true" PackagePath="/" />
     <None Include="..\..\THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="/" />
-    <None Include="..\..\..\..\java_code\veraPDF-model-integration\LICENSE.GPL" Pack="true" PackagePath="/" />
-    <None Include="..\..\..\..\java_code\veraPDF-model-integration\LICENSE.MPL" Pack="true" PackagePath="/" />
+    <None Include="..\..\licenses\LICENSE.GPL" Pack="true" PackagePath="/" />
+    <None Include="..\..\licenses\LICENSE.MPL" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>

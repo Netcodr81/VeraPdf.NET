@@ -95,6 +95,33 @@ public class ParserLibraryTests
     }
 
     [Fact]
+    public void CosParserPreservesStringSyntaxMetadata()
+    {
+        var bytes = Encoding.ASCII.GetBytes("(literal) <41 4G 2>");
+        using var source = PdfSeekableStream.Create(new MemoryStream(bytes));
+        var parser = new PdfCosParser(source);
+
+        var literal = Assert.IsType<CosString>(parser.NextValue());
+        Assert.False(literal.IsHex);
+        Assert.True(literal.ContainsOnlyHex);
+        Assert.Equal(0, literal.HexCount);
+
+        var hex = Assert.IsType<CosString>(parser.NextValue());
+        Assert.True(hex.IsHex);
+        Assert.False(hex.ContainsOnlyHex);
+        Assert.Equal(5, hex.HexCount);
+        Assert.Equal(new byte[] { 0x41, 0x42 }, hex.Value);
+    }
+
+    [Fact]
+    public void CosStringTextUsesBomAndPdfDocEncoding()
+    {
+        Assert.Equal("\u2022", new CosString([0x80]).Text);
+        Assert.Equal("é", new CosString([0xFE, 0xFF, 0x00, 0xE9]).Text);
+        Assert.Equal("é", new CosString([0xEF, 0xBB, 0xBF, 0xC3, 0xA9]).Text);
+    }
+
+    [Fact]
     public void CosParserReadsArrayDictionaryAndIndirectReference()
     {
         var bytes = Encoding.ASCII.GetBytes("[null 4 0 R << /Name /Example >>]");
@@ -126,6 +153,30 @@ public class ParserLibraryTests
 
         var stream = parser.ReadStream(dictionary);
         Assert.Equal("hello", Encoding.ASCII.GetString(stream.RawData));
+        Assert.True(stream.StreamKeywordCRLFCompliant);
+        Assert.True(stream.EndstreamKeywordEOLCompliant);
+    }
+
+    [Theory]
+    [InlineData("stream\r\nx\r\nendstream", true, true)]
+    [InlineData("stream\nx\nendstream", true, true)]
+    [InlineData("stream\rx\nendstream", false, true)]
+    [InlineData("stream\nxendstream", true, false)]
+    public void CosStreamRetainsKeywordSpacing(
+        string sourceText,
+        bool expectedStreamSpacing,
+        bool expectedEndstreamSpacing)
+    {
+        var bytes = Encoding.Latin1.GetBytes("<< /Length 1 >>" + sourceText);
+        using var source = PdfSeekableStream.Create(new MemoryStream(bytes));
+        var parser = new PdfCosParser(source);
+        var dictionary = Assert.IsType<CosDictionary>(parser.NextValue());
+        Assert.Equal(PdfTokenType.Keyword, parser.Lexer.NextToken().Type);
+
+        var stream = parser.ReadStream(dictionary);
+
+        Assert.Equal(expectedStreamSpacing, stream.StreamKeywordCRLFCompliant);
+        Assert.Equal(expectedEndstreamSpacing, stream.EndstreamKeywordEOLCompliant);
     }
 
     [Fact]

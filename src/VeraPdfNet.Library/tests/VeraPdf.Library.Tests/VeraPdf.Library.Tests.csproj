@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <Using Include="Xunit" />
+    <ProjectReference Include="..\..\src\VeraPdf.Library.Core\VeraPdf.Library.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\reference\xmp-registry-reference.tsv" Link="xmp-registry-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-path-reference.tsv" Link="xmp-path-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-path-factory-reference.tsv" Link="xmp-path-factory-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-datetime-reference.tsv" Link="xmp-datetime-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-utc-reference.tsv" Link="xmp-utc-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-scalar-reference.tsv" Link="xmp-scalar-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-packet-reference.tsv" Link="xmp-packet-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-lookup-reference.tsv" Link="xmp-lookup-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-array-reference.tsv" Link="xmp-array-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-typed-reference.tsv" Link="xmp-typed-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-field-qualifier-reference.tsv" Link="xmp-field-qualifier-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-iteration-reference.tsv" Link="xmp-iteration-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-schema-iteration-reference.tsv" Link="xmp-schema-iteration-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-discovery-reference.tsv" Link="xmp-discovery-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-control-reference.tsv" Link="xmp-control-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-stream-recovery-reference.tsv" Link="xmp-stream-recovery-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\reference\xmp-localized-reference.tsv" Link="xmp-localized-reference.tsv" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

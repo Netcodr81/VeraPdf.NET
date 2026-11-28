@@ -1,10 +1,12 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/VeraPdfNet.Library/src/VeraPdf.Library.Core/VeraPdf.Library.Core.csproj" />
     <Project Path="src/VeraPdfNet.Model/src/VeraPdf.Model.Core/VeraPdf.Model.Core.csproj" />
     <Project Path="src/VeraPdfNet.Parser/src/VeraPdf.Parser.Core/VeraPdf.Parser.Core.csproj" />
     <Project Path="src/VeraPdfNet.Parser/src/VeraPdf.Parser.Cli/VeraPdf.Parser.Cli.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="src/VeraPdfNet.Library/tests/VeraPdf.Library.Tests/VeraPdf.Library.Tests.csproj" />
     <Project Path="src/VeraPdfNet.Model/tests/VeraPdf.Model.Tests/VeraPdf.Model.Tests.csproj" />
     <Project Path="src/VeraPdfNet.Model/tests/VeraPdf.Model.Compatibility/VeraPdf.Model.Compatibility.csproj" />
     <Project Path="src/VeraPdfNet.Parser/tests/VeraPdf.Parser.Tests/VeraPdf.Parser.Tests.csproj" />

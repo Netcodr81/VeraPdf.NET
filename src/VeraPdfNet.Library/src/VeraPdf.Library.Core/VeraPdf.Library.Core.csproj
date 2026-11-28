@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <PackageId>VeraPdf.Library</PackageId>
+    <Version>0.1.0-preview</Version>
+    <Authors>veraPDF Consortium; C# port contributors</Authors>
+    <Description>Native .NET port of veraPDF library integration. Preview: profile inspection only; does not validate PDFs.</Description>
+    <PackageLicenseExpression>(GPL-3.0-or-later OR MPL-2.0) AND BSD-3-Clause</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Netcodr81/VeraPdf.NET</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\VeraPdfNet.Model\src\VeraPdf.Model.Core\VeraPdf.Model.Core.csproj" />
+    <ProjectReference Include="..\..\..\VeraPdfNet.Parser\src\VeraPdf.Parser.Core\VeraPdf.Parser.Core.csproj" />
+    <EmbeddedResource Include="Resources\Profiles\*.xml"
+                      LogicalName="VeraPdf.Library.Profiles.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Resources\Release\*.properties"
+                      LogicalName="org.verapdf.release.%(Filename)%(Extension)" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="/" />
+    <None Include="..\..\docs\port-status.md" Pack="true" PackagePath="docs\" />
+    <None Include="..\..\THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="/" />
+    <None Include="..\..\licenses\LICENSE.GPL" Pack="true" PackagePath="/" />
+    <None Include="..\..\licenses\LICENSE.MPL" Pack="true" PackagePath="/" />
+    <None Include="..\..\licenses\LICENSE.XMP.txt" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

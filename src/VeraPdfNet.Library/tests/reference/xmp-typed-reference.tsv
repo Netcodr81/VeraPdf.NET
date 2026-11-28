@@ -1,0 +1,106 @@
+packet	PHJkZjpSREYgeG1sbnM6cmRmPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjJyB4bWxuczp4bXA9J2h0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8nPjxyZGY6RGVzY3JpcHRpb24+PHhtcDpFbXB0eS8+PHhtcDpJbnRlZ2VyPjQyPC94bXA6SW50ZWdlcj48eG1wOkxvbmc+OTIyMzM3MjAzNjg1NDc3NTgwNzwveG1wOkxvbmc+PHhtcDpEb3VibGU+LTB4MS44cDI8L3htcDpEb3VibGU+PHhtcDpCb29sPnllczwveG1wOkJvb2w+PHhtcDpCYWQ+bm8hPC94bXA6QmFkPjx4bXA6RGF0ZT4yMDI0LTAxLTAyVDAzOjA0OjA1WjwveG1wOkRhdGU+PHhtcDpCYXNlNjQ+QVFJRDwveG1wOkJhc2U2ND48eG1wOlVyaSByZGY6cmVzb3VyY2U9J3Vybjp0ZXN0Jy8+PHhtcDpJdGVtcz48cmRmOlNlcT48cmRmOmxpPjEyPC9yZGY6bGk+PC9yZGY6U2VxPjwveG1wOkl0ZW1zPjx4bXA6U3RydWN0IHJkZjpwYXJzZVR5cGU9J1Jlc291cmNlJz48eG1wOkZpZWxkPjE3PC94bXA6RmllbGQ+PC94bXA6U3RydWN0PjwvcmRmOkRlc2NyaXB0aW9uPjwvcmRmOlJERj4=
+string	RW1wdHk=	value	
+string	SW50ZWdlcg==	value	NDI=
+string	TG9uZw==	value	OTIyMzM3MjAzNjg1NDc3NTgwNw==
+string	RG91Ymxl	value	LTB4MS44cDI=
+string	Qm9vbA==	value	eWVz
+string	QmFk	value	bm8h
+string	RGF0ZQ==	value	MjAyNC0wMS0wMlQwMzowNDowNVo=
+string	QmFzZTY0	value	QVFJRA==
+string	VXJp	value	dXJuOnRlc3Q=
+string	SXRlbXM=	value	
+string	SXRlbXNbMV0=	value	MTI=
+string	U3RydWN0	value	
+string	U3RydWN0L3htcDpGaWVsZA==	value	MTc=
+string	TWlzc2luZw==	missing
+string		error	4
+boolean	RW1wdHk=	error	5
+boolean	SW50ZWdlcg==	value	dHJ1ZQ==
+boolean	TG9uZw==	value	ZmFsc2U=
+boolean	RG91Ymxl	value	ZmFsc2U=
+boolean	Qm9vbA==	value	dHJ1ZQ==
+boolean	QmFk	value	ZmFsc2U=
+boolean	RGF0ZQ==	value	ZmFsc2U=
+boolean	QmFzZTY0	value	ZmFsc2U=
+boolean	VXJp	value	ZmFsc2U=
+boolean	SXRlbXM=	error	102
+boolean	SXRlbXNbMV0=	value	dHJ1ZQ==
+boolean	U3RydWN0	error	102
+boolean	U3RydWN0L3htcDpGaWVsZA==	value	dHJ1ZQ==
+boolean	TWlzc2luZw==	missing
+boolean		error	4
+integer	RW1wdHk=	error	5
+integer	SW50ZWdlcg==	value	NDI=
+integer	TG9uZw==	error	5
+integer	RG91Ymxl	error	5
+integer	Qm9vbA==	error	5
+integer	QmFk	error	5
+integer	RGF0ZQ==	error	5
+integer	QmFzZTY0	error	5
+integer	VXJp	error	5
+integer	SXRlbXM=	error	102
+integer	SXRlbXNbMV0=	value	MTI=
+integer	U3RydWN0	error	102
+integer	U3RydWN0L3htcDpGaWVsZA==	value	MTc=
+integer	TWlzc2luZw==	missing
+integer		error	4
+long	RW1wdHk=	error	5
+long	SW50ZWdlcg==	value	NDI=
+long	TG9uZw==	value	OTIyMzM3MjAzNjg1NDc3NTgwNw==
+long	RG91Ymxl	error	5
+long	Qm9vbA==	error	5
+long	QmFk	error	5
+long	RGF0ZQ==	error	5
+long	QmFzZTY0	error	5
+long	VXJp	error	5
+long	SXRlbXM=	error	102
+long	SXRlbXNbMV0=	value	MTI=
+long	U3RydWN0	error	102
+long	U3RydWN0L3htcDpGaWVsZA==	value	MTc=
+long	TWlzc2luZw==	missing
+long		error	4
+double	RW1wdHk=	error	5
+double	SW50ZWdlcg==	value	NDA0NTAwMDAwMDAwMDAwMA==
+double	TG9uZw==	value	NDNlMDAwMDAwMDAwMDAwMA==
+double	RG91Ymxl	value	YzAxODAwMDAwMDAwMDAwMA==
+double	Qm9vbA==	error	5
+double	QmFk	error	5
+double	RGF0ZQ==	error	5
+double	QmFzZTY0	error	5
+double	VXJp	error	5
+double	SXRlbXM=	error	102
+double	SXRlbXNbMV0=	value	NDAyODAwMDAwMDAwMDAwMA==
+double	U3RydWN0	error	102
+double	U3RydWN0L3htcDpGaWVsZA==	value	NDAzMTAwMDAwMDAwMDAwMA==
+double	TWlzc2luZw==	missing
+double		error	4
+date	RW1wdHk=	error	5
+date	SW50ZWdlcg==	value	MDA0Mg==
+date	TG9uZw==	value	MDAwMA==
+date	RG91Ymxl	error	5
+date	Qm9vbA==	error	5
+date	QmFk	error	5
+date	RGF0ZQ==	value	MjAyNC0wMS0wMlQwMzowNDowNVo=
+date	QmFzZTY0	error	5
+date	VXJp	error	5
+date	SXRlbXM=	error	102
+date	SXRlbXNbMV0=	value	MDAxMg==
+date	U3RydWN0	error	102
+date	U3RydWN0L3htcDpGaWVsZA==	value	MDAxNw==
+date	TWlzc2luZw==	missing
+date		error	4
+base64	RW1wdHk=	value	
+base64	SW50ZWdlcg==	value	NHc9PQ==
+base64	TG9uZw==	value	OTIyMzM3MjAzNjg1NDc3NTgwND0=
+base64	RG91Ymxl	error	5
+base64	Qm9vbA==	value	eWVzPQ==
+base64	QmFk	error	5
+base64	RGF0ZQ==	error	5
+base64	QmFzZTY0	value	QVFJRA==
+base64	VXJp	error	5
+base64	SXRlbXM=	error	102
+base64	SXRlbXNbMV0=	value	MXc9PQ==
+base64	U3RydWN0	error	102
+base64	U3RydWN0L3htcDpGaWVsZA==	value	MXc9PQ==
+base64	TWlzc2luZw==	missing
+base64		error	4
